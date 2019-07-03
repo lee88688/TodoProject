@@ -6,7 +6,8 @@
       <!--<v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
       <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
     <!--</v-flex>-->
-    <v-toolbar flat>
+    <v-toolbar flat dense dark color="#316b7c">
+    <!--<v-toolbar flat dense dark color="primary">-->
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-spacer></v-spacer>
       <v-btn icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
@@ -16,8 +17,8 @@
       <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
       <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
     </v-toolbar>
-    <v-flex grow style="height: 0;">
-      <v-navigation-drawer :mini-variant.sync="mini" style="overflow: auto;">
+    <v-flex grow style="overflow: auto; height: 0;">
+      <v-navigation-drawer :mini-variant.sync="mini">
         <v-divider></v-divider>
         <v-list dense class="pa-0">
           <v-list-tile avatar ripple @click="">
@@ -59,7 +60,7 @@ export default {
   name: 'FolderList',
   data () {
     const arr = []
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       arr.push(i)
     }
     return {
