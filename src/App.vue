@@ -13,6 +13,6 @@ export default {
 
 <style>
 html, body {
-  overflow-y: auto;
+  overflow: hidden;
 }
 </style>

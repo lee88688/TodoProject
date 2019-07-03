@@ -1,33 +1,72 @@
 <template>
   <v-layout column style="height: 100%;">
-    <v-flex shrink class="folder-list-menu-search py-1">
-      <v-icon class="folder-list-menu-icon">mdi-menu</v-icon>
-      <v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>
-    </v-flex>
-    <v-flex grow>
-      <v-layout column style="height: 100%;">
-        <v-flex shrink class="folder-list-user-info">
-          <v-menu>
-            <template #activator="{ on }">
-              <v-layout row align-center>
-                <v-avatar>
-                  <v-icon>mdi-vuejs</v-icon>
-                </v-avatar>
-                <span>lisi</span>
-              </v-layout>
-            </template>
-          </v-menu>
-        </v-flex>
-        <v-flex grow>folder</v-flex>
-        <v-flex shrink>add new folder</v-flex>
-      </v-layout>
+    <!--<v-flex shrink class="folder-list-menu-search py-1">-->
+      <!--<v-icon class="folder-list-menu-icon">mdi-vuejs</v-icon>-->
+      <!--<v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
+      <!--<v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
+      <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
+    <!--</v-flex>-->
+    <v-toolbar flat>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-spacer></v-spacer>
+      <v-btn icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
+      <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>
+      <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>
+      <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
+      <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+      <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
+    </v-toolbar>
+    <v-flex grow style="height: 0;">
+      <v-navigation-drawer :mini-variant.sync="mini" style="overflow: auto;">
+        <v-divider></v-divider>
+        <v-list dense class="pa-0">
+          <v-list-tile avatar ripple @click="">
+            <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
+            <v-list-tile-content>标星</v-list-tile-content>
+            <v-list-tile-action>
+              <span>10</span>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-list-tile avatar ripple @click="">
+            <v-list-tile-action><v-icon>mdi-calendar-today</v-icon></v-list-tile-action>
+            <v-list-tile-content>今天</v-list-tile-content>
+            <v-list-tile-action>
+              <span>10</span>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-list-tile avatar ripple @click="">
+            <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
+            <v-list-tile-content>本周</v-list-tile-content>
+            <v-list-tile-action>
+              <span>10</span>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-list-tile avatar ripple @click="" v-for="v in arr" :key="v">
+            <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
+            <v-list-tile-content>本周</v-list-tile-content>
+            <v-list-tile-action>
+              <span>v</span>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 export default {
-  name: 'FolderList'
+  name: 'FolderList',
+  data () {
+    const arr = []
+    for (let i = 0; i < 10; i++) {
+      arr.push(i)
+    }
+    return {
+      mini: false,
+      arr
+    }
+  }
 }
 </script>
 
@@ -48,5 +87,11 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  /*background-color: #fff;*/
+  /*border-right: 1px solid rgba(0,0,0,0.12);*/
+
+  > div {
+    flex: 0 0 auto;
+  }
 }
 </style>
