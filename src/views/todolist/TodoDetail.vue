@@ -9,8 +9,8 @@
     </v-flex>
     <v-flex grow class="todo-detail-middle" style="height: 0;">
       <div style="height: 100%; overflow: auto;">
-        <v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>设置日期</v-btn>
-        <!--<v-divider></v-divider>-->
+        <!--<v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>设置日期</v-btn>-->
+        <date-setting></date-setting>
         <v-text-field flat hide-details prepend-icon="mdi-plus" label="添加子任务" class="todo-detail-icon-left-margin mb-2"></v-text-field>
         <v-textarea flat hide-details no-resize auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="todo-detail-icon-left-margin"></v-textarea>
         <v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
@@ -25,8 +25,10 @@
 </template>
 
 <script>
+import DateSetting from '@/views/todolist/components/DateSetting'
 export default {
-  name: 'TodoDetail'
+  name: 'TodoDetail',
+  components: { DateSetting }
 }
 </script>
 

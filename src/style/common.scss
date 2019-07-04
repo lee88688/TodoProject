@@ -6,6 +6,12 @@
   user-select: none;
 }
 
+.child-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-block-align-left {
   > .v-btn__content {
     justify-content: flex-start;
