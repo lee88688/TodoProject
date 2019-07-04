@@ -1,0 +1,13 @@
+.min-width-0 {
+  min-width: 0;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.btn-block-align-left {
+  > .v-btn__content {
+    justify-content: flex-start;
+  }
+}

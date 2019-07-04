@@ -6,7 +6,7 @@
         <v-toolbar-title>Title</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn flat><v-icon>mdi-account-multiple-plus-outline</v-icon></v-btn>
+          <v-btn flat class="min-width-0"><v-icon>mdi-account-multiple-plus-outline</v-icon></v-btn>
         </v-toolbar-items>
       </v-toolbar>
     </v-flex>
@@ -17,9 +17,9 @@
         </v-flex>
         <v-flex grow style="overflow: auto; height: 0;">
           <v-list dense class="transparent">
-            <v-btn flat small dark style="min-width: 0;">标星</v-btn>
-            <v-list-tile ripple color="#fafafa" @click="" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="v in arr" :key="v">
-              <v-list-tile-action><v-checkbox></v-checkbox></v-list-tile-action>
+            <v-btn flat small dark class="min-width-0">标星</v-btn>
+            <v-list-tile ripple @click="" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="v in arr" :key="v">
+              <v-list-tile-action style="min-width: 0;"><v-checkbox></v-checkbox></v-list-tile-action>
               <v-list-tile-content>这个是一个示例</v-list-tile-content>
               <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
             </v-list-tile>
