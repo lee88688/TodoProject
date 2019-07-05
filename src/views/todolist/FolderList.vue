@@ -17,8 +17,8 @@
       <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
       <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
     </v-toolbar>
-    <v-flex grow style="overflow: auto; height: 0;">
-      <v-navigation-drawer :mini-variant.sync="mini">
+    <v-flex grow class="folder-list-container">
+      <v-navigation-drawer :mini-variant.sync="mini" ref="folderList" class="ps">
         <v-divider></v-divider>
         <v-list dense class="pa-0">
           <v-list-tile avatar ripple @click="">
@@ -56,8 +56,11 @@
 </template>
 
 <script>
+import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+
 export default {
   name: 'FolderList',
+  mixins: [perfectScrollbarMixin],
   data () {
     const arr = []
     for (let i = 0; i < 15; i++) {
@@ -67,6 +70,10 @@ export default {
       mini: false,
       arr
     }
+  },
+  mounted () {
+    this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
+    // this.$nextTick(() => this.ps.update())
   }
 }
 </script>
@@ -88,11 +95,14 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /*background-color: #fff;*/
-  /*border-right: 1px solid rgba(0,0,0,0.12);*/
 
   > div {
     flex: 0 0 auto;
   }
+}
+
+.folder-list-container {
+  overflow: hidden;
+  height: 100%;
 }
 </style>

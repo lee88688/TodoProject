@@ -10,12 +10,12 @@
         </v-toolbar-items>
       </v-toolbar>
     </v-flex>
-    <v-flex grow class="pa-3" style="background-color: #3a7f93;">
+    <v-flex grow class="pa-3" style="background-color: #3a7f93; overflow: hidden;">
       <v-layout column style="height: 100%;">
         <v-flex shrink>
           <v-text-field solo prepend-inner-icon="mdi-plus" placeholder="添加新任务"></v-text-field>
         </v-flex>
-        <v-flex grow style="overflow: auto; height: 0;">
+        <v-flex grow style="overflow: hidden; height: 0; position: relative;" class="ps" ref="scrollContainer">
           <v-list dense class="transparent">
             <v-btn flat small dark class="min-width-0">标星</v-btn>
             <v-list-tile ripple @click="" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="v in arr" :key="v">
@@ -31,12 +31,18 @@
 </template>
 
 <script>
+import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+
 export default {
   name: 'TodoList',
+  mixins: [perfectScrollbarMixin],
   data () {
     return {
       arr: [1, 3, 4, 5, 6, 7, 8, 9, 0, 11, 12, 34, 44, 22]
     }
+  },
+  mounted () {
+    this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   }
 }
 </script>

@@ -7,9 +7,10 @@
       <v-flex>
         <todo-list></todo-list>
       </v-flex>
-      <v-flex class="right-todo-detail">
-        <todo-detail></todo-detail>
-      </v-flex>
+      <!--<v-flex class="right-todo-detail">-->
+        <!--<todo-detail></todo-detail>-->
+      <!--</v-flex>-->
+      <todo-detail class="right-todo-detail"></todo-detail>
     </v-layout>
   </v-container>
 </template>

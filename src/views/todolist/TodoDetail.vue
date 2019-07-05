@@ -5,14 +5,13 @@
       <!--</div>-->
       <v-checkbox hide-details class="ma-0" style="flex: 0 0 auto;"></v-checkbox>
       <div class="todo-detail-header-text">tt</div>
-      <v-icon>mdi-star-outline</v-icon>
+      <v-btn icon class="ma-0"><v-icon>mdi-star-outline</v-icon></v-btn>
     </v-flex>
-    <v-flex grow class="todo-detail-middle" style="height: 0;">
-      <div style="height: 100%; overflow: auto;">
-        <!--<v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>设置日期</v-btn>-->
+    <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
+      <div>
         <date-setting></date-setting>
-        <v-text-field flat hide-details prepend-icon="mdi-plus" label="添加子任务" class="todo-detail-icon-left-margin mb-2"></v-text-field>
-        <v-textarea flat hide-details no-resize auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="todo-detail-icon-left-margin"></v-textarea>
+        <v-text-field flat hide-details clearable prepend-icon="mdi-plus" label="添加子任务" class="todo-detail-icon-left-margin mb-2"></v-text-field>
+        <v-textarea flat hide-details auto-grow clearable prepend-icon="mdi-square-edit-outline" label="备注" class="todo-detail-icon-left-margin"></v-textarea>
         <v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
       </div>
     </v-flex>
@@ -26,9 +25,15 @@
 
 <script>
 import DateSetting from '@/views/todolist/components/DateSetting'
+import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+
 export default {
   name: 'TodoDetail',
-  components: { DateSetting }
+  mixins: [perfectScrollbarMixin],
+  components: { DateSetting },
+  mounted () {
+    this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
+  }
 }
 </script>
 
