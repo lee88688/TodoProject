@@ -8,6 +8,9 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import './style/common.scss'
+import Message from './components/message'
+window.Message = Message
+window.Vue = Vue
 
 Vue.config.productionTip = false
 

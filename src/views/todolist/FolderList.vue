@@ -1,21 +1,14 @@
 <template>
   <v-layout column style="height: 100%;">
-    <!--<v-flex shrink class="folder-list-menu-search py-1">-->
-      <!--<v-icon class="folder-list-menu-icon">mdi-vuejs</v-icon>-->
-      <!--<v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
-      <!--<v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
-      <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
-    <!--</v-flex>-->
     <v-toolbar flat dense dark color="#316b7c">
     <!--<v-toolbar flat dense dark color="primary">-->
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-spacer></v-spacer>
-      <v-btn icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
+      <v-btn icon class="ma-0" @click="add.snackbar = true"><v-icon>mdi-plus</v-icon></v-btn>
       <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>
       <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>
       <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
       <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
-      <!--<v-text-field solo clearable hide-details flat append-icon="mdi-folder-search"></v-text-field>-->
     </v-toolbar>
     <v-flex grow class="folder-list-container">
       <v-navigation-drawer :mini-variant.sync="mini" ref="folderList" class="ps">
@@ -42,38 +35,63 @@
               <span>10</span>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile avatar ripple @click="" v-for="v in arr" :key="v">
-            <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
-            <v-list-tile-content>本周</v-list-tile-content>
+          <v-list-tile avatar ripple v-for="item in folders" @click="folderClick(item.id)" :key="item.id">
+            <v-list-tile-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-tile-action>
+            <v-list-tile-content>{{ item.name }}</v-list-tile-content>
             <v-list-tile-action>
-              <span>v</span>
+              <span>{{ item.undoNumber }}</span>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
     </v-flex>
+    <v-snackbar top color="#316b7c" v-model="add.snackbar" :timeout="0">
+      <v-text-field flat dark hide-details color="white" label="输入文件夹名称" v-model="add.name" class="ma-0"></v-text-field>
+      <v-btn flat icon class="min-width-0 ma-0" @click="addNewFolder"><v-icon>mdi-check</v-icon></v-btn>
+      <v-btn flat icon class="min-width-0 ma-0" @click="closeAddSnackbar"><v-icon>mdi-close</v-icon></v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 
 export default {
   name: 'FolderList',
   mixins: [perfectScrollbarMixin],
   data () {
-    const arr = []
-    for (let i = 0; i < 15; i++) {
-      arr.push(i)
-    }
     return {
       mini: false,
-      arr
+      add: {
+        snackbar: false,
+        name: ''
+      }
     }
+  },
+  computed: {
+    ...mapGetters('todoView', ['folders'])
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
-    // this.$nextTick(() => this.ps.update())
+  },
+  methods: {
+    ...mapActions('user', ['addFolder']),
+    ...mapActions('todoView', ['changeFolder']),
+    addNewFolder () {
+      this.addFolder({ name: this.add.name })
+      this.add.name = ''
+      this.closeAddSnackbar()
+    },
+    closeAddSnackbar () {
+      this.add.snackbar = false
+    },
+    folderClick (id) {
+      if (!id) {
+        return
+      }
+      this.changeFolder(id)
+    }
   }
 }
 </script>
