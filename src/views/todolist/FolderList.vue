@@ -6,8 +6,8 @@
       <template v-if="!showMiniFolderListView">
         <v-spacer></v-spacer>
         <v-btn icon class="ma-0" @click="add.snackbar = true"><v-icon>mdi-plus</v-icon></v-btn>
-        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>
-        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>
+<!--        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
+<!--        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
         <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
         <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
       </template>
