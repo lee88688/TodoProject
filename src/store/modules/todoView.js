@@ -1,5 +1,8 @@
 export const types = {
-  CHANGE_CURRENT_FOLDER: 'CHANGE_CURRENT_FOLDER'
+  CHANGE_CURRENT_FOLDER: 'CHANGE_CURRENT_FOLDER',
+  CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO',
+  SWITCH_MINI_FOLDER_LIST: 'SWITCH_MINI_FOLDER_LIST',
+  CHANGE_DETAIL_VIEW_VISIBLE: 'CHANGE_DETAIL_VIEW_VISIBLE'
 }
 
 export default {
@@ -11,7 +14,9 @@ export default {
       thisWeek: false
     },
     currentFolder: '',
-    currentTodo: ''
+    currentTodo: '',
+    showDetailView: true,
+    showMiniFolderListView: false
   },
   getters: {
     currentFolderName (state, getters, rootState) {
@@ -78,11 +83,32 @@ export default {
         return
       }
       state.currentFolder = folder
+    },
+    [types.CHANGE_CURRENT_TODO]: function (state, id) {
+      if (typeof id !== 'string') {
+        return
+      }
+      state.currentTodo = id
+    },
+    [types.SWITCH_MINI_FOLDER_LIST]: function (state) {
+      state.showMiniFolderListView = !state.showMiniFolderListView
+    },
+    [types.CHANGE_DETAIL_VIEW_VISIBLE]: function (state, visible) {
+      state.showDetailView = !!visible
     }
   },
   actions: {
     changeFolder ({ commit }, folder) {
       commit(types.CHANGE_CURRENT_FOLDER, folder)
+    },
+    changeCurrentTodo ({ commit }, id) {
+      commit(types.CHANGE_CURRENT_TODO, id)
+    },
+    switchMiniFolderListView ({ commit }) {
+      commit(types.SWITCH_MINI_FOLDER_LIST)
+    },
+    changeDetailViewVisible ({ commit }, visible) {
+      commit(types.CHANGE_DETAIL_VIEW_VISIBLE, visible)
     }
   }
 }

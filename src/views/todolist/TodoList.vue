@@ -19,10 +19,12 @@
           <v-list dense class="transparent">
             <template v-for="item in todos">
               <v-btn v-if="item.name" flat small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
-              <v-list-tile ripple @click="" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="t in item.todos" :key="t">
-                <v-list-tile-action style="min-width: 0;"><v-checkbox></v-checkbox></v-list-tile-action>
+              <v-list-tile ripple @click="clickTodo(t.id)" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="t in item.todos" :key="t.id">
+                <v-list-tile-action style="min-width: 0;">
+                  <v-checkbox @change="clickComplete(t.id, $event)" @click.native.stop="doNothing" :input-value="t.complete"></v-checkbox>
+                </v-list-tile-action>
                 <v-list-tile-content>{{ t.name }}</v-list-tile-content>
-                <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
+                <star-select @input="clickStar(t.id, $event)" @click.native.stop="doNothing" :value="t.star"></star-select>
               </v-list-tile>
             </template>
           </v-list>
@@ -35,9 +37,11 @@
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+import StarSelect from '@/components/StarSelect'
 
 export default {
   name: 'TodoList',
+  components: { StarSelect },
   mixins: [perfectScrollbarMixin],
   data () {
     return {
@@ -52,7 +56,8 @@ export default {
     this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['addTodo']),
+    ...mapActions('user', ['addTodo', 'modifyTodo']),
+    ...mapActions('todoView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     addNewTodo () {
       if (!this.todoName) {
         return
@@ -62,7 +67,18 @@ export default {
         folder: this.currentFolder
       })
       this.todoName = ''
-    }
+    },
+    clickTodo (id) {
+      this.changeCurrentTodo(id)
+      this.changeDetailViewVisible(true)
+    },
+    clickComplete (id, complete) {
+      this.modifyTodo({ id, complete })
+    },
+    clickStar (id, star) {
+      this.modifyTodo({ id, star })
+    },
+    doNothing () {}
   }
 }
 </script>

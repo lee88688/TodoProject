@@ -30,12 +30,12 @@ export default {
 
 <style scoped>
 .left-folder-list {
-  width: 300px;
+  /*width: 300px;*/
   flex: 0 0 auto;
 }
 
 .right-todo-detail {
-  width: 350px;
+  /*width: 350px;*/
   flex: 0 0 auto;
 }
 </style>

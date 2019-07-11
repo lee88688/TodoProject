@@ -1,9 +1,11 @@
 import uuidv1 from 'uuid/v1'
+import cloneDeep from 'lodash/cloneDeep'
 import { keyMissingWarning } from '@/lib/utils'
 
 export const types = {
   ADD_FOLDER: 'ADD_FOLDER',
-  ADD_TODO: 'ADD_TODO'
+  ADD_TODO: 'ADD_TODO',
+  MODIFY_TODO: 'MODIFY_TODO'
 }
 
 export default {
@@ -37,6 +39,20 @@ export default {
       const folder = state.folders[payload.folder]
       folder.undos.push(payload.id)
       state.todos = { ...state.todos, [payload.id]: payload }
+    },
+    [types.MODIFY_TODO]: function (state, payload) {
+      let todo = state.todos[payload.id]
+      if (!todo) {
+        return
+      }
+      // for (let k in payload) {
+      //   if (k === 'id' || !payload.hasOwnProperty(k)) {
+      //     continue
+      //   }
+      //   todo[k] = payload[k]
+      // }
+      todo = { ...todo, ...payload }
+      state.todos = { ...state.todos, [todo.id]: todo }
     }
   },
   actions: {
@@ -48,6 +64,12 @@ export default {
     addTodo ({ commit }, payload) {
       payload.id = uuidv1()
       commit(types.ADD_TODO, payload)
+    },
+    modifyTodo ({ commit }, payload) {
+      if (!payload.id) {
+        return
+      }
+      commit(types.MODIFY_TODO, cloneDeep(payload))
     }
   }
 }

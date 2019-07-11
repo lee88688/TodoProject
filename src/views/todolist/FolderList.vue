@@ -2,16 +2,18 @@
   <v-layout column style="height: 100%;">
     <v-toolbar flat dense dark color="#316b7c">
     <!--<v-toolbar flat dense dark color="primary">-->
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-spacer></v-spacer>
-      <v-btn icon class="ma-0" @click="add.snackbar = true"><v-icon>mdi-plus</v-icon></v-btn>
-      <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>
-      <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>
-      <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
-      <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+      <v-toolbar-side-icon @click="switchMiniFolderListView"></v-toolbar-side-icon>
+      <template v-if="!showMiniFolderListView">
+        <v-spacer></v-spacer>
+        <v-btn icon class="ma-0" @click="add.snackbar = true"><v-icon>mdi-plus</v-icon></v-btn>
+        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>
+        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>
+        <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
+        <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+      </template>
     </v-toolbar>
     <v-flex grow class="folder-list-container">
-      <v-navigation-drawer :mini-variant.sync="mini" ref="folderList" class="ps">
+      <v-navigation-drawer disable-resize-watcher permanent :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
         <v-divider></v-divider>
         <v-list dense class="pa-0">
           <v-list-tile avatar ripple @click="">
@@ -54,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 
 export default {
@@ -70,14 +72,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('todoView', ['folders'])
+    ...mapGetters('todoView', ['folders']),
+    ...mapState('todoView', ['showMiniFolderListView'])
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
   },
   methods: {
     ...mapActions('user', ['addFolder']),
-    ...mapActions('todoView', ['changeFolder']),
+    ...mapActions('todoView', ['changeFolder', 'switchMiniFolderListView']),
     addNewFolder () {
       this.addFolder({ name: this.add.name })
       this.add.name = ''
