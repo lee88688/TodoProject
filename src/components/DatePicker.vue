@@ -31,6 +31,7 @@ export default {
   methods: {
     reset () {
       this.date = this.value
+      this.$emit('reset')
     },
     confirm () {
       this.$emit('input', this.date)

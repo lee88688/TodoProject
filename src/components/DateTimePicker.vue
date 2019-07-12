@@ -48,11 +48,12 @@ export default {
       this.hour = dateTime.getHours()
       this.minute = dateTime.getMinutes()
       this.date = dateTime.toISOString().slice(0, 10)
+      this.$emit('reset')
     },
     confirm () {
       const dateTime = new Date(this.date)
       dateTime.setHours(this.hour, this.minute)
-      this.$emit('input', dateTime)
+      this.$emit('input', dateTime.toISOString().substr(0, 16).replace('T', ' '))
     }
   }
 }

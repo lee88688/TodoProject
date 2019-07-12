@@ -10,7 +10,7 @@
       </v-flex>
       <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
         <div>
-          <date-setting></date-setting>
+          <date-setting @input="timeChange" :expired-date="todo.expired_date" :remind-time="todo.remind_time" :repeat="todo.repeat"></date-setting>
           <subtask v-for="(item, index) in todo.subtasks"
                    @input="subtaskChange(index, $event)"
                    @delete="removeSubtask(index)"
@@ -62,7 +62,7 @@ export default {
         star: false,
         expired_date: '',
         remind_time: '',
-        repeat: 0,
+        repeat: '',
         subtasks: [],
         remark: '',
         attachment: [],
@@ -170,6 +170,11 @@ export default {
           }
         }
       }
+    },
+    timeChange ({ expiredDate, remindTime, repeat }) {
+      expiredDate !== undefined && (this.todo.expired_date = expiredDate)
+      remindTime !== undefined && (this.todo.remind_time = remindTime)
+      repeat !== undefined && (this.todo.repeat = repeat)
     }
   }
 }
