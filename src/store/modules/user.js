@@ -22,6 +22,14 @@ export default {
     projects: {},
     todos: {}
   },
+  getters: {
+    userInfo (state) {
+      return {
+        id: state.id,
+        name: state.name
+      }
+    }
+  },
   mutations: {
     [types.ADD_FOLDER]: function (state, payload) {
       if (!('id' in payload)) {

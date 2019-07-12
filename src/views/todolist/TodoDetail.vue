@@ -28,14 +28,39 @@
           </v-text-field>
           <v-textarea @blur="remarkBlur" v-model="remarkProxy" flat hide-details auto-grow clearable prepend-icon="mdi-square-edit-outline" label="备注" class="todo-detail-icon-left-margin"></v-textarea>
           <v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
+          <v-list v-if="showComments" class="transparent">
+            <v-subheader style="height: 20px;">评论</v-subheader>
+            <template v-for="(item, index) in todo.comments">
+              <v-card flat :key="index" class="transparent">
+                <v-layout row class="pt-2 pb-0">
+                  <v-flex shrink class="pa-2"><v-avatar color="blue lighten-5" size="40px">{{ item.name }}</v-avatar></v-flex>
+                  <v-flex grow>
+                    <v-card-title class="pa-0">
+                      <div>
+                        <span class="subheading">{{ item.content }}</span><br>
+                        <span class="grey--text">{{ item.time }}</span>
+                      </div>
+                    </v-card-title>
+                    <v-card-actions class="pa-0">
+                      <v-btn @click="removeComment(index)" flat color="red lighten-3" class="ma-0 pa-1 min-width-0">删除</v-btn>
+                    </v-card-actions>
+                    <v-divider :key="index"></v-divider>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </template>
+          </v-list>
         </div>
       </v-flex>
       <v-flex shrink class="todo-detail-end">
-        <v-btn flat class="min-width-0 ma-0 pa-2" @click="closeDetailView"><v-icon>mdi-chevron-double-right</v-icon></v-btn>
-        <v-subheader class="no-select">{{ todo.create_time }}</v-subheader>
-        <div>
-          <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
-          <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
+        <v-text-field @click:append="addNewComment" v-model="commentContent" hide-details label="评论" prepend-inner-icon="mdi-comment-processing-outline" append-icon="mdi-send" class="ma-0"></v-text-field>
+        <div class="todo-detail-bottom-bar">
+          <v-btn flat class="min-width-0 ma-0 pa-2" @click="closeDetailView"><v-icon>mdi-chevron-double-right</v-icon></v-btn>
+          <v-subheader class="no-select">{{ todo.create_time }}</v-subheader>
+          <div>
+            <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
+            <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
+          </div>
         </div>
       </v-flex>
     </v-layout>
@@ -44,7 +69,7 @@
 
 <script>
 import isArray from 'lodash/isArray'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import DateSetting from '@/views/todolist/components/DateSetting'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 import StarSelect from '@/components/StarSelect'
@@ -67,17 +92,20 @@ export default {
         subtasks: [],
         remark: '',
         attachment: [],
+        comments: [],
         create_time: ''
       },
       subtaskContent: '',
       remarkContent: '',
-      nameEditMode: true,
-      nameContent: ''
+      nameEditMode: false,
+      nameContent: '',
+      commentContent: ''
     }
   },
   computed: {
     ...mapState('todoView', ['showDetailView', 'currentTodo']),
     ...mapState('user', ['todos']),
+    ...mapGetters('user', ['userInfo']),
     currentTodoDetail () {
       return this.todos[this.currentTodo]
     },
@@ -96,6 +124,9 @@ export default {
       set (val) {
         this.nameContent = val
       }
+    },
+    showComments () {
+      return !!(this.todo.comments && this.todo.comments.length)
     }
   },
   watch: {
@@ -106,7 +137,7 @@ export default {
         for (const k in this.todo) {
           if (val[k] === undefined || val[k] === null) {
             continue
-          } else if (k === 'subtasks' || k === 'attachment') {
+          } else if (isArray(this.todo[k])) {
             this.todo[k].splice(0, this.todo[k].length, ...val[k])
             continue
           }
@@ -192,6 +223,22 @@ export default {
       // todo: add store commit
       this.todo.name = this.nameContent
       this.nameEditMode = false
+    },
+    addNewComment () {
+      const { comments } = this.todo
+      comments.push({
+        user: this.userInfo.id,
+        name: this.userInfo.name,
+        content: this.commentContent,
+        time: new Date().toISOString().substr(0, 19).replace('T', ' ')
+      })
+      this.commentContent = ''
+      this.modifyTodo({ id: this.currentTodo, comments })
+    },
+    removeComment (index) {
+      const { comments } = this.todo
+      comments.splice(index, 1)
+      this.modifyTodo({ id: this.currentTodo, comments })
     }
   }
 }
@@ -220,10 +267,13 @@ export default {
 
 .todo-detail-end {
   background-color: #ffffff;
-  height: 35px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+  .todo-detail-bottom-bar {
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .todo-detail-icon-left-margin {

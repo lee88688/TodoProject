@@ -10,7 +10,7 @@
         </template>
         <date-picker :value="expiredDate" @input="datePickerInput" @reset="datePickerMenu = false"></date-picker>
       </v-menu>
-      <v-btn v-if="expiredDate" @click="clearExpiredDate" flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-close</v-icon></v-btn>
+      <v-btn v-if="expiredDate" @click="clearExpiredDate" flat class="min-width-0 ma-0 pa-1"><v-icon>mdi-close</v-icon></v-btn>
     </v-layout>
     <template v-if="expiredDate">
       <!--alarm option-->
@@ -23,7 +23,7 @@
           </template>
           <date-time-picker :value="remindTime" @input="dateTimePickerInput" @reset="dateTimePickerMenu = false"></date-time-picker>
         </v-menu>
-        <v-btn v-if="remindTime" @click="clearRemindTime" flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn v-if="remindTime" @click="clearRemindTime" flat class="min-width-0 ma-0 pa-1"><v-icon>mdi-close</v-icon></v-btn>
       </v-layout>
       <!--repeat option-->
       <v-layout row>
@@ -39,7 +39,7 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-        <v-btn v-if="repeat" @click="clearRepeat" flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn v-if="repeat" @click="clearRepeat" flat class="min-width-0 ma-0 pa-1"><v-icon>mdi-close</v-icon></v-btn>
       </v-layout>
     </template>
   </div>
