@@ -5,7 +5,8 @@
               column style="height: 100%; width: 350px;">
       <v-flex shrink class="todo-detail-header">
         <v-checkbox @change="refresh" hide-details v-model="todo.complete" class="ma-0" style="flex: 0 0 auto;"></v-checkbox>
-        <div class="todo-detail-header-text">{{ todo.name }}</div>
+        <v-text-field v-if="nameEditMode" @blur="nameChange" @keyup.enter="nameChange" v-model="nameProxy" hide-details single-line class="pa-0 ma-0"></v-text-field>
+        <div v-else @click="nameEditMode = true" class="todo-detail-header-text">{{ todo.name }}</div>
         <star-select @click="refresh" v-model="todo.star"></star-select>
       </v-flex>
       <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
@@ -69,7 +70,9 @@ export default {
         create_time: ''
       },
       subtaskContent: '',
-      remarkContent: ''
+      remarkContent: '',
+      nameEditMode: true,
+      nameContent: ''
     }
   },
   computed: {
@@ -84,6 +87,14 @@ export default {
       },
       set (val) {
         this.remarkContent = val
+      }
+    },
+    nameProxy: {
+      get () {
+        return this.todo.name
+      },
+      set (val) {
+        this.nameContent = val
       }
     }
   },
@@ -172,9 +183,15 @@ export default {
       }
     },
     timeChange ({ expiredDate, remindTime, repeat }) {
+      // todo: add store commit
       expiredDate !== undefined && (this.todo.expired_date = expiredDate)
       remindTime !== undefined && (this.todo.remind_time = remindTime)
       repeat !== undefined && (this.todo.repeat = repeat)
+    },
+    nameChange () {
+      // todo: add store commit
+      this.todo.name = this.nameContent
+      this.nameEditMode = false
     }
   }
 }
