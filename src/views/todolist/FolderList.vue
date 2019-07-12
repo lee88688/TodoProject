@@ -5,10 +5,10 @@
       <v-toolbar-side-icon @click="switchMiniFolderListView"></v-toolbar-side-icon>
       <template v-if="!showMiniFolderListView">
         <v-spacer></v-spacer>
-        <v-btn icon class="ma-0" @click="add.snackbar = true"><v-icon>mdi-plus</v-icon></v-btn>
+        <v-btn @click="add.dialog = true" icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
-        <v-btn icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
+        <v-btn @click="search.snackbar = true" icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
         <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
       </template>
     </v-toolbar>
@@ -16,21 +16,21 @@
       <v-navigation-drawer disable-resize-watcher permanent :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
         <v-divider></v-divider>
         <v-list dense class="pa-0">
-          <v-list-tile avatar ripple @click="">
+          <v-list-tile avatar ripple @click="folderClick('star')">
             <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
             <v-list-tile-content>标星</v-list-tile-content>
             <v-list-tile-action>
               <span>10</span>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile avatar ripple @click="">
+          <v-list-tile avatar ripple @click="folderClick('today')">
             <v-list-tile-action><v-icon>mdi-calendar-today</v-icon></v-list-tile-action>
             <v-list-tile-content>今天</v-list-tile-content>
             <v-list-tile-action>
               <span>10</span>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile avatar ripple @click="">
+          <v-list-tile avatar ripple @click="folderClick('thisWeek')">
             <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
             <v-list-tile-content>本周</v-list-tile-content>
             <v-list-tile-action>
@@ -47,11 +47,29 @@
         </v-list>
       </v-navigation-drawer>
     </v-flex>
-    <v-snackbar top color="#316b7c" v-model="add.snackbar" :timeout="0">
+    <v-snackbar top color="#316b7c" v-model="search.snackbar" :timeout="0">
       <v-text-field flat dark hide-details color="white" label="输入文件夹名称" v-model="add.name" class="ma-0"></v-text-field>
-      <v-btn flat icon class="min-width-0 ma-0" @click="addNewFolder"><v-icon>mdi-check</v-icon></v-btn>
       <v-btn flat icon class="min-width-0 ma-0" @click="closeAddSnackbar"><v-icon>mdi-close</v-icon></v-btn>
     </v-snackbar>
+    <v-dialog v-model="add.dialog" max-width="600px">
+      <v-card>
+        <v-card-title><span class="headline">添加文件夹</span></v-card-title>
+        <v-card-text>
+          <div>
+            <v-text-field v-model="add.name" outline label="清单名称"></v-text-field>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="addNewFolder" flat color="blue darken-1">保存</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog persistent width="100px" content-class="elevation-0">
+      <div class="child-flex-center" style="height: 100px;">
+        <v-progress-circular indeterminate :size="50" color="primary"></v-progress-circular>
+      </div>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -66,8 +84,12 @@ export default {
     return {
       mini: false,
       add: {
+        name: '',
+        dialog: false
+      },
+      search: {
         snackbar: false,
-        name: ''
+        content: ''
       }
     }
   },
@@ -84,10 +106,10 @@ export default {
     addNewFolder () {
       this.addFolder({ name: this.add.name })
       this.add.name = ''
-      this.closeAddSnackbar()
+      this.add.dialog = false
     },
     closeAddSnackbar () {
-      this.add.snackbar = false
+      this.search.snackbar = false
     },
     folderClick (id) {
       if (!id) {
