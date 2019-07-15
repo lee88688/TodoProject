@@ -11,7 +11,9 @@
       </v-flex>
       <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
         <div>
-          <date-setting @input="timeChange" :expired-date="todo.expired_date" :remind-time="todo.remind_time" :repeat="todo.repeat"></date-setting>
+          <v-subheader style="height: 20px;">时间</v-subheader>
+          <date-setting @input="timeChange" :expired-date="todo.expired_date" :remind-time="todo.remind_time" :repeat="todo.repeat" class="mb-3"></date-setting>
+          <v-subheader style="height: 20px;">子任务</v-subheader>
           <subtask v-for="(item, index) in todo.subtasks"
                    @input="subtaskChange(index, $event)"
                    @delete="removeSubtask(index)"
@@ -24,10 +26,10 @@
                         flat hide-details clearable
                         prepend-icon="mdi-plus"
                         label="添加子任务"
-                        class="todo-detail-icon-left-margin mb-2">
+                        class="todo-detail-icon-left-margin mb-3">
           </v-text-field>
-          <v-textarea @blur="remarkBlur" v-model="remarkProxy" flat hide-details auto-grow clearable prepend-icon="mdi-square-edit-outline" label="备注" class="todo-detail-icon-left-margin"></v-textarea>
-          <v-btn block flat class="btn-block-align-left"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
+          <v-textarea @blur="remarkBlur" v-model="remarkProxy" flat hide-details auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="mb-3 todo-detail-icon-left-margin"></v-textarea>
+          <v-btn block flat class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
           <v-list v-if="showComments" class="transparent">
             <v-subheader style="height: 20px;">评论</v-subheader>
             <template v-for="(item, index) in todo.comments">
@@ -70,10 +72,10 @@
 <script>
 import isArray from 'lodash/isArray'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import DateSetting from '@/views/todolist/components/DateSetting'
+import DateSetting from '@/views/index/components/DateSetting'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 import StarSelect from '@/components/StarSelect'
-import Subtask from '@/views/todolist/components/Subtask'
+import Subtask from '@/views/index/components/Subtask'
 import { RefreshTimer } from '@/lib/utils'
 
 export default {
@@ -103,8 +105,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('todoView', ['showDetailView', 'currentTodo']),
-    ...mapState('user', ['todos']),
+    ...mapState('user', ['showDetailView', 'currentTodo', 'todos']),
     ...mapGetters('user', ['userInfo']),
     currentTodoDetail () {
       return this.todos[this.currentTodo]
@@ -152,8 +153,7 @@ export default {
     this.rt = new RefreshTimer(this.refresh)
   },
   methods: {
-    ...mapActions('todoView', ['changeDetailViewVisible']),
-    ...mapActions('user', ['modifyTodo']),
+    ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible']),
     enterSubtask () {
       this.todo.subtasks.push({
         complete: false,

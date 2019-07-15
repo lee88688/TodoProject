@@ -5,7 +5,10 @@ import { keyMissingWarning } from '@/lib/utils'
 export const types = {
   ADD_FOLDER: 'ADD_FOLDER',
   ADD_TODO: 'ADD_TODO',
-  MODIFY_TODO: 'MODIFY_TODO'
+  MODIFY_TODO: 'MODIFY_TODO',
+  CHANGE_DETAIL_VIEW_VISIBLE: 'CHANGE_DETAIL_VIEW_VISIBLE',
+  SWITCH_MINI_FOLDER_LIST: 'SWITCH_MINI_FOLDER_LIST',
+  CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO'
 }
 
 export default {
@@ -17,6 +20,11 @@ export default {
     folderList: [],
     lastModifiedTime: null,
     token: '',
+    // view
+    isTodoView: true,
+    showDetailView: true,
+    showMiniFolderListView: false,
+    currentTodo: '',
     // data
     folders: {},
     projects: {},
@@ -61,6 +69,18 @@ export default {
       // }
       todo = { ...todo, ...payload }
       state.todos = { ...state.todos, [todo.id]: todo }
+    },
+    [types.CHANGE_DETAIL_VIEW_VISIBLE]: function (state, visible) {
+      state.showDetailView = !!visible
+    },
+    [types.SWITCH_MINI_FOLDER_LIST]: function (state) {
+      state.showMiniFolderListView = !state.showMiniFolderListView
+    },
+    [types.CHANGE_CURRENT_TODO]: function (state, id) {
+      if (typeof id !== 'string') {
+        return
+      }
+      state.currentTodo = id
     }
   },
   actions: {
@@ -78,6 +98,15 @@ export default {
         return
       }
       commit(types.MODIFY_TODO, cloneDeep(payload))
+    },
+    switchMiniFolderListView ({ commit }) {
+      commit(types.SWITCH_MINI_FOLDER_LIST)
+    },
+    changeDetailViewVisible ({ commit }, visible) {
+      commit(types.CHANGE_DETAIL_VIEW_VISIBLE, visible)
+    },
+    changeCurrentTodo ({ commit }, id) {
+      commit(types.CHANGE_CURRENT_TODO, id)
     }
   }
 }

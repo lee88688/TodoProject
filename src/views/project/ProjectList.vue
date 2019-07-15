@@ -78,7 +78,7 @@ import { mapGetters, mapActions, mapState } from 'vuex'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 
 export default {
-  name: 'FolderList',
+  name: 'ProjectList',
   mixins: [perfectScrollbarMixin],
   data () {
     return {

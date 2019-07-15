@@ -56,8 +56,7 @@ export default {
     this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['addTodo', 'modifyTodo']),
-    ...mapActions('todoView', ['changeDetailViewVisible', 'changeCurrentTodo']),
+    ...mapActions('user', ['addTodo', 'modifyTodo', 'changeDetailViewVisible', 'changeCurrentTodo']),
     addNewTodo () {
       if (!this.todoName) {
         return

@@ -5,24 +5,21 @@
         <folder-list></folder-list>
       </v-flex>
       <v-flex>
-        <todo-list></todo-list>
+        <router-view></router-view>
       </v-flex>
-      <!--<v-flex class="right-todo-detail">-->
-        <!--<todo-detail></todo-detail>-->
-      <!--</v-flex>-->
-      <todo-detail class="right-todo-detail"></todo-detail>
+      <v-flex class="right-todo-detail">
+        <router-view name="todoDetail"></router-view>
+      </v-flex>
+<!--      <todo-detail class="right-todo-detail"></todo-detail>-->
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import FolderList from '@/views/todolist/FolderList'
-import TodoList from '@/views/todolist/TodoList'
-import TodoDetail from '@/views/todolist/TodoDetail'
+import FolderList from '@/views/index/FolderList'
+
 export default {
   components: {
-    TodoDetail,
-    TodoList,
     FolderList
   }
 }

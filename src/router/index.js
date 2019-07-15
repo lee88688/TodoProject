@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/todolist/Index.vue'
+import Index from '../views/index/Index.vue'
+import TodoDetail from '../views/index/TodoDetail'
+import TodoList from '../views/todolist/TodoList'
 
 Vue.use(Router)
 
@@ -9,7 +11,18 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Index,
+      redirect: '/todo',
+      children: [
+        {
+          name: 'todo',
+          path: 'todo',
+          components: {
+            default: TodoList,
+            todoDetail: TodoDetail
+          }
+        }
+      ]
     }
   ]
 })
