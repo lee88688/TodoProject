@@ -73,14 +73,14 @@ export default {
   },
   mutations: {
     [types.CHANGE_CURRENT_FOLDER]: function (state, folder) {
-      if (typeof folder !== 'string') {
-        return
-      }
       state.currentFolder = folder
     }
   },
   actions: {
     changeFolder ({ commit }, folder) {
+      if (typeof folder !== 'string') {
+        return
+      }
       commit(types.CHANGE_CURRENT_FOLDER, folder)
     }
   }

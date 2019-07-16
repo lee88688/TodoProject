@@ -17,3 +17,11 @@
     justify-content: flex-start;
   }
 }
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.draggable-ghost {
+  opacity: 0.5;
+}

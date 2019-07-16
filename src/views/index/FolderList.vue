@@ -1,6 +1,6 @@
 <template>
   <v-layout column style="height: 100%;">
-    <v-toolbar flat dense dark color="#316b7c">
+    <v-toolbar flat dense dark color="blue-grey darken-1">
     <!--<v-toolbar flat dense dark color="primary">-->
       <v-toolbar-side-icon @click="switchMiniFolderListView"></v-toolbar-side-icon>
       <template v-if="!showMiniFolderListView">
@@ -15,7 +15,8 @@
     <v-flex grow class="folder-list-container">
       <v-navigation-drawer disable-resize-watcher permanent :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
         <v-divider></v-divider>
-        <v-list dense class="pa-0">
+        <!--todoView-->
+        <v-list v-if="isTodoView" dense class="pa-0">
           <v-list-tile avatar ripple @click="folderClick('star')">
             <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
             <v-list-tile-content>标星</v-list-tile-content>
@@ -43,6 +44,13 @@
             <v-list-tile-action-text>
               <span>{{ item.undoNumber }}</span>
             </v-list-tile-action-text>
+          </v-list-tile>
+        </v-list>
+        <!--projectView-->
+        <v-list v-else dense class="pa-0">
+          <v-list-tile avatar ripple v-for="item in projects" @click="projectClick(item.id)" :key="item.id">
+            <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
+            <v-list-tile-content>{{ item.name }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
@@ -95,7 +103,8 @@ export default {
   },
   computed: {
     ...mapGetters('todoView', ['folders']),
-    ...mapState('user', ['showMiniFolderListView'])
+    ...mapGetters('projectView', ['projects']),
+    ...mapState('user', ['showMiniFolderListView', 'isTodoView'])
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
@@ -103,6 +112,7 @@ export default {
   methods: {
     ...mapActions('user', ['addFolder', 'switchMiniFolderListView']),
     ...mapActions('todoView', ['changeFolder']),
+    ...mapActions('projectView', ['changeCurrentProject']),
     addNewFolder () {
       this.addFolder({ name: this.add.name })
       this.add.name = ''
@@ -116,6 +126,9 @@ export default {
         return
       }
       this.changeFolder(id)
+    },
+    projectClick (id) {
+      this.changeCurrentProject(id)
     }
   }
 }

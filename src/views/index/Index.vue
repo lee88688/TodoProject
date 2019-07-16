@@ -4,7 +4,7 @@
       <v-flex class="left-folder-list">
         <folder-list></folder-list>
       </v-flex>
-      <v-flex>
+      <v-flex style="overflow: hidden;">
         <router-view></router-view>
       </v-flex>
       <v-flex class="right-todo-detail">

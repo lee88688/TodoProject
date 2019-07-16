@@ -8,7 +8,8 @@ export const types = {
   MODIFY_TODO: 'MODIFY_TODO',
   CHANGE_DETAIL_VIEW_VISIBLE: 'CHANGE_DETAIL_VIEW_VISIBLE',
   SWITCH_MINI_FOLDER_LIST: 'SWITCH_MINI_FOLDER_LIST',
-  CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO'
+  CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO',
+  SWITCH_TODO_VIEW: 'SWITCH_TODO_VIEW'
 }
 
 export default {
@@ -81,6 +82,9 @@ export default {
         return
       }
       state.currentTodo = id
+    },
+    [types.SWITCH_TODO_VIEW]: function (state, isTodoView) {
+      state.isTodoView = !!isTodoView
     }
   },
   actions: {
@@ -107,6 +111,9 @@ export default {
     },
     changeCurrentTodo ({ commit }, id) {
       commit(types.CHANGE_CURRENT_TODO, id)
+    },
+    switchTodoView ({ commit }, isTodoView) {
+      commit(types.SWITCH_TODO_VIEW, isTodoView)
     }
   }
 }

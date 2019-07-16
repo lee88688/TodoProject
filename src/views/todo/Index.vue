@@ -1,7 +1,7 @@
 <template>
   <v-layout column fill-height>
     <v-flex shrink style="width: 100%;">
-      <v-toolbar flat dense dark color="#3a7f93">
+      <v-toolbar flat dense dark color="blue-grey lighten-1">
       <!--<v-toolbar flat dense dark color="primary">-->
         <v-toolbar-title>{{ currentFolderName }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
         </v-toolbar-items>
       </v-toolbar>
     </v-flex>
-    <v-flex grow class="pa-3" style="background-color: #3a7f93; overflow: hidden;">
+    <v-flex grow class="pa-3" style="background-color: #78909C; overflow: hidden;">
       <v-layout column style="height: 100%;">
         <v-flex shrink>
           <v-text-field solo prepend-inner-icon="mdi-plus" append-icon="mdi-send" placeholder="添加新任务" v-model="todoName" @click:append="addNewTodo"></v-text-field>
