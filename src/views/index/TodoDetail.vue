@@ -144,6 +144,8 @@ export default {
           }
           this.todo[k] = val[k]
         }
+        this.$refs.scrollContainer.scrollTop = 0
+        this.ps.update()
       },
       immediate: true
     }

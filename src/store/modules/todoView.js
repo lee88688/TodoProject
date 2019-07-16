@@ -44,7 +44,7 @@ export default {
       const folderList = rootState.user.folderList
       return folderList.map(folder => {
         const name = rootState.user.folders[folder].name
-        const todos = rootState.user.folders[folder].undos
+        const todos = rootState.user.folders[folder].undos.map(t => rootState.user.todos[t]).filter(todo => todo.star)
         return { name, todos }
       }).filter(({ todos }) => todos.length)
     },

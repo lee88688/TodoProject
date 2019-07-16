@@ -1,14 +1,24 @@
 <template>
   <v-layout column class="project-view-folder blue-grey lighten-4 pa-2">
     <div class="folder-header project-handle">
-      <span class="title no-select">title</span>
+      <span class="title no-select">{{ name }}</span>
       <v-btn icon class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
     </div>
-    <draggable v-model="arr" tag="div" v-bind="dragOption" class="ps" style="position: relative;" ref="scrollContainer">
-      <v-card flat ripple class="mb-2" v-for="item in arr" :key="item.order">
+    <draggable @change="change" v-model="todosProxy" tag="div" v-bind="dragOption" class="ps" style="position: relative;" ref="scrollContainer">
+      <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" flat ripple class="mb-2" :key="item.id">
         <v-card-title class="pa-2">
           <div>
-            <div class="subheading no-select">这个是todo的标题{{ item.order }}</div>
+            <div class="subheading no-select mb-2">{{ item.name }}</div>
+            <div>
+              <span v-if="item.totalSubtask" class="mr-2">
+                <v-icon small>mdi-checkbox-marked-circle-outline</v-icon>
+                {{ item.reserveSubtask }}/{{ item.totalSubtask }}
+              </span>
+              <v-icon v-if="item.star" small class="mr-2">mdi-star-outline</v-icon>
+              <v-icon v-if="item.expiredDate" small class="mr-2">mdi-calendar</v-icon>
+              <v-icon v-if="item.comment" small class="mr-2">mdi-comment-outline</v-icon>
+              <v-icon v-if="item.attachment" small>mdi-attachment</v-icon>
+            </div>
           </div>
         </v-card-title>
       </v-card>
@@ -17,6 +27,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 
@@ -26,11 +37,43 @@ export default {
   components: { Draggable },
   data () {
     return {
-      arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15].map(item => ({ order: item, name: item })),
-      drag: false
+      todosContent: []
+    }
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      default: ''
     }
   },
   computed: {
+    ...mapState('user', ['folders', 'todos']),
+    todosProxy: {
+      get () {
+        const folder = this.folders[this.id]
+        if (!folder) {
+          return []
+        }
+        return folder.undos.map(todo => {
+          const t = this.todos[todo]
+          const { id, name } = t
+          const attachment = !t.attachment ? false : (t.attachment.length > 0)
+          const totalSubtask = t.subtasks ? t.subtasks.length : 0
+          const reserveSubtask = !totalSubtask ? 0 : t.subtasks.filter(s => s.complete).length
+          const comment = !t.comments ? false : (t.comments.length > 0)
+          const expiredDate = !!t.expired_date
+          const star = !!t.star
+          return { id, name, attachment, totalSubtask, reserveSubtask, comment, expiredDate, star }
+        })
+      },
+      set (val) {
+        this.todosContent = [...val]
+      }
+    },
     dragOption () {
       return {
         animation: 200,
@@ -43,6 +86,17 @@ export default {
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer.$el)
   },
+  methods: {
+    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo']),
+    change () {
+      const undos = this.todosContent.map(t => t.id)
+      this.modifyFolder({ id: this.id, undos })
+    },
+    clickTodo (id) {
+      this.changeCurrentTodo(id)
+      this.changeDetailViewVisible(true)
+    }
+  }
 }
 </script>
 

@@ -1,12 +1,13 @@
 <template>
-  <div class="project-view">
-    <draggable v-model="arr" v-bind="dragOption" class="folder-list pa-2 ps" ref="scrollContainer">
-      <folder class="mr-2" v-for="item in [1, 2, 3, 4, 5]" :key="item.id"></folder>
+  <div class="project-view blue-grey lighten-5">
+    <draggable @change="change" v-model="foldersProxy" v-bind="dragOption" class="folder-list pa-2 ps" ref="scrollContainer">
+      <folder class="mr-2" v-for="item in foldersProxy" :id="item.id" :name="item.name" :key="item.id"></folder>
     </draggable>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions, mapState } from 'vuex'
 import Draggable from 'vuedraggable'
 import Folder from './Folder'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
@@ -17,10 +18,20 @@ export default {
   components: { Folder, Draggable },
   data () {
     return {
-      arr: [1, 2, 3, 4, 5, 6].map(item => ({ id: item }))
+      foldersContent: []
     }
   },
   computed: {
+    ...mapGetters('projectView', ['currentProjectFolders']),
+    ...mapState('projectView', ['currentProject']),
+    foldersProxy: {
+      get () {
+        return this.currentProjectFolders
+      },
+      set (val) {
+        this.foldersContent = [...val]
+      }
+    },
     dragOption () {
       return {
         animation: 200,
@@ -33,6 +44,15 @@ export default {
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer.$el)
+  },
+  methods: {
+    ...mapActions('user', ['modifyProject']),
+    change (e) {
+      if (e.moved) {
+        const folders = this.foldersContent.map(item => item.id)
+        this.modifyProject({ folders, id: this.currentProject })
+      }
+    }
   }
 }
 </script>

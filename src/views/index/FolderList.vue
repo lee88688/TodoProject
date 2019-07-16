@@ -9,6 +9,9 @@
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
         <v-btn @click="search.snackbar = true" icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
+        <v-btn @click="switchButtonClick" icon class="ma-0">
+          <v-icon>{{ switchButtonIcon }}</v-icon>
+        </v-btn>
         <v-btn icon class="ma-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
       </template>
     </v-toolbar>
@@ -61,15 +64,29 @@
     </v-snackbar>
     <v-dialog v-model="add.dialog" max-width="600px">
       <v-card>
-        <v-card-title><span class="headline">添加文件夹</span></v-card-title>
-        <v-card-text>
-          <div>
-            <v-text-field v-model="add.name" outline label="清单名称"></v-text-field>
-          </div>
-        </v-card-text>
+        <v-card-title><span class="headline">添加</span></v-card-title>
+        <v-tabs v-model="add.activeTab">
+          <v-tab :key="0">文件夹</v-tab>
+          <v-tab-item>
+            <v-card-text>
+              <div>
+                <v-text-field v-model="add.folderName" outline label="文件夹名称"></v-text-field>
+                <v-select v-model="add.folderProject" outline :items="projects" item-value="id" item-text="name" label="选择工程"></v-select>
+              </div>
+            </v-card-text>
+          </v-tab-item>
+          <v-tab :key="1">工程</v-tab>
+          <v-tab-item>
+            <v-card-text>
+              <div>
+                <v-text-field v-model="add.projectName" outline label="工程名称"></v-text-field>
+              </div>
+            </v-card-text>
+          </v-tab-item>
+        </v-tabs>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="addNewFolder" flat color="blue darken-1">保存</v-btn>
+          <v-btn @click="addNew" flat color="blue darken-1">保存</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -92,7 +109,10 @@ export default {
     return {
       mini: false,
       add: {
-        name: '',
+        activeTab: 0,
+        folderName: '',
+        folderProject: '',
+        projectName: '',
         dialog: false
       },
       search: {
@@ -104,18 +124,28 @@ export default {
   computed: {
     ...mapGetters('todoView', ['folders']),
     ...mapGetters('projectView', ['projects']),
-    ...mapState('user', ['showMiniFolderListView', 'isTodoView'])
+    ...mapState('user', ['showMiniFolderListView', 'isTodoView']),
+    switchButtonIcon () {
+      return this.isTodoView ? 'mdi-format-list-checks' : 'mdi-view-list'
+    }
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
   },
   methods: {
-    ...mapActions('user', ['addFolder', 'switchMiniFolderListView']),
+    ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject']),
     ...mapActions('todoView', ['changeFolder']),
     ...mapActions('projectView', ['changeCurrentProject']),
-    addNewFolder () {
-      this.addFolder({ name: this.add.name })
-      this.add.name = ''
+    addNew () {
+      if (this.add.activeTab === 0) {
+        const payload = { name: this.add.folderName }
+        this.add.folderProject && (payload.project = this.add.folderProject)
+        this.addFolder(payload)
+      } else if (this.add.activeTab === 1) {
+        this.addProject({ name: this.add.projectName })
+      }
+      this.add.folderName = ''
+      this.add.projectName = ''
       this.add.dialog = false
     },
     closeAddSnackbar () {
@@ -129,6 +159,13 @@ export default {
     },
     projectClick (id) {
       this.changeCurrentProject(id)
+    },
+    switchButtonClick () {
+      if (this.isTodoView) {
+        this.$router.push('/project')
+      } else {
+        this.$router.push('/todo')
+      }
     }
   }
 }
@@ -160,5 +197,19 @@ export default {
 .folder-list-container {
   overflow: hidden;
   height: 100%;
+}
+</style>
+
+<style lang="scss">
+.flipx-enter-active, .flipx-leave-active {
+  transition: transform 0.5s;
+}
+
+.flipx-enter, .flipx-leave {
+  transform: rotateY(0deg)
+}
+
+.flipx-enter-to, .flipx-leave-to {
+  transform: rotateY(180deg)
 }
 </style>
