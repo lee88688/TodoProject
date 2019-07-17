@@ -18,7 +18,7 @@
           <v-list class="transparent">
             <template v-for="item in todos">
               <v-btn v-if="item.name" flat small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
-              <v-list-tile ripple @click="clickTodo(t.id)" class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;" v-for="t in item.todos" :key="t.id">
+              <v-list-tile v-for="t in item.todos" @click="clickTodo(t.id)" :key="t.id" ripple class="elevation-1 my-1" style="background-color: #fafafa; user-select: none;">
                 <v-list-tile-action style="min-width: 0;">
                   <v-checkbox @change="clickComplete(t.id, $event)" @click.native.stop="doNothing" :input-value="t.complete"></v-checkbox>
                 </v-list-tile-action>

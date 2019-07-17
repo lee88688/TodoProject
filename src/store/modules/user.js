@@ -1,5 +1,6 @@
 import uuidv1 from 'uuid/v1'
 import cloneDeep from 'lodash/cloneDeep'
+import isArray from 'lodash/isArray'
 import { keyMissingWarning } from '@/lib/utils'
 
 export const types = {
@@ -13,7 +14,9 @@ export const types = {
   SWITCH_TODO_VIEW: 'SWITCH_TODO_VIEW',
   ADD_PROJECT: 'ADD_PROJECT',
   MODIFY_PROJECT: 'MODIFY_PROJECT',
-  ADD_FOLDER_FOR_PROJECT: 'ADD_FOLDER_FOR_PROJECT'
+  ADD_FOLDER_FOR_PROJECT: 'ADD_FOLDER_FOR_PROJECT',
+  MODIFY_FOLDER_LIST: 'MODIFY_FOLDER_LIST',
+  MODIFY_PROJECT_LIST: 'MODIFY_PROJECT_LIST'
 }
 
 export default {
@@ -122,6 +125,18 @@ export default {
       const p = state.projects[project]
       p.folders.push(folder)
       state.projects = { ...state.projects, [p.id]: p }
+    },
+    [types.MODIFY_FOLDER_LIST]: function (state, payload) {
+      if (!isArray(payload)) {
+        return
+      }
+      state.folderList.splice(0, state.folderList.length, ...payload)
+    },
+    [types.MODIFY_PROJECT_LIST]: function (state, payload) {
+      if (!isArray(payload)) {
+        return
+      }
+      state.projectList.splice(0, state.projectList.length, ...payload)
     }
   },
   actions: {
@@ -167,11 +182,17 @@ export default {
       payload.folders = []
       commit(types.ADD_PROJECT, payload)
     },
-    modifyProject({ commit }, payload) {
+    modifyProject ({ commit }, payload) {
       if (!payload.id) {
         return
       }
       commit(types.MODIFY_PROJECT, payload)
+    },
+    modifyFolderList ({ commit }, payload) {
+      commit(types.MODIFY_FOLDER_LIST, payload)
+    },
+    modifyProjectList ({ commit }, payload) {
+      commit(types.MODIFY_PROJECT_LIST, payload)
     }
   }
 }

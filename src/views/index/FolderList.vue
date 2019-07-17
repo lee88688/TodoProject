@@ -41,20 +41,24 @@
               <span>10</span>
             </v-list-tile-action-text>
           </v-list-tile>
-          <v-list-tile avatar ripple v-for="item in folders" @click="folderClick(item.id)" :key="item.id">
-            <v-list-tile-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-tile-action>
-            <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-            <v-list-tile-action-text>
-              <span>{{ item.undoNumber }}</span>
-            </v-list-tile-action-text>
-          </v-list-tile>
+          <draggable @change="foldersChange" v-model="foldersProxy" tag="div" v-bind="folderDragOption">
+            <v-list-tile v-for="item in foldersProxy" @click="folderClick(item.id)" avatar ripple :key="item.id">
+              <v-list-tile-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-tile-action>
+              <v-list-tile-content>{{ item.name }}</v-list-tile-content>
+              <v-list-tile-action-text>
+                <span>{{ item.undoNumber }}</span>
+              </v-list-tile-action-text>
+            </v-list-tile>
+          </draggable>
         </v-list>
         <!--projectView-->
         <v-list v-else dense class="pa-0">
-          <v-list-tile avatar ripple v-for="item in projects" @click="projectClick(item.id)" :key="item.id">
-            <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
-            <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-          </v-list-tile>
+          <draggable @change="projectsChange" v-model="projectsProxy" tag="div" v-bind="projectDragOption">
+            <v-list-tile avatar ripple v-for="item in projectsProxy" @click="projectClick(item.id)" :key="item.id">
+              <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
+              <v-list-tile-content>{{ item.name }}</v-list-tile-content>
+            </v-list-tile>
+          </draggable>
         </v-list>
       </v-navigation-drawer>
     </v-flex>
@@ -100,11 +104,13 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex'
+import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 
 export default {
   name: 'FolderList',
   mixins: [perfectScrollbarMixin],
+  components: { Draggable },
   data () {
     return {
       mini: false,
@@ -118,7 +124,9 @@ export default {
       search: {
         snackbar: false,
         content: ''
-      }
+      },
+      foldersContent: [],
+      projectsContent: []
     }
   },
   computed: {
@@ -127,13 +135,45 @@ export default {
     ...mapState('user', ['showMiniFolderListView', 'isTodoView']),
     switchButtonIcon () {
       return this.isTodoView ? 'mdi-format-list-checks' : 'mdi-view-list'
+    },
+    folderDragOption () {
+      return {
+        animation: 200,
+        disabled: false,
+        group: 'aside-folder-list',
+        ghostClass: 'draggable-ghost'
+      }
+    },
+    projectDragOption () {
+      return {
+        animation: 200,
+        disabled: false,
+        group: 'aside-project-list',
+        ghostClass: 'draggable-ghost'
+      }
+    },
+    foldersProxy: {
+      get () {
+        return this.folders
+      },
+      set (val) {
+        this.foldersContent = [...val]
+      }
+    },
+    projectsProxy: {
+      get () {
+        return this.projects
+      },
+      set (val) {
+        this.projectsContent = [...val]
+      }
     }
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
   },
   methods: {
-    ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject']),
+    ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject', 'modifyFolderList', 'modifyProjectList']),
     ...mapActions('todoView', ['changeFolder']),
     ...mapActions('projectView', ['changeCurrentProject']),
     addNew () {
@@ -166,6 +206,12 @@ export default {
       } else {
         this.$router.push('/todo')
       }
+    },
+    foldersChange () {
+      this.modifyFolderList(this.foldersContent.map(item => item.id))
+    },
+    projectsChange () {
+      this.modifyProjectList(this.projectsContent.map(item => item.id))
     }
   }
 }
@@ -196,7 +242,7 @@ export default {
 
 .folder-list-container {
   overflow: hidden;
-  height: 100%;
+  height: 0;
 }
 </style>
 
