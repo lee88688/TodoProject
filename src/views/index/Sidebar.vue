@@ -19,47 +19,9 @@
       <v-navigation-drawer disable-resize-watcher permanent :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
         <v-divider></v-divider>
         <!--todoView-->
-        <v-list v-if="isTodoView" dense class="pa-0">
-          <v-list-tile avatar ripple @click="folderClick('star')">
-            <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
-            <v-list-tile-content>标星</v-list-tile-content>
-            <v-list-tile-action-text>
-              <span>10</span>
-            </v-list-tile-action-text>
-          </v-list-tile>
-          <v-list-tile avatar ripple @click="folderClick('today')">
-            <v-list-tile-action><v-icon>mdi-calendar-today</v-icon></v-list-tile-action>
-            <v-list-tile-content>今天</v-list-tile-content>
-            <v-list-tile-action-text>
-              <span>10</span>
-            </v-list-tile-action-text>
-          </v-list-tile>
-          <v-list-tile avatar ripple @click="folderClick('thisWeek')">
-            <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
-            <v-list-tile-content>本周</v-list-tile-content>
-            <v-list-tile-action-text>
-              <span>10</span>
-            </v-list-tile-action-text>
-          </v-list-tile>
-          <draggable @change="foldersChange" v-model="foldersProxy" tag="div" v-bind="folderDragOption">
-            <v-list-tile v-for="item in foldersProxy" @click="folderClick(item.id)" avatar ripple :key="item.id">
-              <v-list-tile-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-tile-action>
-              <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-              <v-list-tile-action-text>
-                <span>{{ item.undoNumber }}</span>
-              </v-list-tile-action-text>
-            </v-list-tile>
-          </draggable>
-        </v-list>
+        <folder-list v-if="isTodoView"></folder-list>
         <!--projectView-->
-        <v-list v-else dense class="pa-0">
-          <draggable @change="projectsChange" v-model="projectsProxy" tag="div" v-bind="projectDragOption">
-            <v-list-tile avatar ripple v-for="item in projectsProxy" @click="projectClick(item.id)" :key="item.id">
-              <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
-              <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-            </v-list-tile>
-          </draggable>
-        </v-list>
+        <project-list v-else></project-list>
       </v-navigation-drawer>
     </v-flex>
     <v-snackbar top color="#316b7c" v-model="search.snackbar" :timeout="0">
@@ -104,13 +66,14 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex'
-import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+import FolderList from '@/views/index/components/FolderList'
+import ProjectList from '@/views/index/components/ProjectList'
 
 export default {
-  name: 'FolderList',
+  name: 'Sidebar',
   mixins: [perfectScrollbarMixin],
-  components: { Draggable },
+  components: { ProjectList, FolderList },
   data () {
     return {
       mini: false,
@@ -124,58 +87,21 @@ export default {
       search: {
         snackbar: false,
         content: ''
-      },
-      foldersContent: [],
-      projectsContent: []
+      }
     }
   },
   computed: {
-    ...mapGetters('todoView', ['folders']),
-    ...mapGetters('projectView', ['projects']),
     ...mapState('user', ['showMiniFolderListView', 'isTodoView']),
+    ...mapGetters('projectView', ['projects']),
     switchButtonIcon () {
       return this.isTodoView ? 'mdi-format-list-checks' : 'mdi-view-list'
-    },
-    folderDragOption () {
-      return {
-        animation: 200,
-        disabled: false,
-        group: 'aside-folder-list',
-        ghostClass: 'draggable-ghost'
-      }
-    },
-    projectDragOption () {
-      return {
-        animation: 200,
-        disabled: false,
-        group: 'aside-project-list',
-        ghostClass: 'draggable-ghost'
-      }
-    },
-    foldersProxy: {
-      get () {
-        return this.folders
-      },
-      set (val) {
-        this.foldersContent = [...val]
-      }
-    },
-    projectsProxy: {
-      get () {
-        return this.projects
-      },
-      set (val) {
-        this.projectsContent = [...val]
-      }
     }
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
   },
   methods: {
-    ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject', 'modifyFolderList', 'modifyProjectList']),
-    ...mapActions('todoView', ['changeFolder']),
-    ...mapActions('projectView', ['changeCurrentProject']),
+    ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject']),
     addNew () {
       if (this.add.activeTab === 0) {
         const payload = { name: this.add.folderName }
@@ -191,27 +117,12 @@ export default {
     closeAddSnackbar () {
       this.search.snackbar = false
     },
-    folderClick (id) {
-      if (!id) {
-        return
-      }
-      this.changeFolder(id)
-    },
-    projectClick (id) {
-      this.changeCurrentProject(id)
-    },
     switchButtonClick () {
       if (this.isTodoView) {
         this.$router.push('/project')
       } else {
         this.$router.push('/todo')
       }
-    },
-    foldersChange () {
-      this.modifyFolderList(this.foldersContent.map(item => item.id))
-    },
-    projectsChange () {
-      this.modifyProjectList(this.projectsContent.map(item => item.id))
     }
   }
 }
@@ -257,5 +168,9 @@ export default {
 
 .flipx-enter-to, .flipx-leave-to {
   transform: rotateY(180deg)
+}
+
+.sidebar-item-selected {
+  background-color: rgba(0,0,0,0.04);
 }
 </style>

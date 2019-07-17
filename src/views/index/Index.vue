@@ -2,7 +2,7 @@
   <v-container full-height fluid class="pa-0" style="max-height: 100%;">
     <v-layout row fill-height>
       <v-flex class="left-folder-list">
-        <folder-list></folder-list>
+        <sidebar></sidebar>
       </v-flex>
       <v-flex style="overflow: hidden;">
         <router-view></router-view>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import FolderList from '@/views/index/FolderList'
+import Sidebar from '@/views/index/Sidebar'
 
 export default {
   components: {
-    FolderList
+    Sidebar
   }
 }
 </script>
