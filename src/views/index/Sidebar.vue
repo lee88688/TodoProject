@@ -2,7 +2,7 @@
   <v-layout column style="height: 100%;">
     <v-toolbar flat dense dark color="blue-grey darken-1">
     <!--<v-toolbar flat dense dark color="primary">-->
-      <v-toolbar-side-icon @click="switchMiniFolderListView"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click="switchMiniFolderListView" :class="{ 'toolbar-side-icon-mini': showMiniFolderListView }"></v-toolbar-side-icon>
       <template v-if="!showMiniFolderListView">
         <v-spacer></v-spacer>
         <v-btn @click="add.dialog = true" icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
@@ -154,6 +154,10 @@ export default {
 .folder-list-container {
   overflow: hidden;
   height: 0;
+}
+
+.toolbar-side-icon-mini {
+  margin-left: -2px !important;
 }
 </style>
 

@@ -4,21 +4,21 @@
       <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
       <v-list-tile-content>标星</v-list-tile-content>
       <v-list-tile-action-text>
-        <span>10</span>
+        <span></span>
       </v-list-tile-action-text>
     </v-list-tile>
     <v-list-tile avatar ripple @click="folderClick('today')" :class="currentFolder === 'today' ? 'sidebar-item-selected': ''">
       <v-list-tile-action><v-icon>mdi-calendar-today</v-icon></v-list-tile-action>
       <v-list-tile-content>今天</v-list-tile-content>
       <v-list-tile-action-text>
-        <span>10</span>
+        <span></span>
       </v-list-tile-action-text>
     </v-list-tile>
     <v-list-tile avatar ripple @click="folderClick('thisWeek')" :class="currentFolder === 'thisWeek' ? 'sidebar-item-selected': ''">
       <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
       <v-list-tile-content>本周</v-list-tile-content>
       <v-list-tile-action-text>
-        <span>10</span>
+        <span></span>
       </v-list-tile-action-text>
     </v-list-tile>
     <draggable @change="foldersChange" v-model="foldersProxy" tag="div" v-bind="folderDragOption">

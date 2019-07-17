@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Main from './message'
+import Main from './Message'
 
 const MessageConstructor = Vue.extend(Main)
 let seed = 0
@@ -15,7 +15,16 @@ const Message = function (option = {}) {
   instance.id = id
   instance.$mount()
   document.body.appendChild(instance.$el)
-  return instance
+  instance.show()
+  return new Promise((resolve, reject) => {
+    instance.setHideCallback(state => {
+      if (state === true) {
+        resolve()
+      } else {
+        reject(new Error())
+      }
+    })
+  })
 }
 
 export default Message
