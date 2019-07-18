@@ -52,6 +52,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Draggable from 'vuedraggable'
 import menuMixin from '@/components/mixins/menuMixin'
+import message from '@/components/message'
 
 export default {
   name: 'FolderList',
@@ -85,21 +86,26 @@ export default {
   created () {
     this.registerMenuItem([
       {
-        id: '1',
         name: '文件夹选项',
-        callback (extra, item) {
-          item.name += 1
+        callback: (extra, item) => {
+          console.log(item.name)
         }
       },
       {
-        id: '2',
-        name: '删除文件夹'
+        name: '删除文件夹',
+        callback: async (folder) => {
+          let r = await message({
+            title: '删除',
+            message: '是否删除文件夹？'
+          })
+          r && this.deleteFolder(folder)
+        }
       }
     ])
   },
   methods: {
     ...mapActions('todoView', ['changeFolder']),
-    ...mapActions('user', ['modifyFolderList']),
+    ...mapActions('user', ['modifyFolderList', 'deleteFolder']),
     folderClick (id) {
       if (!id) {
         return
