@@ -61,7 +61,7 @@
           <v-subheader class="no-select">{{ todo.create_time }}</v-subheader>
           <div>
             <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
-            <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
+            <v-btn @click="deleteClick" flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
           </div>
         </div>
       </v-flex>
@@ -77,6 +77,7 @@ import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 import StarSelect from '@/components/StarSelect'
 import Subtask from '@/views/index/components/Subtask'
 import { RefreshTimer } from '@/lib/utils'
+import message from '@/components/message'
 
 export default {
   name: 'TodoDetail',
@@ -155,7 +156,7 @@ export default {
     this.rt = new RefreshTimer(this.refresh)
   },
   methods: {
-    ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible']),
+    ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible', 'deleteTodo', 'changeCurrentTodo']),
     enterSubtask () {
       this.todo.subtasks.push({
         complete: false,
@@ -241,6 +242,17 @@ export default {
       const { comments } = this.todo
       comments.splice(index, 1)
       this.modifyTodo({ id: this.currentTodo, comments })
+    },
+    async deleteClick () {
+      let r = await message({
+        title: '删除',
+        message: '是否删除当前清单？'
+      })
+      if (r) {
+        this.deleteTodo(this.currentTodo)
+        this.changeCurrentTodo('')
+        this.changeDetailViewVisible(false)
+      }
     }
   }
 }

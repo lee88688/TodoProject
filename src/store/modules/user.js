@@ -1,19 +1,23 @@
 import uuidv1 from 'uuid/v1'
 import cloneDeep from 'lodash/cloneDeep'
 import isArray from 'lodash/isArray'
+import Vue from 'vue'
 import { keyMissingWarning } from '@/lib/utils'
 
 export const types = {
   ADD_FOLDER: 'ADD_FOLDER',
   MODIFY_FOLDER: 'MODIFY_FOLDER',
+  DELETE_FOLDER: 'DELETE_FOLDER',
   ADD_TODO: 'ADD_TODO',
   MODIFY_TODO: 'MODIFY_TODO',
+  DELETE_TODO: 'DELETE_TODO',
   CHANGE_DETAIL_VIEW_VISIBLE: 'CHANGE_DETAIL_VIEW_VISIBLE',
   SWITCH_MINI_FOLDER_LIST: 'SWITCH_MINI_FOLDER_LIST',
   CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO',
   SWITCH_TODO_VIEW: 'SWITCH_TODO_VIEW',
   ADD_PROJECT: 'ADD_PROJECT',
   MODIFY_PROJECT: 'MODIFY_PROJECT',
+  DELETE_PROJECT: 'DELETE_PROJECT',
   ADD_FOLDER_FOR_PROJECT: 'ADD_FOLDER_FOR_PROJECT',
   MODIFY_FOLDER_LIST: 'MODIFY_FOLDER_LIST',
   MODIFY_PROJECT_LIST: 'MODIFY_PROJECT_LIST'
@@ -63,6 +67,25 @@ export default {
       folder = { ...folder, ...payload }
       state.folders = { ...state.folders, [folder.id]: folder }
     },
+    [types.DELETE_FOLDER]: function (state, folder) {
+      if (!(folder in state.folders)) {
+        return
+      }
+      const { project, undos } = state.folders[folder]
+      // folderList
+      const index = state.folderList.findIndex(e => e === folder)
+      index >= 0 && state.folderList.splice(index, 1)
+      // project
+      if (project in state.projects) {
+        const p = state.projects[project]
+        const index = p.folders.findIndex(e => e === folder)
+        index >= 0 && p.folders.splice(index, 1)
+      }
+      // todos
+      undos.forEach(e => Vue.delete(state.todos, e))
+      // folders
+      Vue.delete(state.folders, folder)
+    },
     [types.ADD_TODO]: function (state, payload) {
       if (!('id' in payload && 'folder' in payload)) {
         keyMissingWarning(types.ADD_TODO, 'id, folder')
@@ -85,6 +108,18 @@ export default {
       // }
       todo = { ...todo, ...payload }
       state.todos = { ...state.todos, [todo.id]: todo }
+    },
+    [types.DELETE_TODO]: function (state, todo) {
+      if (!(todo in state.todos)) {
+        return
+      }
+      const folder = state.todos[todo].folder
+      const f = state.folders[folder]
+      if (f) {
+        const index = f.undos.findIndex(e => e === todo)
+        index >= 0 && f.undos.splice(index, 1)
+      }
+      Vue.delete(state.todos, todo)
     },
     [types.CHANGE_DETAIL_VIEW_VISIBLE]: function (state, visible) {
       state.showDetailView = !!visible
@@ -116,6 +151,15 @@ export default {
       }
       project = { ...project, ...payload }
       state.projects = { ...state.projects, [project.id]: project }
+    },
+    [types.DELETE_PROJECT]: function (state, project) {
+      if (!(project in state.projects)) { return }
+      const { folders } = state.projects[project]
+      // unbind project and its folder
+      folders.forEach(e => {
+        (e in state.folders) && Vue.delete(state.folders[e], 'project')
+      })
+      Vue.delete(state.projects, project)
     },
     [types.ADD_FOLDER_FOR_PROJECT]: function (state, payload) {
       const { folder, project } = payload
@@ -193,6 +237,20 @@ export default {
     },
     modifyProjectList ({ commit }, payload) {
       commit(types.MODIFY_PROJECT_LIST, payload)
+    },
+    deleteTodo ({ commit }, todo) {
+      commit(types.DELETE_TODO, todo)
+    },
+    deleteFolder ({ commit }, folder) {
+      commit(types.DELETE_FOLDER, folder)
+    },
+    deleteProject ({ commit, state }, { project, deleteSubs }) {
+      let projectFolderList = []
+      if (deleteSubs === true && (project in state.projects)) {
+        projectFolderList = state.projects[project].folderList
+      }
+      commit(types.DELETE_PROJECT, project)
+      projectFolderList.forEach(f => commit(types.DELETE_FOLDER, f))
     }
   }
 }
