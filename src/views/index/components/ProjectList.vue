@@ -3,21 +3,25 @@
     <draggable @change="projectsChange" v-model="projectsProxy" tag="div" v-bind="projectDragOption">
       <v-list-tile v-for="item in projectsProxy"
                    @click="projectClick(item.id)"
+                   @contextmenu="contextmenuClick"
                    avatar ripple :key="item.id"
                    :class="currentProject === item.id ? 'sidebar-item-selected': ''">
         <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
         <v-list-tile-content>{{ item.name }}</v-list-tile-content>
       </v-list-tile>
     </draggable>
+    <menu-items :menu="menu"></menu-items>
   </v-list>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Draggable from 'vuedraggable'
+import menuMixin from '@/components/mixins/menuMixin'
 
 export default {
   name: 'ProjectList',
+  mixins: [menuMixin],
   components: { Draggable },
   data () {
     return {
@@ -43,6 +47,19 @@ export default {
         ghostClass: 'draggable-ghost'
       }
     }
+  },
+  created () {
+    this.registerMenuItem([
+      {
+        name: '工程选项'
+      },
+      {
+        name: '删除工程'
+      },
+      {
+        name: '删除工程及其文件夹'
+      }
+    ])
   },
   methods: {
     ...mapActions('projectView', ['changeCurrentProject']),
