@@ -87,8 +87,8 @@ export default {
     this.registerMenuItem([
       {
         name: '文件夹选项',
-        callback: (extra, item) => {
-          console.log(item.name)
+        callback: (id) => {
+          this.$emit('reconfig', id)
         }
       },
       {

@@ -19,3 +19,14 @@ export class RefreshTimer {
     }
   }
 }
+
+export function removeArrayElement (array, callback) {
+  const index = array.findIndex(callback)
+  index >= 0 && array.splice(index, 1)
+}
+
+export function removeUndefinedKey (obj) {
+  return Object.keys(obj).forEach(key => {
+    obj[key] === undefined && (delete obj[key])
+  })
+}
