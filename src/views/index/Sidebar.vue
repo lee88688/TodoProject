@@ -8,7 +8,7 @@
         <v-btn @click="addNewClick" icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-bell-outline</v-icon></v-btn>-->
 <!--        <v-btn icon class="ma-0"><v-icon>mdi-tooltip-outline</v-icon></v-btn>-->
-        <v-btn @click="search.snackbar = true" icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
+        <v-btn @click="startSearch" icon class="ma-0"><v-icon>mdi-folder-search</v-icon></v-btn>
         <v-btn @click="switchButtonClick" icon class="ma-0">
           <v-icon>{{ switchButtonIcon }}</v-icon>
         </v-btn>
@@ -24,10 +24,6 @@
         <project-list v-else @reconfig="reconfig('project', $event)"></project-list>
       </v-navigation-drawer>
     </v-flex>
-    <v-snackbar v-model="search.snackbar" top color="blue-grey darken-1" :timeout="0">
-      <v-text-field flat dark hide-details color="white" label="输入文件夹名称" v-model="add.name" class="ma-0"></v-text-field>
-      <v-btn flat icon class="min-width-0 ma-0" @click="closeAddSnackbar"><v-icon>mdi-close</v-icon></v-btn>
-    </v-snackbar>
     <v-dialog v-model="add.dialog" max-width="600px">
       <v-card>
         <v-card-title><span class="headline">添加</span></v-card-title>
@@ -87,10 +83,6 @@ export default {
         isAdd: true,
         extra: null
       },
-      search: {
-        snackbar: false,
-        content: ''
-      },
       rules: {
         required: value => !!value || '不能为空！'
       }
@@ -120,9 +112,16 @@ export default {
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.folderList.$el)
+    this.$bus.$on('folder-project-reconfig', ({ type, id }) => {
+      this.reconfig(type, id)
+    })
+  },
+  beforeDestroy () {
+    this.$bus.$off('folder-project-reconfig') // remove all 'folder-project-reconfig' event
   },
   methods: {
     ...mapActions('user', ['addFolder', 'switchMiniFolderListView', 'addProject', 'modifyFolder', 'modifyProject']),
+    ...mapActions('globalAction', ['startSearch']),
     validateFolderForm () {
       return this.addFolderForm.map(f => this.$refs[f].validate()).every(i => i)
     },
@@ -159,9 +158,6 @@ export default {
         this.addProject({ name: this.add.projectName })
         this.add.dialog = false
       }
-    },
-    closeAddSnackbar () {
-      this.search.snackbar = false
     },
     switchButtonClick () {
       if (this.isTodoView) {

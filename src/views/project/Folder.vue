@@ -2,7 +2,20 @@
   <v-layout column class="project-view-folder blue-grey lighten-4 pa-2">
     <div class="folder-header project-handle">
       <span class="title no-select">{{ name }}</span>
-      <v-btn icon class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+      <v-btn @click="addNewTask" icon class="mx-0"><v-icon>mdi-plus</v-icon></v-btn>
+      <v-menu offset-y left>
+        <template #activator="{ on }">
+          <v-btn v-on="on" icon class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+        </template>
+        <v-list dense>
+          <v-list-tile @click="reconfigFolder">
+            <v-list-tile-title>修改文件夹</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="deleteClick">
+            <v-list-tile-title>删除文件夹</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </div>
     <draggable @change="change" v-model="todosProxy" tag="div" v-bind="dragOption" class="ps" style="position: relative;" ref="scrollContainer">
       <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" flat ripple class="mb-2" :key="item.id">
@@ -27,9 +40,10 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+import message from '@/components/message'
 
 export default {
   name: 'Folder',
@@ -37,7 +51,8 @@ export default {
   components: { Draggable },
   data () {
     return {
-      todosContent: []
+      todosContent: [],
+      snackbar: false
     }
   },
   props: {
@@ -52,6 +67,7 @@ export default {
   },
   computed: {
     ...mapState('user', ['folders', 'todos']),
+    ...mapGetters('globalAction', ['paletteShow']),
     todosProxy: {
       get () {
         const folder = this.folders[this.id]
@@ -85,9 +101,23 @@ export default {
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer.$el)
+    this.paletteClick = folder => {
+      if (folder === this.id) {
+        this.addTodo({
+          name: this.$store.state.globalAction.palette.input,
+          folder
+        })
+        this.changePaletteShow(false)
+      }
+    }
+    this.$bus.$on('palette-append-click', this.paletteClick)
+  },
+  beforeDestroy () {
+    this.$bus.$off(this.paletteClick)
   },
   methods: {
-    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo']),
+    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo', 'deleteFolder', 'addTodo']),
+    ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
     change () {
       const undos = this.todosContent.map(t => t.id)
       this.modifyFolder({ id: this.id, undos })
@@ -95,6 +125,25 @@ export default {
     clickTodo (id) {
       this.changeCurrentTodo(id)
       this.changeDetailViewVisible(true)
+    },
+    async deleteClick () {
+      let r = await message({
+        title: '删除',
+        message: '是否删除文件夹？'
+      })
+      r && this.deleteFolder(this.id)
+    },
+    addNewTask () {
+      if (this.paletteShow) {
+        this.changePaletteShow(false)
+      }
+      this.startAddingNew({
+        placeholder: `${this.name}: 添加新任务`,
+        extra: this.id
+      })
+    },
+    reconfigFolder () {
+      this.$bus.$emit('folder-project-reconfig', { type: 'folder', id: this.id })
     }
   }
 }
@@ -123,5 +172,13 @@ export default {
 .v-card:hover {
   background-color: #ECEFF1;
   cursor: pointer;
+}
+</style>
+
+<style lang="scss">
+.folder-snackbar {
+  .v-snack__content {
+    padding: 0;
+  }
 }
 </style>
