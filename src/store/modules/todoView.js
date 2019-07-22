@@ -13,7 +13,10 @@ export default {
     currentFolder: ''
   },
   getters: {
-    currentFolderName (state, getters, rootState) {
+    currentFolderName (state, getters, rootState, rootGetters) {
+      if (rootGetters['globalAction/searchValid']) {
+        return '搜索'
+      }
       switch (state.currentFolder) {
         case 'star':
           return '标星'
@@ -48,7 +51,22 @@ export default {
         return { name, todos }
       }).filter(({ todos }) => todos.length)
     },
-    todos (state, getters, rootState) {
+    searchFolderTodos (state, getters, rootState) {
+      const searchKeyword = rootState.globalAction.palette.input
+      const folderList = rootState.user.folderList
+      return folderList.map(folder => {
+        const name = rootState.user.folders[folder].name
+        const todos = rootState.user.folders[folder].undos
+          .map(t => rootState.user.todos[t])
+          .filter(todo => todo.name.includes(searchKeyword))
+        return { name, todos }
+      }).filter(({ todos }) => todos.length)
+    },
+    todos (state, getters, rootState, rootGetters) {
+      // search mode first
+      if (rootGetters['globalAction/searchValid'] && rootState.user.isTodoView) {
+        return getters.searchFolderTodos
+      }
       switch (state.currentFolder) {
         case 'star':
           return getters.starFolderTodos

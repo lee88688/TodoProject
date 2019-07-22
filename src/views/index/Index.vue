@@ -26,6 +26,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import debounce from 'lodash/debounce'
 import Sidebar from '@/views/index/Sidebar'
 
 export default {
@@ -40,17 +41,21 @@ export default {
         return this.$store.state.globalAction.palette.input
       },
       set (val) {
-        this.changePaletteInput(val)
+        this.debouncePaletteInput(val)
       }
     }
   },
+  created () {
+    this.debouncePaletteInput = debounce(this.changePaletteInput, 1000)
+  },
   methods: {
-    ...mapActions('globalAction', ['changePaletteInput', 'changePaletteInputKey', 'changePaletteShow', 'clearPaletteExtra']),
+    ...mapActions('globalAction', ['changePaletteInput', 'changePaletteInputKey', 'changePaletteShow', 'clearPaletteExtra', 'clearSearchMode']),
     paletteKeyUp (e) {
       // console.log(e)
       this.changePaletteInputKey(e.key)
       if (e.key === 'Escape') {
         this.changePaletteShow(false)
+        this.clearSearchMode()
       }
     },
     appendClick () {

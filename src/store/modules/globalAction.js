@@ -1,5 +1,6 @@
 export const types = {
-  CHANGE_PALETTE: 'CHANGE_PALETTE'
+  CHANGE_PALETTE: 'CHANGE_PALETTE',
+  CHANGE_SEARCH_STATUS: 'CHANGE_SEARCH_STATUS'
 }
 
 export default {
@@ -13,11 +14,17 @@ export default {
       input: '',
       inputKey: '',
       extra: ''
+    },
+    search: {
+      isSearch: false
     }
   },
   getters: {
     paletteShow (state) {
       return state.palette.show
+    },
+    searchValid (state) {
+      return (state.search.isSearch && !!state.palette.input)
     }
   },
   mutations: {
@@ -27,6 +34,9 @@ export default {
           state.palette[k] = newVal[k]
         }
       }
+    },
+    [types.CHANGE_SEARCH_STATUS]: function (state, payload) {
+      state.search.isSearch = payload.isSearch
     }
   },
   actions: {
@@ -45,10 +55,12 @@ export default {
     startSearch ({ commit }) {
       commit(types.CHANGE_PALETTE, {
         show: true,
+        input: '',
         prependIcon: 'mdi-cloud-search-outline',
         appendIcon: '',
         placeholder: '请输入搜索关键词'
       })
+      commit(types.CHANGE_SEARCH_STATUS, { isSearch: true })
     },
     startAddingNew ({ commit }, { placeholder, extra }) {
       commit(types.CHANGE_PALETTE, {
@@ -59,6 +71,9 @@ export default {
         input: '',
         extra
       })
+    },
+    clearSearchMode ({ commit, state }) {
+      state.search.isSearch && commit(types.CHANGE_SEARCH_STATUS, { isSearch: false })
     }
   }
 }

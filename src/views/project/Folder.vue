@@ -67,14 +67,15 @@ export default {
   },
   computed: {
     ...mapState('user', ['folders', 'todos']),
-    ...mapGetters('globalAction', ['paletteShow']),
+    ...mapGetters('globalAction', ['paletteShow', 'searchValid']),
     todosProxy: {
       get () {
         const folder = this.folders[this.id]
         if (!folder) {
           return []
         }
-        return folder.undos.map(todo => {
+        const searchKeyword = this.$store.state.globalAction.palette.input
+        let undos = folder.undos.map(todo => {
           const t = this.todos[todo]
           const { id, name } = t
           const attachment = !t.attachment ? false : (t.attachment.length > 0)
@@ -85,6 +86,10 @@ export default {
           const star = !!t.star
           return { id, name, attachment, totalSubtask, reserveSubtask, comment, expiredDate, star }
         })
+        if (this.searchValid) {
+          return undos.filter(todo => todo.name.includes(searchKeyword))
+        }
+        return undos
       },
       set (val) {
         this.todosContent = [...val]

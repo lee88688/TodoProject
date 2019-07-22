@@ -52,9 +52,11 @@ export default {
   },
   computed: {
     ...mapGetters('todoView', ['todos', 'currentFolderName']),
+    ...mapGetters('globalAction', ['searchValid']),
     ...mapState('todoView', ['currentFolder']),
     ...mapState('user', ['currentTodo', 'showDetailView']),
     canAddNewTodo () {
+      if (this.searchValid) { return false }
       switch (this.currentFolder) {
         case 'star':
           return false
