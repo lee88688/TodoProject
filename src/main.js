@@ -9,9 +9,12 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import './style/common.scss'
-import message from './components/message'
-window.Message = message
+import * as idb from 'idb'
+import { initDB } from './lib/indexedDB'
+
 window.Vue = Vue
+window.idb = idb
+window.initDB = initDB
 
 Vue.config.productionTip = false
 
