@@ -4,6 +4,7 @@ import user from './modules/user'
 import todoView from './modules/todoView'
 import projectView from './modules/projectView'
 import globalAction from './modules/globalAction'
+import { readIndexedDBPlugin, syncStore } from './plugins'
 
 Vue.use(Vuex)
 
@@ -22,5 +23,6 @@ export default new Vuex.Store({
     todoView,
     projectView,
     globalAction
-  }
+  },
+  plugins: [readIndexedDBPlugin, syncStore]
 })

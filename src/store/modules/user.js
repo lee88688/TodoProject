@@ -23,6 +23,11 @@ export const types = {
   MODIFY_PROJECT_LIST: 'MODIFY_PROJECT_LIST'
 }
 
+export const prefixTypes = {}
+for (const k in types) {
+  prefixTypes[k] = `user/${types[k]}`
+}
+
 export default {
   namespaced: true,
   state: {
@@ -34,7 +39,7 @@ export default {
     token: '',
     // view
     isTodoView: true,
-    showDetailView: true,
+    showDetailView: false,
     showMiniFolderListView: false,
     currentTodo: '',
     // data
