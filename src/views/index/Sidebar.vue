@@ -26,7 +26,7 @@
     </v-flex>
     <v-dialog v-model="add.dialog" max-width="600px">
       <v-card>
-        <v-card-title><span class="headline">添加</span></v-card-title>
+        <v-card-title><span class="headline">{{ addDialogTitle }}</span></v-card-title>
         <v-tabs v-model="add.activeTab">
           <v-tab :key="0">文件夹</v-tab>
           <v-tab-item>
@@ -100,6 +100,9 @@ export default {
     },
     addProjectForm () {
       return ['projectName']
+    },
+    addDialogTitle () {
+      return this.add.isAdd ? '添加' : '修改'
     }
   },
   watch: {
