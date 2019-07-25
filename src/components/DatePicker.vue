@@ -1,6 +1,6 @@
 <template>
   <div class="date-time-picker">
-    <v-date-picker min-width="0" v-model="date">
+    <v-date-picker v-model="date" min-width="0" color="blue-grey darken-1">
       <div class="action-bar">
         <v-btn @click="reset" flat class="min-width-0 ma-0"><v-icon>mdi-close</v-icon></v-btn>
         <v-btn @click="confirm" flat class="min-width-0 ma-0"><v-icon>mdi-check</v-icon></v-btn>

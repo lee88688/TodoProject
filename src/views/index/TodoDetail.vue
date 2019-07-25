@@ -158,6 +158,7 @@ export default {
   methods: {
     ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible', 'deleteTodo', 'changeCurrentTodo']),
     enterSubtask () {
+      if (!this.subtaskContent) return
       this.todo.subtasks.push({
         complete: false,
         content: this.subtaskContent
@@ -228,6 +229,7 @@ export default {
       this.nameEditMode = false
     },
     addNewComment () {
+      if (!this.commentContent) return
       const { comments } = this.todo
       comments.push({
         user: this.userInfo.id,

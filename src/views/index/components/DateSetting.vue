@@ -4,7 +4,7 @@
     <v-layout row>
       <v-menu v-model="datePickerMenu" offset-y min-width="0" :close-on-content-click="false">
         <template #activator="{ on }">
-          <v-btn v-on="on" block flat class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>
+          <v-btn v-on="on" block flat :color="expiredDateColor" class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>
             {{ expiredDate || '设置日期' }}
           </v-btn>
         </template>
@@ -17,7 +17,7 @@
       <v-layout row>
         <v-menu v-model="dateTimePickerMenu" offset-y min-width="0" :close-on-content-click="false">
           <template #activator="{ on }">
-            <v-btn v-on="on" block flat class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-calendar-clock</v-icon>
+            <v-btn v-on="on" block flat class="ma-0 btn-block-align-left" :color="remindTimeColor"><v-icon class="mr-1">mdi-calendar-clock</v-icon>
               {{ remindTime || '设置提醒时间' }}
             </v-btn>
           </template>
@@ -48,6 +48,7 @@
 <script>
 import DateTimePicker from '@/components/DateTimePicker'
 import DatePicker from '@/components/DatePicker'
+import { dateColor } from '@/lib/utils'
 
 export default {
   name: 'DateSetting',
@@ -71,6 +72,14 @@ export default {
     remindTime: {
       type: String,
       default: ''
+    }
+  },
+  computed: {
+    expiredDateColor () {
+      return dateColor(this.expiredDate)
+    },
+    remindTimeColor () {
+      return dateColor(this.remindTime)
     }
   },
   methods: {
