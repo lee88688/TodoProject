@@ -32,8 +32,9 @@ readIndexedDBPlugin.ready = async function () {
     const waitReady = () => {
       if (readIndexedDBPlugin.isReady) {
         resolve(readIndexedDBPlugin.isReady)
+      } else {
+        setTimeout(waitReady, timeout)
       }
-      setTimeout(waitReady, timeout)
     }
     setTimeout(waitReady, timeout)
   })
