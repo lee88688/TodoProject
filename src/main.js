@@ -20,6 +20,7 @@ window.initDB = initDB
 window.dbHelper = dbHelper
 
 Vue.config.productionTip = false
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 
 new Vue({
   router,
