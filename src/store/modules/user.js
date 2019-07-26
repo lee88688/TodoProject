@@ -4,6 +4,7 @@ import clone from 'lodash/clone'
 import isArray from 'lodash/isArray'
 import Vue from 'vue'
 import { keyMissingWarning, removeArrayElement, removeUndefinedKey } from '@/lib/utils'
+import { archiveTodo } from '@/lib/indexedDB'
 
 export const types = {
   ADD_FOLDER: 'ADD_FOLDER',
@@ -211,6 +212,12 @@ export default {
       dispatch('removeTodoFromFolder', { todo, folder: state.todos[todo].folder })
       // remove todos
       commit(types.DELETE_TODO, todo)
+    },
+    async markTodoAsDone ({ dispatch, state }, todo) {
+      await dispatch('modifyTodo', { id: todo, complete: true })
+      const todoBakup = cloneDeep(state.todos[todo])
+      await dispatch('deleteTodo', todo)
+      await archiveTodo(todoBakup)
     },
     // folders
     addFolder ({ commit, dispatch }, payload) {

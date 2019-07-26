@@ -87,7 +87,7 @@ export default {
     this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['addTodo', 'modifyTodo', 'changeDetailViewVisible', 'changeCurrentTodo']),
+    ...mapActions('user', ['addTodo', 'modifyTodo', 'changeDetailViewVisible', 'changeCurrentTodo', 'markTodoAsDone']),
     addNewTodo () {
       if (!this.todoName) {
         return
@@ -103,7 +103,7 @@ export default {
       this.changeDetailViewVisible(true)
     },
     clickComplete ({ id, complete }) {
-      this.modifyTodo({ id, complete })
+      complete && this.markTodoAsDone(id)
     },
     clickStar ({ id, star }) {
       this.modifyTodo({ id, star })

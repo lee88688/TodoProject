@@ -3,6 +3,7 @@ export default [
     dbVersion: 0,
     async upgradeCallback (database, oldVersion, newVersion) {
       database.createObjectStore('todos', { keyPath: 'id' })
+      database.createObjectStore('archive', { keyPath: 'id' })
       database.createObjectStore('folders', { keyPath: 'id' })
       database.createObjectStore('projects', { keyPath: 'id' })
       database.createObjectStore('users', { keyPath: 'id' }) // store related user info

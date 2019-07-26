@@ -1,7 +1,7 @@
 import { openDB } from 'idb/with-async-ittr'
 import upgradeList from './upgrade'
 
-const DB_NAME = 'todoProject'
+const DB_NAME = 'TodoProject'
 const DB_VERSION = 2
 
 export async function initDB () {
@@ -29,7 +29,7 @@ export const dbHelper = {
         const self = this
         let countDown = 5
         const waitInstance = () => {
-          // todo when this.initStart is false, try use getInstance again.
+          // todo: when this.initStart is false, try use getInstance again.
           if (self.instance !== null) {
             resolve(self.instance)
           } else if (countDown) {
@@ -55,4 +55,9 @@ export const dbHelper = {
     this.initStart = false
     return this.instance
   }
+}
+
+export async function archiveTodo (todo) {
+  const db = await dbHelper.getInstance()
+  await db.put('archive', todo)
 }
