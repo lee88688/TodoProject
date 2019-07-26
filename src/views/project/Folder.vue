@@ -28,7 +28,7 @@
                 {{ item.reserveSubtask }}/{{ item.totalSubtask }}
               </span>
               <v-icon v-if="item.star" small class="mr-2">mdi-star-outline</v-icon>
-              <v-icon v-if="item.expiredDate" small class="mr-2">mdi-calendar</v-icon>
+              <v-icon v-if="item.showExpiredDate" small class="mr-2">mdi-calendar</v-icon>
               <v-icon v-if="item.comment" small class="mr-2">mdi-comment-outline</v-icon>
               <v-icon v-if="item.attachment" small>mdi-attachment</v-icon>
             </div>
@@ -84,9 +84,9 @@ export default {
           const totalSubtask = t.subtasks ? t.subtasks.length : 0
           const reserveSubtask = !totalSubtask ? 0 : t.subtasks.filter(s => s.complete).length
           const comment = !t.comments ? false : (t.comments.length > 0)
-          const expiredDate = !!t.expired_date
+          const showExpiredDate = !!t.expired_date
           const star = !!t.star
-          return { id, name, attachment, totalSubtask, reserveSubtask, comment, expiredDate, star }
+          return { id, name, attachment, totalSubtask, reserveSubtask, comment, showExpiredDate, star }
         })
         if (this.searchValid) {
           return undos.filter(todo => todo.name.includes(searchKeyword))

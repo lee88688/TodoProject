@@ -1,5 +1,6 @@
 import { openDB } from 'idb/with-async-ittr'
 import upgradeList from './upgrade'
+import { prefixTypes as userMutations } from '@/store/modules/user'
 
 const DB_NAME = 'TodoProject'
 const DB_VERSION = 2
@@ -60,4 +61,22 @@ export const dbHelper = {
 export async function archiveTodo (todo) {
   const db = await dbHelper.getInstance()
   await db.put('archive', todo)
+}
+
+export async function getArchiveTodos (filter) {
+  const db = await dbHelper.getInstance()
+  const tx = db.transaction(['archive'])
+  const todos = []
+  for await (const cursor of tx.objectStore('archive')) {
+    const t = cursor.value
+    let canAdd = true
+    for (const k in filter) {
+      if (!(k in t) || t[k] !== filter[k]) {
+        canAdd = false
+        break
+      }
+    }
+    canAdd && todos.push(t)
+  }
+  return todos
 }

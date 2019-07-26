@@ -20,6 +20,10 @@
               <v-btn v-if="item.name" flat small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
               <todo-item v-for="t in item.todos" @click="clickTodo" @click:checkbox="clickComplete" @click:star="clickStar" :todo="t" :key="t.id"></todo-item>
             </template>
+            <template v-if="!isSpecialFolder">
+              <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" flat small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
+              <todo-item v-for="t in completeTodo.todos" :todo="t" :key="t.id"></todo-item>
+            </template>
           </v-list>
         </v-flex>
       </v-layout>
@@ -30,8 +34,9 @@
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
-import { dateColor } from '@/lib/utils'
 import TodoItem from '@/views/todo/TodoItem'
+import { todoTransform } from '@/views/lib'
+import { getArchiveTodos } from '@/lib/indexedDB'
 
 export default {
   name: 'TodoList',
@@ -39,7 +44,12 @@ export default {
   mixins: [perfectScrollbarMixin],
   data () {
     return {
-      todoName: ''
+      todoName: '',
+      completeTodo: {
+        isLoading: false,
+        isShow: false,
+        todos: []
+      }
     }
   },
   computed: {
@@ -63,24 +73,15 @@ export default {
       return this.todos.map(item => {
         return {
           ...item,
-          'todos': item.todos.map(t => {
-            const { id, name, complete } = t
-            const attachment = !t.attachment ? false : (t.attachment.length > 0)
-            // subtask
-            const totalSubtask = t.subtasks ? t.subtasks.length : 0
-            const reserveSubtask = !totalSubtask ? 0 : t.subtasks.filter(s => s.complete).length
-            // comment
-            const comment = !t.comments ? false : (t.comments.length > 0)
-            // expired date
-            const showExpiredDate = !!t.expired_date
-            const expiredDate = t.expired_date
-            const expiredDateColor = dateColor(expiredDate, true)
-            // star
-            const star = !!t.star
-            return { id, name, complete, attachment, totalSubtask, reserveSubtask, comment, showExpiredDate, expiredDate, expiredDateColor, star }
-          })
+          'todos': item.todos.map(todoTransform)
         }
       })
+    },
+    isSpecialFolder () {
+      return !this.canAddNewTodo
+    },
+    loadingCompleteBtnName () {
+      return this.completeTodo.isShow ? '隐藏已完成任务' : '显示已完成任务'
     }
   },
   mounted () {
@@ -107,6 +108,17 @@ export default {
     },
     clickStar ({ id, star }) {
       this.modifyTodo({ id, star })
+    },
+    async loadingCompleteTodo () {
+      this.completeTodo.isShow = !this.completeTodo.isShow
+      if (!this.completeTodo.isShow) {
+        this.completeTodo.todos.splice(0, this.completeTodo.todos.length)
+        return
+      }
+      this.completeTodo.isLoading = true
+      const todos = await getArchiveTodos({ folder: this.currentFolder })
+      this.completeTodo.todos.push(...todos)
+      this.completeTodo.isLoading = false
     }
   }
 }
