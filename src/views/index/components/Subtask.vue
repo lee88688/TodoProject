@@ -11,7 +11,8 @@ export default {
   name: 'Subtask',
   data () {
     return {
-      tempContent: ''
+      tempContent: '',
+      hasChanged: false
     }
   },
   props: {
@@ -30,6 +31,7 @@ export default {
         return this.content
       },
       set (val) {
+        this.hasChanged = true
         this.tempContent = val
       }
     }
@@ -46,9 +48,11 @@ export default {
     deleteClick () {
       this.$emit('delete')
     },
-    input (e) {
+    input (payload) {
+      if (('content' in payload) && !this.hasChanged) return
       const { complete, content } = this
-      this.$emit('input', { complete, content, ...e })
+      this.$emit('input', { complete, content, ...payload })
+      this.hasChanged = false
     }
   }
 }

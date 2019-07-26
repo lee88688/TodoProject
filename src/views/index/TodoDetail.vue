@@ -1,7 +1,6 @@
 <template>
   <transition>
     <v-layout v-show="showDetailView"
-              @keyup="refreshTimer"
               column style="height: 100%; width: 350px;">
       <v-flex shrink class="todo-detail-header">
         <v-checkbox @change="refresh" hide-details v-model="todo.complete" class="ma-0" style="flex: 0 0 auto;"></v-checkbox>
@@ -28,7 +27,7 @@
                         label="添加子任务"
                         class="todo-detail-icon-left-margin mb-3">
           </v-text-field>
-          <v-textarea @blur="remarkBlur" v-model="remarkProxy" flat hide-details auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="mb-3 todo-detail-icon-left-margin"></v-textarea>
+          <v-textarea @change="remarkChange" :value="todo.remark" flat hide-details auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="mb-3 todo-detail-icon-left-margin"></v-textarea>
           <v-btn block flat class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
           <v-list v-if="showComments" class="transparent">
             <v-subheader style="height: 20px;">评论</v-subheader>
@@ -76,7 +75,6 @@ import DateSetting from '@/views/index/components/DateSetting'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 import StarSelect from '@/components/StarSelect'
 import Subtask from '@/views/index/components/Subtask'
-import { RefreshTimer } from '@/lib/utils'
 import message from '@/components/message'
 
 export default {
@@ -99,7 +97,6 @@ export default {
         create_time: ''
       },
       subtaskContent: '',
-      remarkContent: '',
       nameEditMode: false,
       nameContent: '',
       commentContent: ''
@@ -110,14 +107,6 @@ export default {
     ...mapGetters('user', ['userInfo']),
     currentTodoDetail () {
       return this.todos[this.currentTodo]
-    },
-    remarkProxy: {
-      get () {
-        return this.todo.remark
-      },
-      set (val) {
-        this.remarkContent = val
-      }
     },
     nameProxy: {
       get () {
@@ -153,7 +142,6 @@ export default {
   },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
-    this.rt = new RefreshTimer(this.refresh)
   },
   methods: {
     ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible', 'deleteTodo', 'changeCurrentTodo']),
@@ -164,31 +152,29 @@ export default {
         content: this.subtaskContent
       })
       this.subtaskContent = ''
+      this.modifyTodo({ id: this.currentTodo, subtasks: this.todo.subtasks })
     },
     subtaskChange (index, val) {
       this.todo.subtasks.splice(index, 1, val)
+      this.modifyTodo({ id: this.currentTodo, subtasks: this.todo.subtasks })
     },
     removeSubtask (index) {
       this.todo.subtasks.splice(index, 1)
+      this.modifyTodo({ id: this.currentTodo, subtasks: this.todo.subtasks })
     },
-    remarkBlur () {
-      this.todo.remark = this.remarkContent
+    remarkChange (val) {
+      this.todo.remark = val
+      this.modifyTodo({ id: this.currentTodo, remark: val })
     },
     refresh () {
-      console.log('refresh')
-      this.rt.clear()
       this.modifyTodo({
         id: this.currentTodo,
         ...this.todo
       })
     },
-    refreshTimer () {
-      // console.log('get!!!')
-      this.rt.refresh(10)
-    },
     closeDetailView () {
       this.changeDetailViewVisible(false)
-      this.refresh()
+      // this.refresh()
     },
     clearTodo () {
       for (let k in this.todo) {
@@ -218,15 +204,16 @@ export default {
       }
     },
     timeChange ({ expiredDate, remindTime, repeat }) {
-      // todo: add store commit
-      expiredDate !== undefined && (this.todo.expired_date = expiredDate)
-      remindTime !== undefined && (this.todo.remind_time = remindTime)
-      repeat !== undefined && (this.todo.repeat = repeat)
+      const payload = { id: this.currentTodo }
+      expiredDate !== undefined && (payload.expired_date = expiredDate)
+      remindTime !== undefined && (payload.remind_time = remindTime)
+      repeat !== undefined && (payload.repeat = repeat)
+      this.modifyTodo(payload)
     },
     nameChange () {
-      // todo: add store commit
       this.todo.name = this.nameContent
       this.nameEditMode = false
+      this.modifyTodo({ id: this.currentTodo, name: this.todo.name })
     },
     addNewComment () {
       if (!this.commentContent) return
