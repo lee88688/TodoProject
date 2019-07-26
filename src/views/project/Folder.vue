@@ -137,7 +137,7 @@ export default {
     this.$bus.$on('palette-append-click', this.paletteClick)
   },
   beforeDestroy () {
-    this.$bus.$off(this.paletteClick)
+    this.$bus.$off('palette-append-click', this.paletteClick)
   },
   methods: {
     ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo', 'deleteFolder', 'addTodo', 'deleteTodo']),
