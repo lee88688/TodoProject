@@ -34,7 +34,7 @@ export default {
       menuItems.forEach(item => {
         // item is like { id: 'xxx', name: 'xxx', callback: function (extraFromClickedItem, menuItems[i]) { xxx }
         if (!('name' in item)) {
-          console.warn('id or name is not in menu item!')
+          console.warn('name is not in menu item!')
           return
         }
         this.menu.menuItems.push(item)

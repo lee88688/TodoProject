@@ -46,13 +46,12 @@ export default {
     }
   },
   created () {
-    this.debouncePaletteInput = debounce(this.changePaletteInput, 1000)
+    this.debouncePaletteInput = debounce(this.changePaletteInput, 500)
   },
   methods: {
     ...mapActions('globalAction', ['changePaletteInput', 'changePaletteInputKey', 'changePaletteShow', 'clearPaletteExtra', 'clearSearchMode']),
     paletteKeyUp (e) {
-      // console.log(e)
-      this.changePaletteInputKey(e.key)
+      this.$bus.$emit('palette-input-key', e.key)
       if (e.key === 'Escape') {
         this.changePaletteShow(false)
         this.clearSearchMode()

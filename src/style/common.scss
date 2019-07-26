@@ -25,3 +25,9 @@
 .draggable-ghost {
   opacity: 0.5;
 }
+
+.ps {
+  .ps__rail-x, .ps__rail-y {
+    z-index: 1;
+  }
+}

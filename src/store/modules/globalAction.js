@@ -43,9 +43,6 @@ export default {
     changePaletteInput ({ commit }, newVal) {
       commit(types.CHANGE_PALETTE, { input: newVal })
     },
-    changePaletteInputKey ({ commit }, newVal) {
-      commit(types.CHANGE_PALETTE, { inputKey: newVal })
-    },
     changePaletteShow ({ commit }, newVal) {
       commit(types.CHANGE_PALETTE, { show: newVal })
     },

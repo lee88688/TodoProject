@@ -18,7 +18,7 @@
       </v-menu>
     </div>
     <draggable @change="change" v-model="todosProxy" tag="div" v-bind="dragOption" class="ps" style="position: relative;" ref="scrollContainer">
-      <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" flat ripple class="mb-2" :key="item.id">
+      <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" @contextmenu="contextmenuClick($event, item.id)" flat ripple class="mb-2" :key="item.id">
         <v-card-title class="pa-2">
           <div>
             <div class="subheading no-select mb-2">{{ item.name }}</div>
@@ -36,6 +36,7 @@
         </v-card-title>
       </v-card>
     </draggable>
+    <menu-items :menu="menu"></menu-items>
   </v-layout>
 </template>
 
@@ -43,11 +44,12 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
+import menuMixin from '@/components/mixins/menuMixin'
 import message from '@/components/message'
 
 export default {
   name: 'Folder',
-  mixins: [perfectScrollbarMixin],
+  mixins: [perfectScrollbarMixin, menuMixin],
   components: { Draggable },
   data () {
     return {
@@ -104,6 +106,23 @@ export default {
       }
     }
   },
+  created () {
+    this.registerMenuItem([
+      {
+        name: '标记为完成'
+      },
+      {
+        name: '删除任务',
+        callback: async (id) => {
+          let r = await message({
+            title: '删除任务',
+            content: '是否删除当前任务？'
+          })
+          r && this.deleteTodo(id)
+        }
+      }
+    ])
+  },
   mounted () {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer.$el)
     this.paletteClick = folder => {
@@ -121,7 +140,7 @@ export default {
     this.$bus.$off(this.paletteClick)
   },
   methods: {
-    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo', 'deleteFolder', 'addTodo']),
+    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo', 'deleteFolder', 'addTodo', 'deleteTodo']),
     ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
     change () {
       const undos = this.todosContent.map(t => t.id)
