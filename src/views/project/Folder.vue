@@ -21,7 +21,7 @@
       <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" @contextmenu="contextmenuClick($event, item.id)" flat ripple class="mb-2" :key="item.id">
         <v-card-title class="pa-2">
           <div>
-            <div class="subheading no-select mb-2">{{ item.name }}</div>
+            <div class="subtitle-1 no-select mb-2">{{ item.name }}</div>
             <div>
               <span v-if="item.totalSubtask" class="mr-2" style="font-size: 0.9rem;">
                 <v-icon small>mdi-checkbox-marked-circle-outline</v-icon>
