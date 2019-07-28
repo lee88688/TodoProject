@@ -62,6 +62,11 @@ export async function archiveTodo (todo) {
   await db.put('archive', todo)
 }
 
+export async function deleteArchiveTodo (id) {
+  const db = await dbHelper.getInstance()
+  await db.delete('archive', id)
+}
+
 export async function getArchiveTodo (id) {
   const db = await dbHelper.getInstance()
   let todo = await db.get('archive', id)

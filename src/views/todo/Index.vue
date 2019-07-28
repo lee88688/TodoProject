@@ -21,8 +21,8 @@
               <todo-item v-for="t in item.todos" @click="clickTodo" @click:checkbox="clickComplete" @click:star="clickStar" :todo="t" :key="t.id"></todo-item>
             </template>
             <template v-if="!isSpecialFolder">
-              <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" text small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
-              <todo-item v-for="t in completeTodo.todos" @click="clickCompleteTodo" :todo="t" :key="t.id" style="opacity: 0.6;"></todo-item>
+              <v-btn @click="clickLoadingCompleteBtn" :loading="completeTodo.isLoading" text small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
+              <todo-item v-for="t in completeTodo.todos" @click="clickCompleteTodo" @click:checkbox="clickIncomplete" :todo="t" :key="t.id" style="opacity: 0.6;"></todo-item>
             </template>
           </v-list>
         </v-flex>
@@ -97,7 +97,7 @@ export default {
     this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['addTodo', 'modifyTodo', 'markTodoAsDone']),
+    ...mapActions('user', ['addTodo', 'modifyTodo', 'markTodoAsDone', 'markTodoAsUndone']),
     ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo', 'changeCurrentCompleteTodo']),
     addNewTodo () {
       if (!this.todoName) {
@@ -120,19 +120,28 @@ export default {
       this.modifyTodo({ id, star })
     },
     async loadingCompleteTodo () {
+      this.completeTodo.isLoading = true
+      const todos = await getArchiveTodos({ folder: this.currentFolder })
+      this.completeTodo.todos.splice(0, this.completeTodo.todos.length, ...todos)
+      this.completeTodo.isLoading = false
+    },
+    async clickLoadingCompleteBtn () {
       this.completeTodo.isShow = !this.completeTodo.isShow
       if (!this.completeTodo.isShow) {
         this.completeTodo.todos.splice(0, this.completeTodo.todos.length)
         return
       }
-      this.completeTodo.isLoading = true
-      const todos = await getArchiveTodos({ folder: this.currentFolder })
-      this.completeTodo.todos.push(...todos)
-      this.completeTodo.isLoading = false
+      await this.loadingCompleteTodo()
     },
     clickCompleteTodo (id) {
       this.changeCurrentCompleteTodo(id)
       this.changeDetailViewVisible(true)
+    },
+    async clickIncomplete ({ id, complete }) {
+      if (id && !complete) {
+        await this.markTodoAsUndone(id)
+        await this.loadingCompleteTodo()
+      }
     }
   }
 }
