@@ -104,9 +104,14 @@ export default {
   },
   computed: {
     ...mapState('user', ['todos']),
+    ...mapState('detailView', ['currentCompleteTodo']),
     ...mapState('detailView', ['showDetailView', 'currentTodo']),
     ...mapGetters('user', ['userInfo']),
+    ...mapGetters('detailView', ['isCompleteTodo']),
     currentTodoDetail () {
+      if (this.isCompleteTodo) {
+        return this.currentCompleteTodo
+      }
       return this.todos[this.currentTodo]
     },
     nameProxy: {

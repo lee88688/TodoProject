@@ -62,6 +62,12 @@ export async function archiveTodo (todo) {
   await db.put('archive', todo)
 }
 
+export async function getArchiveTodo (id) {
+  const db = await dbHelper.getInstance()
+  let todo = await db.get('archive', id)
+  return todo
+}
+
 export async function getArchiveTodos (filter) {
   const db = await dbHelper.getInstance()
   const tx = db.transaction(['archive'])

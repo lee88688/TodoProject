@@ -22,7 +22,7 @@
             </template>
             <template v-if="!isSpecialFolder">
               <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" text small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
-              <todo-item v-for="t in completeTodo.todos" :todo="t" :key="t.id" style="opacity: 0.6;"></todo-item>
+              <todo-item v-for="t in completeTodo.todos" @click="clickCompleteTodo" :todo="t" :key="t.id" style="opacity: 0.6;"></todo-item>
             </template>
           </v-list>
         </v-flex>
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     ...mapActions('user', ['addTodo', 'modifyTodo', 'markTodoAsDone']),
-    ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
+    ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo', 'changeCurrentCompleteTodo']),
     addNewTodo () {
       if (!this.todoName) {
         return
@@ -129,6 +129,10 @@ export default {
       const todos = await getArchiveTodos({ folder: this.currentFolder })
       this.completeTodo.todos.push(...todos)
       this.completeTodo.isLoading = false
+    },
+    clickCompleteTodo (id) {
+      this.changeCurrentCompleteTodo(id)
+      this.changeDetailViewVisible(true)
     }
   }
 }
