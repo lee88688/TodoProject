@@ -1,12 +1,12 @@
 <template>
-  <v-list-tile @click="click(todo.id)"
+  <v-list-item @click="click(todo.id)"
                ripple class="elevation-1 my-1 todo-item"
                :class="showDetailView && (currentTodo === todo.id) ? 'todo-item-selected' : ''">
-    <v-list-tile-action style="min-width: 0;">
+    <v-list-item-action style="min-width: 0;">
       <v-checkbox @change="clickComplete(todo.id, $event)" @click.native.stop="doNothing" :input-value="todo.complete"></v-checkbox>
-    </v-list-tile-action>
-    <v-list-tile-content>{{ todo.name }}</v-list-tile-content>
-    <v-list-tile-content class="mr-3" style="flex: 0 0 auto;">
+    </v-list-item-action>
+    <v-list-item-content>{{ todo.name }}</v-list-item-content>
+    <v-list-item-content class="mr-3" style="flex: 0 0 auto;">
                   <span style="display: inline-flex;">
                     <span v-if="todo.showExpiredDate" :class="todo.expiredDateColor" class="mr-2">{{ todo.expiredDate }}</span>
                     <span v-if="todo.totalSubtask" class="mr-2" style="display: inline-flex;">
@@ -16,9 +16,9 @@
                     <v-icon v-if="todo.comment" small class="mr-2">mdi-comment-outline</v-icon>
                     <v-icon v-if="todo.attachment" small>mdi-attachment</v-icon>
                   </span>
-    </v-list-tile-content>
+    </v-list-item-content>
     <star-select @input="clickStar(todo.id, $event)" @click.native.stop="doNothing" :value="todo.star"></star-select>
-  </v-list-tile>
+  </v-list-item>
 </template>
 
 <script>

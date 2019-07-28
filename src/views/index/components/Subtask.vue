@@ -2,7 +2,7 @@
   <div class="subtask">
     <v-checkbox @change="input({ complete: $event })" :input-value="complete" hide-details class="ma-0"></v-checkbox>
     <v-text-field @blur="input({ content: tempContent })" v-model="textField" :disabled="complete" single-line flat hide-details class="ma-0 pa-0"></v-text-field>
-    <v-btn @click="deleteClick" flat color="grey lighten-1" class="min-width-0 ma-0 pa-1"><v-icon>mdi-close</v-icon></v-btn>
+    <v-btn @click="deleteClick" depressed text color="grey lighten-1" class="min-width-0 ma-0 pa-1"><v-icon>mdi-close</v-icon></v-btn>
   </div>
 </template>
 

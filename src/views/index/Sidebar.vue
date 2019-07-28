@@ -1,8 +1,8 @@
 <template>
   <v-layout column style="height: 100%;">
-    <v-toolbar flat dense dark color="blue-grey darken-1">
+    <v-toolbar flat dense dark color="blue-grey darken-1" style="flex: 0 0 auto;">
     <!--<v-toolbar flat dense dark color="primary">-->
-      <v-toolbar-side-icon @click="switchMiniFolderListView" :class="{ 'toolbar-side-icon-mini': showMiniFolderListView }"></v-toolbar-side-icon>
+      <v-app-bar-nav-icon @click="switchMiniFolderListView" :class="{ 'toolbar-side-icon-mini': showMiniFolderListView }"></v-app-bar-nav-icon>
       <template v-if="!showMiniFolderListView">
         <v-spacer></v-spacer>
         <v-btn @click="addNewClick" icon class="ma-0"><v-icon>mdi-plus</v-icon></v-btn>
@@ -16,8 +16,8 @@
       </template>
     </v-toolbar>
     <v-flex grow class="folder-list-container">
-      <v-navigation-drawer disable-resize-watcher permanent :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
-        <v-divider></v-divider>
+      <v-navigation-drawer disable-resize-watcher permanent width="300" :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
+<!--        <v-divider></v-divider>-->
         <!--todoView-->
         <folder-list v-if="isTodoView" @reconfig="reconfig('folder', $event)"></folder-list>
         <!--projectView-->
@@ -48,8 +48,8 @@
         </v-tabs>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="add.dialog = false" flat>取消</v-btn>
-          <v-btn @click="save" flat color="blue darken-1">保存</v-btn>
+          <v-btn @click="add.dialog = false" text>取消</v-btn>
+          <v-btn @click="save" text color="blue darken-1">保存</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

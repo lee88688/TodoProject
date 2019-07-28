@@ -8,12 +8,12 @@
           <v-btn v-on="on" icon class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
         </template>
         <v-list dense>
-          <v-list-tile @click="reconfigFolder">
-            <v-list-tile-title>修改文件夹</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="deleteClick">
-            <v-list-tile-title>删除文件夹</v-list-tile-title>
-          </v-list-tile>
+          <v-list-item @click="reconfigFolder">
+            <v-list-item-title>修改文件夹</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="deleteClick">
+            <v-list-item-title>删除文件夹</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </div>
@@ -23,7 +23,7 @@
           <div>
             <div class="subheading no-select mb-2">{{ item.name }}</div>
             <div>
-              <span v-if="item.totalSubtask" class="mr-2">
+              <span v-if="item.totalSubtask" class="mr-2" style="font-size: 0.9rem;">
                 <v-icon small>mdi-checkbox-marked-circle-outline</v-icon>
                 {{ item.reserveSubtask }}/{{ item.totalSubtask }}
               </span>

@@ -1,5 +1,5 @@
 .min-width-0 {
-  min-width: 0;
+  min-width: 0 !important;
 }
 
 .no-select {
@@ -13,6 +13,7 @@
 }
 
 .btn-block-align-left {
+  flex: 1 0 auto;
   > .v-btn__content {
     justify-content: flex-start;
   }

@@ -1,14 +1,14 @@
 <template>
   <v-list dense class="pa-0">
     <draggable @change="projectsChange" v-model="projectsProxy" tag="div" v-bind="projectDragOption">
-      <v-list-tile v-for="item in projectsProxy"
+      <v-list-item v-for="item in projectsProxy"
                    @click="projectClick(item.id)"
                    @contextmenu="contextmenuClick($event, item.id)"
                    avatar ripple :key="item.id"
                    :class="currentProject === item.id ? 'sidebar-item-selected': ''">
-        <v-list-tile-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-tile-action>
-        <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-      </v-list-tile>
+        <v-list-item-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-item-action>
+        <v-list-item-content>{{ item.name }}</v-list-item-content>
+      </v-list-item>
     </draggable>
     <menu-items :menu="menu"></menu-items>
   </v-list>

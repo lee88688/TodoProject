@@ -1,6 +1,5 @@
 import { openDB } from 'idb/with-async-ittr'
 import upgradeList from './upgrade'
-import { prefixTypes as userMutations } from '@/store/modules/user'
 
 const DB_NAME = 'TodoProject'
 const DB_VERSION = 2

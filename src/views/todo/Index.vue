@@ -5,7 +5,7 @@
         <v-toolbar-title>{{ currentFolderName }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn flat class="min-width-0"><v-icon>mdi-account-multiple-plus-outline</v-icon></v-btn>
+<!--          <v-btn text class="min-width-0"><v-icon>mdi-account-multiple-plus-outline</v-icon></v-btn>-->
         </v-toolbar-items>
       </v-toolbar>
     </v-flex>
@@ -17,11 +17,11 @@
         <v-flex grow style="overflow: hidden; height: 0; position: relative;" class="ps" ref="scrollContainer">
           <v-list class="transparent">
             <template v-for="item in todosProxy">
-              <v-btn v-if="item.name" flat small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
+              <v-btn v-if="item.name" text small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
               <todo-item v-for="t in item.todos" @click="clickTodo" @click:checkbox="clickComplete" @click:star="clickStar" :todo="t" :key="t.id"></todo-item>
             </template>
             <template v-if="!isSpecialFolder">
-              <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" flat small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
+              <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" text small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
               <todo-item v-for="t in completeTodo.todos" :todo="t" :key="t.id"></todo-item>
             </template>
           </v-list>
@@ -82,6 +82,15 @@ export default {
     },
     loadingCompleteBtnName () {
       return this.completeTodo.isShow ? '隐藏已完成任务' : '显示已完成任务'
+    }
+  },
+  watch: {
+    currentFolder () {
+      // hide completeTodo
+      this.completeTodo.isShow = false
+      this.completeTodo.todos.splice(0, this.completeTodo.todos.length)
+      // close detailView
+      this.changeDetailViewVisible(false)
     }
   },
   mounted () {

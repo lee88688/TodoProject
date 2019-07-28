@@ -28,22 +28,22 @@
                         class="todo-detail-icon-left-margin mb-3">
           </v-text-field>
           <v-textarea @change="remarkChange" :value="todo.remark" flat hide-details auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="mb-3 todo-detail-icon-left-margin"></v-textarea>
-          <v-btn block flat class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
+          <v-btn block depressed text class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
           <v-list v-if="showComments" class="transparent">
             <v-subheader style="height: 20px;">评论</v-subheader>
             <template v-for="(item, index) in todo.comments">
               <v-card flat :key="index" class="transparent">
-                <v-layout row class="pt-2 pb-0">
+                <v-layout class="pt-2 pb-0">
                   <v-flex shrink class="pa-2"><v-avatar color="blue lighten-5" size="40px">{{ item.name }}</v-avatar></v-flex>
                   <v-flex grow>
                     <v-card-title class="pa-0">
                       <div>
-                        <span class="subheading">{{ item.content }}</span><br>
-                        <span class="grey--text">{{ item.time }}</span>
+                        <span class="title">{{ item.content }}</span><br>
+                        <span class="subtitle-1 grey--text">{{ item.time }}</span>
                       </div>
                     </v-card-title>
                     <v-card-actions class="pa-0">
-                      <v-btn @click="removeComment(index)" flat color="red lighten-3" class="ma-0 pa-1 min-width-0">删除</v-btn>
+                      <v-btn @click="removeComment(index)" text color="red lighten-3" class="ma-0 pa-1 min-width-0">删除</v-btn>
                     </v-card-actions>
                     <v-divider :key="index"></v-divider>
                   </v-flex>
@@ -56,11 +56,11 @@
       <v-flex shrink class="todo-detail-end">
         <v-text-field @click:append="addNewComment" v-model="commentContent" hide-details label="评论" prepend-inner-icon="mdi-comment-processing-outline" append-icon="mdi-send" class="ma-0"></v-text-field>
         <div class="todo-detail-bottom-bar">
-          <v-btn flat class="min-width-0 ma-0 pa-2" @click="closeDetailView"><v-icon>mdi-chevron-double-right</v-icon></v-btn>
+          <v-btn text class="min-width-0 ma-0 pa-2" @click="closeDetailView"><v-icon>mdi-chevron-double-right</v-icon></v-btn>
           <v-subheader class="no-select">{{ todo.create_time }}</v-subheader>
           <div>
-            <v-btn flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
-            <v-btn @click="deleteClick" flat class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
+            <v-btn text class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
+            <v-btn @click="deleteClick" text class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
           </div>
         </div>
       </v-flex>

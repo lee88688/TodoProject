@@ -1,12 +1,12 @@
 <template>
   <div class="date-time-picker">
     <v-date-picker min-width="0" v-model="date" color="blue-grey darken-1">
-      <v-layout row style="width: 290px; margin: -8px;">
+      <v-layout align-center style="width: 290px; margin: -8px;">
         <v-select v-model="hour" :items="hours" label="时" flat solo hide-details></v-select>
         <div class="px-2 no-select child-flex-center time-colon" style="font-weight: bold;">:</div>
         <v-select v-model="minute" :items="minutes" label="分" flat solo hide-details></v-select>
-        <v-btn @click="reset" flat class="min-width-0 ma-0"><v-icon>mdi-close</v-icon></v-btn>
-        <v-btn @click="confirm" flat class="min-width-0 ma-0"><v-icon>mdi-check</v-icon></v-btn>
+        <v-btn @click="reset" text class="min-width-0"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn @click="confirm" text class="min-width-0 ma-0"><v-icon>mdi-check</v-icon></v-btn>
       </v-layout>
     </v-date-picker>
 <!--    <v-divider dark></v-divider>-->

@@ -1,6 +1,6 @@
 <template>
-  <v-container full-height fluid class="pa-0" style="max-height: 100%;">
-    <v-layout row fill-height>
+  <v-container fluid class="pa-0" style="height: 100%;">
+    <v-layout fill-height>
       <v-flex class="left-folder-list">
         <sidebar></sidebar>
       </v-flex>

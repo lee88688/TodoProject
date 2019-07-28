@@ -9,8 +9,12 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
-    'no-debugger': 'off'
+    'no-debugger': 'off',
+    'vuetify/no-deprecated-classes': 'error'
   },
+  plugins: [
+    'vuetify'
+  ],
   parserOptions: {
     parser: 'babel-eslint'
   }

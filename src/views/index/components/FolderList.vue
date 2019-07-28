@@ -1,47 +1,47 @@
  <template>
   <v-list dense class="pa-0">
-    <v-list-tile @click="folderClick('star')"
+    <v-list-item @click="folderClick('star')"
                  @contextmenu="contextmenuClickDoNothing"
                  avatar ripple
                  :class="currentFolder === 'star' ? 'sidebar-item-selected': ''">
-      <v-list-tile-action><v-icon>mdi-star-outline</v-icon></v-list-tile-action>
-      <v-list-tile-content>标星</v-list-tile-content>
-      <v-list-tile-action-text>
+      <v-list-item-action><v-icon>mdi-star-outline</v-icon></v-list-item-action>
+      <v-list-item-content>标星</v-list-item-content>
+      <v-list-item-action-text>
         <span></span>
-      </v-list-tile-action-text>
-    </v-list-tile>
-    <v-list-tile @click="folderClick('today')"
+      </v-list-item-action-text>
+    </v-list-item>
+    <v-list-item @click="folderClick('today')"
                  @contextmenu="contextmenuClickDoNothing"
                  avatar ripple
                  :class="currentFolder === 'today' ? 'sidebar-item-selected': ''">
-      <v-list-tile-action><v-icon>mdi-calendar-today</v-icon></v-list-tile-action>
-      <v-list-tile-content>今天</v-list-tile-content>
-      <v-list-tile-action-text>
+      <v-list-item-action><v-icon>mdi-calendar-today</v-icon></v-list-item-action>
+      <v-list-item-content>今天</v-list-item-content>
+      <v-list-item-action-text>
         <span></span>
-      </v-list-tile-action-text>
-    </v-list-tile>
-    <v-list-tile @click="folderClick('thisWeek')"
+      </v-list-item-action-text>
+    </v-list-item>
+    <v-list-item @click="folderClick('thisWeek')"
                  @contextmenu="contextmenuClickDoNothing"
                  avatar ripple
                  :class="currentFolder === 'thisWeek' ? 'sidebar-item-selected': ''">
-      <v-list-tile-action><v-icon>mdi-calendar-week</v-icon></v-list-tile-action>
-      <v-list-tile-content>本周</v-list-tile-content>
-      <v-list-tile-action-text>
+      <v-list-item-action><v-icon>mdi-calendar-week</v-icon></v-list-item-action>
+      <v-list-item-content>本周</v-list-item-content>
+      <v-list-item-action-text>
         <span></span>
-      </v-list-tile-action-text>
-    </v-list-tile>
+      </v-list-item-action-text>
+    </v-list-item>
     <draggable @change="foldersChange" v-model="foldersProxy" tag="div" v-bind="folderDragOption">
-      <v-list-tile v-for="item in foldersProxy"
+      <v-list-item v-for="item in foldersProxy"
                    @click="folderClick(item.id)"
                    @contextmenu="contextmenuClick($event, item.id)"
                    avatar ripple :key="item.id"
                    :class="currentFolder === item.id ? 'sidebar-item-selected': ''">
-        <v-list-tile-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-tile-action>
-        <v-list-tile-content>{{ item.name }}</v-list-tile-content>
-        <v-list-tile-action-text>
+        <v-list-item-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-item-action>
+        <v-list-item-content>{{ item.name }}</v-list-item-content>
+        <v-list-item-action-text>
           <span>{{ item.undoNumber }}</span>
-        </v-list-tile-action-text>
-      </v-list-tile>
+        </v-list-item-action-text>
+      </v-list-item>
     </draggable>
     <!--menu-->
     <menu-items :menu="menu"></menu-items>

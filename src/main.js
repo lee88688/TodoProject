@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import './plugins/vuetify'
+import vuetify from './plugins/vuetify'
 import './plugins/eventBus'
 import './plugins/indexedDB'
 import App from './App.vue'
@@ -25,5 +25,6 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
