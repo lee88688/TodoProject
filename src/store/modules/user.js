@@ -13,9 +13,7 @@ export const types = {
   ADD_TODO: 'ADD_TODO',
   MODIFY_TODO: 'MODIFY_TODO',
   DELETE_TODO: 'DELETE_TODO',
-  CHANGE_DETAIL_VIEW_VISIBLE: 'CHANGE_DETAIL_VIEW_VISIBLE',
   SWITCH_MINI_FOLDER_LIST: 'SWITCH_MINI_FOLDER_LIST',
-  CHANGE_CURRENT_TODO: 'CHANGE_CURRENT_TODO',
   SWITCH_TODO_VIEW: 'SWITCH_TODO_VIEW',
   ADD_PROJECT: 'ADD_PROJECT',
   MODIFY_PROJECT: 'MODIFY_PROJECT',
@@ -40,9 +38,7 @@ export default {
     token: '',
     // view
     isTodoView: true,
-    showDetailView: false,
     showMiniFolderListView: false,
-    currentTodo: '',
     // data
     folders: {},
     projects: {},
@@ -122,17 +118,8 @@ export default {
       // console.log('delete todo')
       Vue.delete(state.todos, todo)
     },
-    [types.CHANGE_DETAIL_VIEW_VISIBLE]: function (state, visible) {
-      state.showDetailView = !!visible
-    },
     [types.SWITCH_MINI_FOLDER_LIST]: function (state) {
       state.showMiniFolderListView = !state.showMiniFolderListView
-    },
-    [types.CHANGE_CURRENT_TODO]: function (state, id) {
-      if (typeof id !== 'string') {
-        return
-      }
-      state.currentTodo = id
     },
     [types.SWITCH_TODO_VIEW]: function (state, isTodoView) {
       state.isTodoView = !!isTodoView
@@ -356,12 +343,6 @@ export default {
     // other
     switchMiniFolderListView ({ commit }) {
       commit(types.SWITCH_MINI_FOLDER_LIST)
-    },
-    changeDetailViewVisible ({ commit }, visible) {
-      commit(types.CHANGE_DETAIL_VIEW_VISIBLE, visible)
-    },
-    changeCurrentTodo ({ commit }, id) {
-      commit(types.CHANGE_CURRENT_TODO, id)
     },
     switchTodoView ({ commit }, isTodoView) {
       commit(types.SWITCH_TODO_VIEW, isTodoView)

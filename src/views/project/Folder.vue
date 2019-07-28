@@ -140,7 +140,8 @@ export default {
     this.$bus.$off('palette-append-click', this.paletteClick)
   },
   methods: {
-    ...mapActions('user', ['modifyFolder', 'changeDetailViewVisible', 'changeCurrentTodo', 'deleteFolder', 'addTodo', 'deleteTodo']),
+    ...mapActions('user', ['modifyFolder', 'deleteFolder', 'addTodo', 'deleteTodo']),
+    ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
     change () {
       const undos = this.todosContent.map(t => t.id)

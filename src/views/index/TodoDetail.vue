@@ -103,7 +103,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['showDetailView', 'currentTodo', 'todos']),
+    ...mapState('user', ['todos']),
+    ...mapState('detailView', ['showDetailView', 'currentTodo']),
     ...mapGetters('user', ['userInfo']),
     currentTodoDetail () {
       return this.todos[this.currentTodo]
@@ -144,7 +145,8 @@ export default {
     this.ps = this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['modifyTodo', 'changeDetailViewVisible', 'deleteTodo', 'changeCurrentTodo']),
+    ...mapActions('user', ['modifyTodo', 'deleteTodo']),
+    ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     enterSubtask () {
       if (!this.subtaskContent) return
       this.todo.subtasks.push({

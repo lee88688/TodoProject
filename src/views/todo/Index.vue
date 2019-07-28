@@ -16,13 +16,13 @@
         </v-flex>
         <v-flex grow style="overflow: hidden; height: 0; position: relative;" class="ps" ref="scrollContainer">
           <v-list class="transparent">
-            <template v-for="item in todosProxy">
-              <v-btn v-if="item.name" text small dark class="min-width-0" :key="item.name">{{ item.name }}</v-btn>
+            <template v-for="(item, index) in todosProxy">
+              <v-btn v-if="item.name" text small dark class="min-width-0" :key="item.name + index">{{ item.name }}</v-btn>
               <todo-item v-for="t in item.todos" @click="clickTodo" @click:checkbox="clickComplete" @click:star="clickStar" :todo="t" :key="t.id"></todo-item>
             </template>
             <template v-if="!isSpecialFolder">
               <v-btn @click="loadingCompleteTodo" :loading="completeTodo.isLoading" text small dark class="min-width-0">{{ loadingCompleteBtnName }}</v-btn>
-              <todo-item v-for="t in completeTodo.todos" :todo="t" :key="t.id"></todo-item>
+              <todo-item v-for="t in completeTodo.todos" :todo="t" :key="t.id" style="opacity: 0.6;"></todo-item>
             </template>
           </v-list>
         </v-flex>
@@ -97,7 +97,8 @@ export default {
     this.getPerfectScrollbarInstance(this.$refs.scrollContainer)
   },
   methods: {
-    ...mapActions('user', ['addTodo', 'modifyTodo', 'changeDetailViewVisible', 'changeCurrentTodo', 'markTodoAsDone']),
+    ...mapActions('user', ['addTodo', 'modifyTodo', 'markTodoAsDone']),
+    ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     addNewTodo () {
       if (!this.todoName) {
         return
