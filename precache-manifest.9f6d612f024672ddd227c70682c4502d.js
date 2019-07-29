@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/TodoProject/robots.txt"
   },
   {
-    "revision": "f5902d5ef961717ed263902fc429e6ae",
-    "url": "/TodoProject/fonts/Roboto-RegularItalic.f5902d5e.woff"
+    "revision": "4357beb823a5f8d65c260f045d9e019a",
+    "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
     "revision": "a6331ac686595cc52813",
@@ -68,12 +68,20 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
-    "revision": "d68b7c2a3c7c074a83de",
-    "url": "/TodoProject/js/app.04b64178.js"
+    "revision": "1affc3820127733bf049",
+    "url": "/TodoProject/js/app.f70b8e88.js"
   },
   {
     "revision": "a6331ac686595cc52813",
     "url": "/TodoProject/js/chunk-vendors.a8a63be2.js"
+  },
+  {
+    "revision": "f5902d5ef961717ed263902fc429e6ae",
+    "url": "/TodoProject/fonts/Roboto-RegularItalic.f5902d5e.woff"
+  },
+  {
+    "revision": "90d1676003d9c28c04994c18bfd8b558",
+    "url": "/TodoProject/fonts/Roboto-Medium.90d16760.woff2"
   },
   {
     "revision": "1d6594826615607f6dc860bb49258acb",
@@ -120,19 +128,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "90d1676003d9c28c04994c18bfd8b558",
-    "url": "/TodoProject/fonts/Roboto-Medium.90d16760.woff2"
-  },
-  {
-    "revision": "4357beb823a5f8d65c260f045d9e019a",
-    "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
-  },
-  {
-    "revision": "8f520a3ce219be99253d1bd1cb64a313",
+    "revision": "3b55427075e945ca332f12fb2b977457",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "d68b7c2a3c7c074a83de",
-    "url": "/TodoProject/css/app.8a0b9e45.css"
+    "revision": "1affc3820127733bf049",
+    "url": "/TodoProject/css/app.74d700b4.css"
   }
 ];
