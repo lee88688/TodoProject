@@ -109,7 +109,10 @@ export default {
   created () {
     this.registerMenuItem([
       {
-        name: '标记为完成'
+        name: '标记为完成',
+        callback: async id => {
+          await this.markTodoAsDone(id)
+        }
       },
       {
         name: '删除任务',
@@ -140,7 +143,7 @@ export default {
     this.$bus.$off('palette-append-click', this.paletteClick)
   },
   methods: {
-    ...mapActions('user', ['modifyFolder', 'deleteFolder', 'addTodo', 'deleteTodo']),
+    ...mapActions('user', ['modifyFolder', 'deleteFolder', 'addTodo', 'deleteTodo', 'markTodoAsDone']),
     ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
     change () {

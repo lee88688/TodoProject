@@ -36,7 +36,11 @@ export default {
       const folderList = rootState.user.folderList
       return folderList.map(folder => {
         const f = rootState.user.folders[folder]
-        const name = f.name
+        let name = f.name
+        if (f.project && (f.project in rootState.user.projects)) {
+          const projectName = rootState.user.projects[f.project].name
+          name = `${projectName}/${name}`
+        }
         const id = f.id
         // const isShared = rootState.user.id === f.own_user
         const undoNumber = f.undos.length
