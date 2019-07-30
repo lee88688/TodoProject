@@ -66,6 +66,22 @@ export default {
         return { name, todos }
       }).filter(({ todos }) => todos.length)
     },
+    todayFolderTodos (state, getters, rootState) {
+      const folderList = rootState.user.folderList
+      return folderList.map(folder => {
+        const name = rootState.user.folders[folder].name
+        const todos = rootState.user.folders[folder].undos
+          .map(t => rootState.user.todos[t])
+          .filter(todo => {
+            const today = new Date()
+            const expiredDate = new Date(todo.expired_date)
+            return today.getDate() === expiredDate.getDate() &&
+              today.getMonth() === expiredDate.getMonth() &&
+              today.getFullYear() === expiredDate.getFullYear()
+          })
+        return { name, todos }
+      }).filter(({ todos }) => todos.length)
+    },
     todos (state, getters, rootState, rootGetters) {
       // search mode first
       if (rootGetters['globalAction/searchValid'] && rootState.user.isTodoView) {
@@ -75,7 +91,7 @@ export default {
         case 'star':
           return getters.starFolderTodos
         case 'today':
-          return []
+          return getters.todayFolderTodos
         case 'thisWeek':
           return []
         default:

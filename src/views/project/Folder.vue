@@ -2,10 +2,10 @@
   <v-layout column class="project-view-folder blue-grey lighten-4 pa-2">
     <div class="folder-header project-handle">
       <span class="title no-select">{{ name }}</span>
-      <v-btn @click="addNewTask" icon class="mx-0"><v-icon>mdi-plus</v-icon></v-btn>
+      <v-btn @click="addNewTask" icon small class="mx-0"><v-icon>mdi-plus</v-icon></v-btn>
       <v-menu offset-y left>
         <template #activator="{ on }">
-          <v-btn v-on="on" icon class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
+          <v-btn v-on="on" icon small class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
         </template>
         <v-list dense>
           <v-list-item @click="reconfigFolder">
