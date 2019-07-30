@@ -1,4 +1,13 @@
-import { dateColor } from '@/lib/utils'
+export function dateColor (date, useText = false) {
+  if (!date) return ''
+  const current = new Date().getTime()
+  const expiredDate = new Date(date).getTime()
+  if (useText) {
+    return expiredDate > current ? 'blue--text text--lighten-2' : 'red--text text--lighten-1'
+  } else {
+    return expiredDate > current ? 'blue lighten-2' : 'red lighten-1'
+  }
+}
 
 export function todoTransform (t) {
   const { id, name, complete } = t

@@ -30,14 +30,3 @@ export function removeUndefinedKey (obj) {
     obj[key] === undefined && (delete obj[key])
   })
 }
-
-export function dateColor (date, useText = false) {
-  if (!date) return ''
-  const current = new Date().getTime()
-  const expiredDate = new Date(date).getTime()
-  if (useText) {
-    return expiredDate > current ? 'blue--text text--lighten-2' : 'red--text text--lighten-1'
-  } else {
-    return expiredDate > current ? 'blue lighten-2' : 'red lighten-1'
-  }
-}

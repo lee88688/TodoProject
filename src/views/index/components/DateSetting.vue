@@ -48,7 +48,7 @@
 <script>
 import DateTimePicker from '@/components/DateTimePicker'
 import DatePicker from '@/components/DatePicker'
-import { dateColor } from '@/lib/utils'
+import { dateColor } from '@/views/lib'
 
 export default {
   name: 'DateSetting',

@@ -21,14 +21,17 @@
       <v-card v-for="item in todosProxy" @click="clickTodo(item.id)" @contextmenu="contextmenuClick($event, item.id)" flat ripple class="mb-2" :key="item.id">
         <v-card-title class="pa-2">
           <div>
-            <div class="subtitle-1 no-select mb-2">{{ item.name }}</div>
-            <div>
+            <div class="subtitle-1 no-select mb-2" style="font-weight: normal;">{{ item.name }}</div>
+            <div v-if="item.showExpiredDate" class="subtitle-2" :class="item.expiredDateColor">
+              <v-icon small :class="item.expiredDateColor">mdi-calendar</v-icon>
+              {{ item.expiredDate }}
+            </div>
+            <div class="subtitle-2">
               <span v-if="item.totalSubtask" class="mr-2" style="font-size: 0.9rem;">
                 <v-icon small>mdi-checkbox-marked-circle-outline</v-icon>
                 {{ item.reserveSubtask }}/{{ item.totalSubtask }}
               </span>
               <v-icon v-if="item.star" small class="mr-2">mdi-star-outline</v-icon>
-              <v-icon v-if="item.showExpiredDate" small class="mr-2">mdi-calendar</v-icon>
               <v-icon v-if="item.comment" small class="mr-2">mdi-comment-outline</v-icon>
               <v-icon v-if="item.attachment" small>mdi-attachment</v-icon>
             </div>
@@ -46,6 +49,7 @@ import Draggable from 'vuedraggable'
 import perfectScrollbarMixin from '@/components/mixins/perfectScrollbarMixin'
 import menuMixin from '@/components/mixins/menuMixin'
 import message from '@/components/message'
+import { todoTransform } from '@/views/lib'
 
 export default {
   name: 'Folder',
@@ -77,17 +81,7 @@ export default {
           return []
         }
         const searchKeyword = this.$store.state.globalAction.palette.input
-        let undos = folder.undos.map(todo => {
-          const t = this.todos[todo]
-          const { id, name } = t
-          const attachment = !t.attachment ? false : (t.attachment.length > 0)
-          const totalSubtask = t.subtasks ? t.subtasks.length : 0
-          const reserveSubtask = !totalSubtask ? 0 : t.subtasks.filter(s => s.complete).length
-          const comment = !t.comments ? false : (t.comments.length > 0)
-          const showExpiredDate = !!t.expired_date
-          const star = !!t.star
-          return { id, name, attachment, totalSubtask, reserveSubtask, comment, showExpiredDate, star }
-        })
+        let undos = folder.undos.map(t => this.todos[t]).map(todoTransform)
         if (this.searchValid) {
           return undos.filter(todo => todo.name.includes(searchKeyword))
         }
@@ -119,7 +113,7 @@ export default {
         callback: async (id) => {
           let r = await message({
             title: '删除任务',
-            content: '是否删除当前任务？'
+            message: '是否删除当前任务？'
           })
           r && this.deleteTodo(id)
         }

@@ -55,6 +55,9 @@ export default {
       if (e.key === 'Escape') {
         this.changePaletteShow(false)
         this.clearSearchMode()
+      } else if (e.key === 'Enter') {
+        // entering 'Enter' key and palette append clicking is the same
+        this.$bus.$emit('palette-append-click', this.$store.state.globalAction.palette.extra)
       }
     },
     appendClick () {

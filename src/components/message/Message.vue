@@ -65,8 +65,8 @@ export default {
           <v-card-text>{ this.message }</v-card-text>
           <v-card-actions>
             <v-spacer/>
-            <v-btn flat on={{ click: () => this.hide(false) }}>取消</v-btn>
-            <v-btn flat color="primary" on={{ click: () => this.hide(true) }}>确认</v-btn>
+            <v-btn text on={{ click: () => this.hide(false) }}>取消</v-btn>
+            <v-btn text color="primary" on={{ click: () => this.hide(true) }}>确认</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
