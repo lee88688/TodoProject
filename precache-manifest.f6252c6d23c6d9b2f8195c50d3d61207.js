@@ -12,16 +12,8 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
-    "revision": "a6331ac686595cc52813",
-    "url": "/TodoProject/css/chunk-vendors.b3a51e00.css"
-  },
-  {
-    "revision": "666e135393ac4ac62ae551b9fb0985ae",
-    "url": "/TodoProject/fonts/materialdesignicons-webfont.666e1353.eot"
-  },
-  {
-    "revision": "815a2673d08221fb4968f19e59a14f2e",
-    "url": "/TodoProject/fonts/materialdesignicons-webfont.815a2673.woff2"
+    "revision": "7187ece40283c8293fb9",
+    "url": "/TodoProject/css/chunk-vendors.778befba.css"
   },
   {
     "revision": "875141d94aca807fbf74f7f53fa98a26",
@@ -30,6 +22,14 @@ self.__precacheManifest = [
   {
     "revision": "f558fb5cc12a31989a7e4048b4fba71a",
     "url": "/TodoProject/fonts/materialdesignicons-webfont.f558fb5c.ttf"
+  },
+  {
+    "revision": "815a2673d08221fb4968f19e59a14f2e",
+    "url": "/TodoProject/fonts/materialdesignicons-webfont.815a2673.woff2"
+  },
+  {
+    "revision": "666e135393ac4ac62ae551b9fb0985ae",
+    "url": "/TodoProject/fonts/materialdesignicons-webfont.666e1353.eot"
   },
   {
     "revision": "ad538a69b0e8615ed0419c4529344ffc",
@@ -68,11 +68,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
-    "revision": "1affc3820127733bf049",
-    "url": "/TodoProject/js/app.f70b8e88.js"
+    "revision": "c8e60eac434ce2764578",
+    "url": "/TodoProject/js/app.0388ebc2.js"
   },
   {
-    "revision": "a6331ac686595cc52813",
+    "revision": "7187ece40283c8293fb9",
     "url": "/TodoProject/js/chunk-vendors.a8a63be2.js"
   },
   {
@@ -128,11 +128,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "3b55427075e945ca332f12fb2b977457",
+    "revision": "1a92cd8de37670789d312899f85f3c85",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "1affc3820127733bf049",
-    "url": "/TodoProject/css/app.74d700b4.css"
+    "revision": "c8e60eac434ce2764578",
+    "url": "/TodoProject/css/app.2a9d72fa.css"
   }
 ];
