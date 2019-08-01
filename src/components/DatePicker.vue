@@ -25,13 +25,20 @@ export default {
   },
   watch: {
     value () {
-      this.reset()
+      this.reset(true)
     }
   },
+  created () {
+    this.reset()
+  },
   methods: {
-    reset () {
-      this.date = this.value
-      this.$emit('reset')
+    reset (useEvent) {
+      const date = this.value ? new Date(this.value) : new Date()
+      this.date = date.toISOString().substring(0, 10)
+      // this.date = this.value
+      if (useEvent) {
+        this.$emit('reset')
+      }
     },
     confirm () {
       this.$emit('input', this.date)

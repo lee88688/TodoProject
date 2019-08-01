@@ -36,19 +36,21 @@ export default {
   },
   watch: {
     value () {
-      this.reset()
+      this.reset(true)
     }
   },
   created () {
     this.reset()
   },
   methods: {
-    reset () {
+    reset (useEvent) {
       const dateTime = this.value ? new Date(this.value) : new Date()
       this.hour = dateTime.getHours()
       this.minute = dateTime.getMinutes()
       this.date = dateTime.toISOString().slice(0, 10)
-      this.$emit('reset')
+      if (useEvent) {
+        this.$emit('reset')
+      }
     },
     confirm () {
       const dateTime = new Date(this.date)

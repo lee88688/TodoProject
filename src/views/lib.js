@@ -1,3 +1,5 @@
+import { isSameDay } from '@/lib/utils'
+
 export function dateColor (date, useText = false) {
   if (!date) return ''
   const current = new Date().getTime()
@@ -7,6 +9,26 @@ export function dateColor (date, useText = false) {
   } else {
     return expiredDate > current ? 'blue lighten-2' : 'red lighten-1'
   }
+}
+
+function transformDate (date) {
+  const dateBackup = date
+  const today = new Date()
+  date = new Date(date)
+  if (isSameDay(today, date)) {
+    return '今天'
+  }
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  if (isSameDay(yesterday, date)) {
+    return '昨天'
+  }
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  if (isSameDay(tomorrow, date)) {
+    return '明天'
+  }
+  return dateBackup
 }
 
 export function todoTransform (t) {
@@ -19,8 +41,8 @@ export function todoTransform (t) {
   const comment = !t.comments ? false : (t.comments.length > 0)
   // expired date
   const showExpiredDate = !!t.expired_date
-  const expiredDate = t.expired_date
-  const expiredDateColor = dateColor(expiredDate, true)
+  const expiredDate = transformDate(t.expired_date)
+  const expiredDateColor = dateColor(t.expired_date, true)
   // star
   const star = !!t.star
   return { id, name, complete, attachment, totalSubtask, reserveSubtask, comment, showExpiredDate, expiredDate, expiredDateColor, star }
