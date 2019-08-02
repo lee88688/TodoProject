@@ -1,3 +1,6 @@
+import flatten from 'lodash/flatten'
+import { getWeekDayNameFromDate, isInDateRange } from '@/lib/utils'
+
 export const types = {
   CHANGE_CURRENT_FOLDER: 'CHANGE_CURRENT_FOLDER'
 }
@@ -48,6 +51,7 @@ export default {
       })
     },
     starFolderTodos (state, getters, rootState) {
+      console.log('star')
       const folderList = rootState.user.folderList
       return folderList.map(folder => {
         const name = rootState.user.folders[folder].name
@@ -82,6 +86,38 @@ export default {
         return { name, todos }
       }).filter(({ todos }) => todos.length)
     },
+    thisWeekFolderTodos (state, getters, rootState) {
+      console.log('this week')
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const stopDate = new Date()
+      stopDate.setDate(stopDate.getDate() + 7)
+      const weekTodos = []
+      const weekMap = {}
+      for (let i = 0; i < 7; i++) {
+        const date = new Date()
+        date.setDate(date.getDate() + i)
+        weekMap[date.getDate()] = i
+        const dayTodos = { name: getWeekDayNameFromDate(date), todos: [] }
+        if (i === 0) {
+          dayTodos.name = '今天'
+        } else if (i === 1) {
+          dayTodos.name = '明天'
+        }
+        weekTodos.push(dayTodos)
+      }
+      const folderList = rootState.user.folderList
+      flatten(folderList.map(folder => {
+        return rootState.user.folders[folder].undos.map(t => rootState.user.todos[t]).filter(todo => {
+          return (!!todo.expired_date) && isInDateRange(today, stopDate, new Date(todo.expired_date))
+        })
+      })).map(todo => {
+        let date = parseInt(todo.expired_date.substring(todo.expired_date.length - 2))
+        const index = weekMap[date]
+        weekTodos[index].todos.push(todo)
+      })
+      return weekTodos.filter(({ todos }) => todos.length > 0)
+    },
     todos (state, getters, rootState, rootGetters) {
       // search mode first
       if (rootGetters['globalAction/searchValid'] && rootState.user.isTodoView) {
@@ -93,7 +129,7 @@ export default {
         case 'today':
           return getters.todayFolderTodos
         case 'thisWeek':
-          return []
+          return getters.thisWeekFolderTodos
         default:
           if (state.currentFolder in rootState.user.folders) {
             // other folder

@@ -36,3 +36,13 @@ export function isSameDay (d1, d2) {
     d1.getMonth() === d2.getMonth() &&
     d1.getFullYear() === d2.getFullYear()
 }
+
+export function isInDateRange (startDate, stopDate, date) {
+  return (date.getTime() >= startDate.getTime() && date.getTime() <= stopDate.getTime())
+}
+
+const weekDayName = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+export function getWeekDayNameFromDate (date) {
+  const day = date.getDay()
+  return weekDayName[day]
+}
