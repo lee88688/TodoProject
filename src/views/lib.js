@@ -2,7 +2,9 @@ import { isSameDay } from '@/lib/utils'
 
 export function dateColor (date, useText = false) {
   if (!date) return ''
-  const current = new Date().getTime()
+  let current = new Date()
+  current.setHours(0, 0, 0, 0)
+  current = current.getTime()
   const expiredDate = new Date(date).getTime()
   if (useText) {
     return expiredDate > current ? 'blue--text text--lighten-2' : 'red--text text--lighten-1'
