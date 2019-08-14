@@ -7,12 +7,12 @@
         <template #activator="{ on }">
           <v-btn v-on="on" icon small class="mx-0"><v-icon>mdi-dots-vertical</v-icon></v-btn>
         </template>
-        <v-list dense>
+        <v-list>
           <v-list-item @click="reconfigFolder">
-            <v-list-item-title>修改文件夹</v-list-item-title>
+            <v-list-item-title>{{ $t('projectView.folderMenu.folderConfig') }}</v-list-item-title>
           </v-list-item>
           <v-list-item @click="deleteClick">
-            <v-list-item-title>删除文件夹</v-list-item-title>
+            <v-list-item-title>{{ $t('projectView.folderMenu.deleteFolder') }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -24,7 +24,7 @@
             <div class="subtitle-1 no-select mb-2" style="font-weight: normal;">{{ item.name }}</div>
             <div v-if="item.showExpiredDate" class="subtitle-2" :class="item.expiredDateColor">
               <v-icon small :class="item.expiredDateColor">mdi-calendar</v-icon>
-              {{ item.expiredDate }}
+              {{ expiredDateName(item.expiredDate) }}
             </div>
             <div class="subtitle-2">
               <span v-if="item.totalSubtask" class="mr-2" style="font-size: 0.9rem;">
@@ -103,17 +103,17 @@ export default {
   created () {
     this.registerMenuItem([
       {
-        name: '标记为完成',
+        name: this.$t('projectView.todoMenu.markAsComplete'),
         callback: async id => {
           await this.markTodoAsDone(id)
         }
       },
       {
-        name: '删除任务',
+        name: this.$t('projectView.todoMenu.deleteTask'),
         callback: async (id) => {
           let r = await message({
-            title: '删除任务',
-            message: '是否删除当前任务？'
+            title: this.$t('projectView.todoMenu.deleteTask'),
+            message: this.$t('projectView.todoMenu.deleteTaskContent')
           })
           r && this.deleteTodo(id)
         }
@@ -150,8 +150,8 @@ export default {
     },
     async deleteClick () {
       let r = await message({
-        title: '删除',
-        message: '是否删除文件夹？'
+        title: this.$t('delete'),
+        message: this.$t('projectView.folderMenu.deleteFolderContent')
       })
       r && this.deleteFolder(this.id)
     },
@@ -160,12 +160,18 @@ export default {
         this.changePaletteShow(false)
       }
       this.startAddingNew({
-        placeholder: `${this.name}: 添加新任务`,
+        placeholder: `${this.name}: ${this.$t('sideBar.subtask.add')}`,
         extra: this.id
       })
     },
     reconfigFolder () {
       this.$bus.$emit('folder-project-reconfig', { type: 'folder', id: this.id })
+    },
+    expiredDateName (date) {
+      if (!date.startsWith('days')) {
+        return date
+      }
+      return this.$t(date)
     }
   }
 }

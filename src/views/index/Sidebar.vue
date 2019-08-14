@@ -28,28 +28,28 @@
       <v-card>
         <v-card-title><span class="headline">{{ addDialogTitle }}</span></v-card-title>
         <v-tabs v-model="add.activeTab">
-          <v-tab :key="0">文件夹</v-tab>
+          <v-tab :key="0">{{ $t('globalAction.config.tabFolder') }}</v-tab>
           <v-tab-item>
             <v-card-text>
               <div>
-                <v-text-field v-model="add.folderName" :rules="[rules.required]" outline label="文件夹名称" ref="folderName"></v-text-field>
-                <v-select v-model="add.folderProject" outline :items="projects" item-value="id" item-text="name" label="选择工程"></v-select>
+                <v-text-field v-model="add.folderName" :rules="[rules.required]" outline :label="$t('globalAction.config.folderName')" ref="folderName"></v-text-field>
+                <v-select v-model="add.folderProject" outline :items="projects" item-value="id" item-text="name" :label="$t('globalAction.config.selectProject')"></v-select>
               </div>
             </v-card-text>
           </v-tab-item>
-          <v-tab :key="1">工程</v-tab>
+          <v-tab :key="1">{{ $t('globalAction.config.tabProject') }}</v-tab>
           <v-tab-item>
             <v-card-text>
               <div>
-                <v-text-field v-model="add.projectName" :rules="[rules.required]" outline label="工程名称" ref="projectName"></v-text-field>
+                <v-text-field v-model="add.projectName" :rules="[rules.required]" :label="$t('globalAction.config.projectName')" outline ref="projectName"></v-text-field>
               </div>
             </v-card-text>
           </v-tab-item>
         </v-tabs>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="add.dialog = false" text>取消</v-btn>
-          <v-btn @click="save" text color="blue darken-1">保存</v-btn>
+          <v-btn @click="add.dialog = false" text>{{ $t('cancel') }}</v-btn>
+          <v-btn @click="save" text color="blue darken-1">{{ $t('save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -102,7 +102,7 @@ export default {
       return ['projectName']
     },
     addDialogTitle () {
-      return this.add.isAdd ? '添加' : '修改'
+      return this.add.isAdd ? this.$t('globalAction.config.add') : this.$t('globalAction.config.modify')
     }
   },
   watch: {

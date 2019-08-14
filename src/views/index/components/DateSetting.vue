@@ -5,7 +5,7 @@
       <v-menu v-model="datePickerMenu" offset-y min-width="0" :close-on-content-click="false">
         <template #activator="{ on }">
           <v-btn v-on="on" text :color="expiredDateColor" class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-calendar-multiselect</v-icon>
-            {{ expiredDate || '设置日期' }}
+            {{ expiredDate || $t('sideBar.dateSetting.expiredDate') }}
           </v-btn>
         </template>
         <date-picker :value="expiredDate" @input="datePickerInput" @reset="datePickerMenu = false"></date-picker>
@@ -18,7 +18,7 @@
         <v-menu v-model="dateTimePickerMenu" offset-y min-width="0" :close-on-content-click="false">
           <template #activator="{ on }">
             <v-btn v-on="on" depressed text class="ma-0 btn-block-align-left" :color="remindTimeColor"><v-icon class="mr-1">mdi-calendar-clock</v-icon>
-              {{ remindTime || '设置提醒时间' }}
+              {{ remindTime || $t('sideBar.dateSetting.remindTime') }}
             </v-btn>
           </template>
           <date-time-picker :value="remindTime" @input="dateTimePickerInput" @reset="dateTimePickerMenu = false"></date-time-picker>
@@ -30,7 +30,7 @@
         <v-menu offset-y>
           <template #activator="{ on }">
             <v-btn v-on="on" depressed text class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-redo-variant</v-icon>
-              {{ repeat || '从不重复' }}
+              {{ repeat || $t('sideBar.dateSetting.repeatDefault') }}
             </v-btn>
           </template>
           <v-list>
@@ -55,7 +55,6 @@ export default {
   components: { DatePicker, DateTimePicker },
   data () {
     return {
-      repeatItems: ['day', 'week', 'month', 'year'],
       datePickerMenu: false,
       dateTimePickerMenu: false
     }
@@ -80,6 +79,14 @@ export default {
     },
     remindTimeColor () {
       return dateColor(this.remindTime)
+    },
+    repeatItems () {
+      return [
+        this.$t('sideBar.dateSetting.repeatOption.day'),
+        this.$t('sideBar.dateSetting.repeatOption.week'),
+        this.$t('sideBar.dateSetting.repeatOption.month'),
+        this.$t('sideBar.dateSetting.repeatOption.year')
+      ]
     }
   },
   methods: {

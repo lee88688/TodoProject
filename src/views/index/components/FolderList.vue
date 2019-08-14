@@ -5,7 +5,7 @@
                  avatar ripple
                  :class="currentFolder === 'star' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-star-outline</v-icon></v-list-item-action>
-      <v-list-item-content>标星</v-list-item-content>
+      <v-list-item-content>{{ $t('todoView.star') }}</v-list-item-content>
       <v-list-item-action-text>
         <span></span>
       </v-list-item-action-text>
@@ -15,7 +15,7 @@
                  avatar ripple
                  :class="currentFolder === 'today' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-calendar-today</v-icon></v-list-item-action>
-      <v-list-item-content>今天</v-list-item-content>
+      <v-list-item-content>{{ $t('todoView.today') }}</v-list-item-content>
       <v-list-item-action-text>
         <span></span>
       </v-list-item-action-text>
@@ -25,7 +25,7 @@
                  avatar ripple
                  :class="currentFolder === 'thisWeek' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-calendar-week</v-icon></v-list-item-action>
-      <v-list-item-content>本周</v-list-item-content>
+      <v-list-item-content>{{ $t('todoView.thisWeek') }}</v-list-item-content>
       <v-list-item-action-text>
         <span></span>
       </v-list-item-action-text>
@@ -86,17 +86,17 @@ export default {
   created () {
     this.registerMenuItem([
       {
-        name: '文件夹选项',
+        name: this.$t('todoView.folderMenu.folderConfig'),
         callback: (id) => {
           this.$emit('reconfig', id)
         }
       },
       {
-        name: '删除文件夹',
+        name: this.$t('todoView.folderMenu.deleteFolder'),
         callback: async (folder) => {
           let r = await message({
-            title: '删除',
-            message: '是否删除文件夹？'
+            title: this.$t('delete'),
+            message: this.$t('todoView.folderMenu.deleteFolderContent')
           })
           r && this.deleteFolder(folder)
         }

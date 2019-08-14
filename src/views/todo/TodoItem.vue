@@ -8,7 +8,7 @@
     <v-list-item-content>{{ todo.name }}</v-list-item-content>
     <v-list-item-content class="mr-3" style="flex: 0 0 auto;">
                   <span style="display: inline-flex;">
-                    <span v-if="todo.showExpiredDate" :class="todo.expiredDateColor" class="mr-2">{{ todo.expiredDate }}</span>
+                    <span v-if="todo.showExpiredDate" :class="todo.expiredDateColor" class="mr-2">{{ expiredDate }}</span>
                     <span v-if="todo.totalSubtask" class="mr-2" style="display: inline-flex;">
                       <v-icon small class="mr-1">mdi-checkbox-marked-circle-outline</v-icon>
                       {{ todo.reserveSubtask }}/{{ todo.totalSubtask }}
@@ -34,7 +34,13 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['currentTodo', 'showDetailView'])
+    ...mapState('user', ['currentTodo', 'showDetailView']),
+    expiredDate () {
+      if (!this.todo.expiredDate.startsWith('days')) {
+        return this.todo.expiredDate
+      }
+      return this.$t(this.todo.expiredDate)
+    }
   },
   methods: {
     doNothing () { /* do not remove this function! */ },

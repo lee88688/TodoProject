@@ -12,7 +12,7 @@
     <v-flex grow class="pa-3 blue-grey lighten-1" style="overflow: hidden;">
       <v-layout column style="height: 100%;">
         <v-flex v-if="canAddNewTodo" shrink>
-          <v-text-field @click:append="addNewTodo" @keyup.enter="addNewTodo" v-model="todoName" solo prepend-inner-icon="mdi-plus" append-icon="mdi-send" placeholder="添加新任务"></v-text-field>
+          <v-text-field @click:append="addNewTodo" @keyup.enter="addNewTodo" v-model="todoName" solo prepend-inner-icon="mdi-plus" append-icon="mdi-send" :placeholder="$t('todoView.addNewTask')"></v-text-field>
         </v-flex>
         <v-flex grow style="overflow: hidden; height: 0; position: relative;" class="ps" ref="scrollContainer">
           <v-list class="transparent">
@@ -53,9 +53,29 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('todoView', ['todos', 'currentFolderName']),
+    ...mapGetters('todoView', ['todos']),
     ...mapGetters('globalAction', ['searchValid']),
     ...mapState('todoView', ['currentFolder']),
+    ...mapState('user', ['folders']),
+    currentFolderName () {
+      if (this.searchValid) {
+        return this.$t('search')
+      }
+      switch (this.currentFolder) {
+        case 'star':
+          return this.$t('todoView.star')
+        case 'today':
+          return this.$t('todoView.today')
+        case 'thisWeek':
+          return this.$t('todoView.thisWeek')
+      }
+      const folder = this.folders[this.currentFolder]
+      if (!folder) {
+        return ''
+      } else {
+        return folder.name
+      }
+    },
     canAddNewTodo () {
       if (this.searchValid) { return false }
       switch (this.currentFolder) {
@@ -81,7 +101,7 @@ export default {
       return !this.canAddNewTodo
     },
     loadingCompleteBtnName () {
-      return this.completeTodo.isShow ? '隐藏已完成任务' : '显示已完成任务'
+      return this.completeTodo.isShow ? this.$t('todoView.hideCompleteTask') : this.$t('todoView.displayCompleteTask')
     }
   },
   watch: {

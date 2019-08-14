@@ -18,17 +18,17 @@ function transformDate (date) {
   const today = new Date()
   date = new Date(date)
   if (isSameDay(today, date)) {
-    return '今天'
+    return 'days.today'
   }
   const yesterday = new Date()
   yesterday.setDate(yesterday.getDate() - 1)
   if (isSameDay(yesterday, date)) {
-    return '昨天'
+    return 'days.yesterday'
   }
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   if (isSameDay(tomorrow, date)) {
-    return '明天'
+    return 'days.tomorrow'
   }
   return dateBackup
 }

@@ -16,25 +16,6 @@ export default {
     currentFolder: ''
   },
   getters: {
-    currentFolderName (state, getters, rootState, rootGetters) {
-      if (rootGetters['globalAction/searchValid']) {
-        return '搜索'
-      }
-      switch (state.currentFolder) {
-        case 'star':
-          return '标星'
-        case 'today':
-          return '今日'
-        case 'thisWeek':
-          return '本周'
-      }
-      const folder = rootState.user.folders[state.currentFolder]
-      if (!folder) {
-        return ''
-      } else {
-        return folder.name
-      }
-    },
     folders (state, getters, rootState) {
       const folderList = rootState.user.folderList
       return folderList.map(folder => {
@@ -87,7 +68,6 @@ export default {
       }).filter(({ todos }) => todos.length)
     },
     thisWeekFolderTodos (state, getters, rootState) {
-      console.log('this week')
       const today = new Date()
       today.setHours(0, 0, 0, 0)
       const stopDate = new Date()

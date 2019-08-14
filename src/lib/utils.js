@@ -41,7 +41,7 @@ export function isInDateRange (startDate, stopDate, date) {
   return (date.getTime() >= startDate.getTime() && date.getTime() <= stopDate.getTime())
 }
 
-const weekDayName = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+const weekDayName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 export function getWeekDayNameFromDate (date) {
   const day = date.getDay()
   return weekDayName[day]

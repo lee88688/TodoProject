@@ -52,27 +52,27 @@ export default {
   created () {
     this.registerMenuItem([
       {
-        name: '工程选项',
+        name: this.$t('projectView.projectMenu.projectConfig'),
         callback: project => {
           this.$emit('reconfig', project)
         }
       },
       {
-        name: '删除工程',
+        name: this.$t('projectView.projectMenu.deleteProject'),
         callback: async (project) => {
           let r = await message({
-            title: '删除',
-            message: '是否删除该项目？'
+            title: this.$t('delete'),
+            message: this.$t('projectView.projectMenu.deleteProjectContent')
           })
           r && this.deleteProject({ project, deleteSubs: false })
         }
       },
       {
-        name: '删除工程及其文件夹',
+        name: this.$t('projectView.projectMenu.deleteProjectAndFolders'),
         callback: async (project) => {
           let r = await message({
-            title: '删除',
-            message: '是否删除该项目及其文件夹？'
+            title: this.$t('delete'),
+            message: this.$t('projectView.projectMenu.deleteProjectAndFoldersContent')
           })
           r && this.deleteProject({ project, deleteSubs: true })
         }

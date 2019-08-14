@@ -10,9 +10,9 @@
       </v-flex>
       <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
         <div>
-          <v-subheader style="height: 20px;">时间</v-subheader>
+          <v-subheader style="height: 20px;">{{ $t('sideBar.dateSetting.name') }}</v-subheader>
           <date-setting @input="timeChange" :expired-date="todo.expired_date" :remind-time="todo.remind_time" :repeat="todo.repeat" class="mb-3"></date-setting>
-          <v-subheader style="height: 20px;">子任务</v-subheader>
+          <v-subheader style="height: 20px;">{{ $t('sideBar.subtask.name') }}</v-subheader>
           <subtask v-for="(item, index) in todo.subtasks"
                    @input="subtaskChange(index, $event)"
                    @delete="removeSubtask(index)"
@@ -24,13 +24,18 @@
                         v-model="subtaskContent"
                         flat hide-details clearable
                         prepend-icon="mdi-plus"
-                        label="添加子任务"
+                        :label="$t('sideBar.subtask.add')"
                         class="todo-detail-icon-left-margin mb-3">
           </v-text-field>
-          <v-textarea @change="remarkChange" :value="todo.remark" flat hide-details auto-grow prepend-icon="mdi-square-edit-outline" label="备注" class="mb-3 todo-detail-icon-left-margin"></v-textarea>
-          <v-btn block depressed text class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>
+          <v-textarea @change="remarkChange"
+                      :value="todo.remark"
+                      flat hide-details auto-grow prepend-icon="mdi-square-edit-outline"
+                      :label="$t('sideBar.remark')"
+                      class="mb-3 todo-detail-icon-left-margin">
+          </v-textarea>
+          <!--<v-btn block depressed text class="btn-block-align-left mb-3"><v-icon class="mr-1">mdi-attachment</v-icon>添加文件</v-btn>-->
           <v-list v-if="showComments" class="transparent">
-            <v-subheader style="height: 20px;">评论</v-subheader>
+            <v-subheader style="height: 20px;">{{ $t('sideBar.comment.name') }}</v-subheader>
             <template v-for="(item, index) in todo.comments">
               <v-card flat :key="index" class="transparent">
                 <v-layout class="pt-2 pb-0">
@@ -43,7 +48,9 @@
                       </div>
                     </v-card-title>
                     <v-card-actions class="pa-0">
-                      <v-btn @click="removeComment(index)" text color="red lighten-3" class="ma-0 pa-1 min-width-0">删除</v-btn>
+                      <v-btn @click="removeComment(index)" text color="red lighten-3" class="ma-0 pa-1 min-width-0">
+                        {{ $t('delete') }}
+                      </v-btn>
                     </v-card-actions>
                     <v-divider :key="index"></v-divider>
                   </v-flex>
@@ -54,12 +61,18 @@
         </div>
       </v-flex>
       <v-flex shrink class="todo-detail-end">
-        <v-text-field @click:append="addNewComment" v-model="commentContent" hide-details label="评论" prepend-inner-icon="mdi-comment-processing-outline" append-icon="mdi-send" class="ma-0"></v-text-field>
+        <v-text-field @click:append="addNewComment"
+                      v-model="commentContent" hide-details
+                      :label="$t('sideBar.comment.name')"
+                      prepend-inner-icon="mdi-comment-processing-outline"
+                      append-icon="mdi-send"
+                      class="ma-0">
+        </v-text-field>
         <div class="todo-detail-bottom-bar">
           <v-btn text class="min-width-0 ma-0 pa-2" @click="closeDetailView"><v-icon>mdi-chevron-double-right</v-icon></v-btn>
           <v-subheader class="no-select">{{ todo.create_time }}</v-subheader>
           <div>
-            <v-btn text class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>
+            <!--<v-btn text class="min-width-0 ma-0 pa-2"><v-icon>mdi-sync</v-icon></v-btn>-->
             <v-btn @click="deleteClick" text class="min-width-0 ma-0 pa-2"><v-icon>mdi-delete-outline</v-icon></v-btn>
           </div>
         </div>
