@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/TodoProject/precache-manifest.55ca42b83dfd2550fc54eea573e287da.js"
+  "/TodoProject/precache-manifest.5228255c476df6080b67582f074cc71a.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "todolist-web"});
+workbox.core.setCacheNameDetails({prefix: "TodoProject"});
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
