@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import vuetify from '../../plugins/vuetify'
 import Main from './Message'
 
 const MessageConstructor = Vue.extend(Main)
@@ -11,7 +12,7 @@ const message = function (option = {}) {
     }
   }
   const id = `message-${seed++}`
-  const instance = new MessageConstructor({ propsData: option })
+  const instance = new MessageConstructor({ propsData: option, vuetify })
   instance.id = id
   instance.$mount()
   document.body.appendChild(instance.$el)

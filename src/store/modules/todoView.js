@@ -121,6 +121,7 @@ export default {
       const folder = rootState.user.folders[state.currentFolder]
       return [{
         name: '',
+        // fixme: temporarily add filter to fix bugs. and remove it after integrity check functionality.
         todos: folder.undos.map(id => rootState.user.todos[id])
       }]
     }

@@ -4,7 +4,7 @@
       <v-list-item v-for="item in projectsProxy"
                    @click="projectClick(item.id)"
                    @contextmenu="contextmenuClick($event, item.id)"
-                   avatar ripple :key="item.id"
+                   ripple :key="item.id"
                    :class="currentProject === item.id ? 'sidebar-item-selected': ''">
         <v-list-item-action><v-icon>mdi-folder-multiple-outline</v-icon></v-list-item-action>
         <v-list-item-content>{{ item.name }}</v-list-item-content>

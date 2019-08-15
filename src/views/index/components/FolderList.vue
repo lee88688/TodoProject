@@ -2,7 +2,7 @@
   <v-list dense class="pa-0">
     <v-list-item @click="folderClick('star')"
                  @contextmenu="contextmenuClickDoNothing"
-                 avatar ripple
+                 ripple
                  :class="currentFolder === 'star' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-star-outline</v-icon></v-list-item-action>
       <v-list-item-content>{{ $t('todoView.star') }}</v-list-item-content>
@@ -12,7 +12,7 @@
     </v-list-item>
     <v-list-item @click="folderClick('today')"
                  @contextmenu="contextmenuClickDoNothing"
-                 avatar ripple
+                 ripple
                  :class="currentFolder === 'today' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-calendar-today</v-icon></v-list-item-action>
       <v-list-item-content>{{ $t('todoView.today') }}</v-list-item-content>
@@ -22,7 +22,7 @@
     </v-list-item>
     <v-list-item @click="folderClick('thisWeek')"
                  @contextmenu="contextmenuClickDoNothing"
-                 avatar ripple
+                 ripple
                  :class="currentFolder === 'thisWeek' ? 'sidebar-item-selected': ''">
       <v-list-item-action><v-icon>mdi-calendar-week</v-icon></v-list-item-action>
       <v-list-item-content>{{ $t('todoView.thisWeek') }}</v-list-item-content>
@@ -34,7 +34,7 @@
       <v-list-item v-for="item in foldersProxy"
                    @click="folderClick(item.id)"
                    @contextmenu="contextmenuClick($event, item.id)"
-                   avatar ripple :key="item.id"
+                   ripple :key="item.id"
                    :class="currentFolder === item.id ? 'sidebar-item-selected': ''">
         <v-list-item-action><v-icon>mdi-format-list-checkbox</v-icon></v-list-item-action>
         <v-list-item-content>{{ item.name }}</v-list-item-content>
@@ -96,7 +96,7 @@ export default {
         callback: async (folder) => {
           let r = await message({
             title: this.$t('delete'),
-            message: this.$t('todoView.folderMenu.deleteFolderContent')
+            message: this.$t('todoView.folderMenu.deleteFolderDialogContent')
           })
           r && this.deleteFolder(folder)
         }

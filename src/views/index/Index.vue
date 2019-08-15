@@ -46,7 +46,7 @@ export default {
     }
   },
   created () {
-    this.debouncePaletteInput = debounce(this.changePaletteInput, 500)
+    this.debouncePaletteInput = debounce(this.changePaletteInput, 100)
   },
   methods: {
     ...mapActions('globalAction', ['changePaletteInput', 'changePaletteInputKey', 'changePaletteShow', 'clearPaletteExtra', 'clearSearchMode']),
