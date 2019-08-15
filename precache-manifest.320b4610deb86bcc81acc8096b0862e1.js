@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
-    "revision": "63c6a3b046dd397f24ea",
-    "url": "/TodoProject/css/chunk-vendors.a96a7e0c.css"
+    "revision": "5ec95dfe2cc76bb1b796",
+    "url": "/TodoProject/css/chunk-vendors.24a910c4.css"
   },
   {
     "revision": "666e135393ac4ac62ae551b9fb0985ae",
@@ -24,12 +24,12 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/materialdesignicons-webfont.815a2673.woff2"
   },
   {
-    "revision": "f558fb5cc12a31989a7e4048b4fba71a",
-    "url": "/TodoProject/fonts/materialdesignicons-webfont.f558fb5c.ttf"
-  },
-  {
     "revision": "875141d94aca807fbf74f7f53fa98a26",
     "url": "/TodoProject/fonts/materialdesignicons-webfont.875141d9.woff"
+  },
+  {
+    "revision": "f558fb5cc12a31989a7e4048b4fba71a",
+    "url": "/TodoProject/fonts/materialdesignicons-webfont.f558fb5c.ttf"
   },
   {
     "revision": "ad538a69b0e8615ed0419c4529344ffc",
@@ -68,12 +68,12 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
-    "revision": "8d2ac310f0065bae016a",
-    "url": "/TodoProject/js/app.a7fbf81b.js"
+    "revision": "f11aaf34ce439dcdcf8f",
+    "url": "/TodoProject/js/app.3b3838d3.js"
   },
   {
-    "revision": "63c6a3b046dd397f24ea",
-    "url": "/TodoProject/js/chunk-vendors.34056099.js"
+    "revision": "5ec95dfe2cc76bb1b796",
+    "url": "/TodoProject/js/chunk-vendors.bf269e52.js"
   },
   {
     "revision": "f5902d5ef961717ed263902fc429e6ae",
@@ -128,11 +128,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "0e6658f8852a5d6afaf8274968ac091a",
+    "revision": "5c4c7e294c8a14d87dbebbeef33f9ed6",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "8d2ac310f0065bae016a",
-    "url": "/TodoProject/css/app.ee0a5a75.css"
+    "revision": "f11aaf34ce439dcdcf8f",
+    "url": "/TodoProject/css/app.5a215afc.css"
   }
 ];
