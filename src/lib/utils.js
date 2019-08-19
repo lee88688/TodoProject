@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export function keyMissingWarning (id, key) {
   console.warn(`${id}: some key(${key}) is missing!`)
 }
@@ -48,5 +50,16 @@ export function getWeekDayNameFromDate (date) {
 }
 
 export const repeatName = ['day', 'week', 'month', 'year']
-export function nextPeriodDate (periodName, currentDate) {
+export function nextPeriodDate (periodName, currentDate, delta = 1) {
+  switch (periodName) {
+    case 'day':
+    case 'week':
+    case 'month':
+    case 'year': {
+      return dayjs(currentDate).add(delta, periodName).$d
+    }
+    default: {
+      throw new Error('period name is not valid.')
+    }
+  }
 }

@@ -1,1 +1,2 @@
 export const REMIND_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
+export const EXPIRED_DATE_FORMAT = 'YYYY-MM-DD'

@@ -1,10 +1,12 @@
 import uuidv1 from 'uuid/v1'
+import dayjs from 'dayjs'
 import cloneDeep from 'lodash/cloneDeep'
 import clone from 'lodash/clone'
 import isArray from 'lodash/isArray'
 import Vue from 'vue'
-import { keyMissingWarning, removeArrayElement, removeUndefinedKey } from '@/lib/utils'
+import { keyMissingWarning, nextPeriodDate, removeArrayElement, removeUndefinedKey } from '@/lib/utils'
 import { archiveTodo, deleteArchiveTodo, getArchiveTodo } from '@/lib/indexedDB'
+import { EXPIRED_DATE_FORMAT, REMIND_TIME_FORMAT } from '@/lib/config'
 
 export const types = {
   ADD_FOLDER: 'ADD_FOLDER',
@@ -205,7 +207,26 @@ export default {
     async markTodoAsDone ({ dispatch, state }, todo) {
       await dispatch('modifyTodo', { id: todo, complete: true })
       const todoBackup = cloneDeep(state.todos[todo])
-      await dispatch('deleteTodo', todo)
+      if (todoBackup.expired_date && todoBackup.repeat) {
+        todoBackup.id = uuidv1() // a new id for archive
+        let nextRemindTime
+        let nextExpiredDate
+        let payload
+        try {
+          nextExpiredDate = nextPeriodDate(todoBackup.repeat, new Date(todoBackup.expired_date))
+          todoBackup.remind_time && (nextRemindTime = nextPeriodDate(todoBackup.repeat, new Date(todoBackup.remind_time)))
+          nextExpiredDate = dayjs(nextExpiredDate).format(EXPIRED_DATE_FORMAT)
+          nextRemindTime && (nextRemindTime = dayjs(nextRemindTime).format(REMIND_TIME_FORMAT))
+          payload = { id: todo, complete: false, expired_date: nextExpiredDate }
+          nextRemindTime && (payload.remind_time = nextRemindTime)
+        } catch (e) {
+          await dispatch('modifyTodo', { id: todo, complete: false })
+          return
+        }
+        await dispatch('modifyTodo', payload)
+      } else {
+        await dispatch('deleteTodo', todo)
+      }
       await archiveTodo(todoBackup)
     },
     async markTodoAsUndone ({ dispatch, state }, id) {
