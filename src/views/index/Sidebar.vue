@@ -17,7 +17,6 @@
     </v-toolbar>
     <v-flex grow class="folder-list-container">
       <v-navigation-drawer disable-resize-watcher permanent width="300" :mini-variant="showMiniFolderListView" ref="folderList" class="ps">
-<!--        <v-divider></v-divider>-->
         <!--todoView-->
         <folder-list v-if="isTodoView" @reconfig="reconfig('folder', $event)"></folder-list>
         <!--projectView-->

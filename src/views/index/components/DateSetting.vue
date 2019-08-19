@@ -30,12 +30,12 @@
         <v-menu offset-y>
           <template #activator="{ on }">
             <v-btn v-on="on" depressed text class="ma-0 btn-block-align-left"><v-icon class="mr-1">mdi-redo-variant</v-icon>
-              {{ repeat || $t('sideBar.dateSetting.repeatDefault') }}
+              {{ (repeat && $t(`sideBar.dateSetting.repeatOption.${repeat}`) ) || $t('sideBar.dateSetting.repeatDefault') }}
             </v-btn>
           </template>
           <v-list>
             <v-list-item v-for="item in repeatItems" @click="repeatInput(item)" :key="item">
-              <v-list-item-title>{{ item }}</v-list-item-title>
+              <v-list-item-title>{{ $t(`sideBar.dateSetting.repeatOption.${item}`) }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -49,6 +49,7 @@
 import DateTimePicker from '@/components/DateTimePicker'
 import DatePicker from '@/components/DatePicker'
 import { dateColor } from '@/views/lib'
+import { repeatName } from '@/lib/utils'
 
 export default {
   name: 'DateSetting',
@@ -81,12 +82,7 @@ export default {
       return dateColor(this.remindTime)
     },
     repeatItems () {
-      return [
-        this.$t('sideBar.dateSetting.repeatOption.day'),
-        this.$t('sideBar.dateSetting.repeatOption.week'),
-        this.$t('sideBar.dateSetting.repeatOption.month'),
-        this.$t('sideBar.dateSetting.repeatOption.year')
-      ]
+      return repeatName
     }
   },
   methods: {

@@ -9,11 +9,13 @@
         <v-btn @click="confirm" text class="min-width-0 ma-0"><v-icon>mdi-check</v-icon></v-btn>
       </v-layout>
     </v-date-picker>
-<!--    <v-divider dark></v-divider>-->
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import { REMIND_TIME_FORMAT } from '@/lib/config'
+
 const hours = [...new Array(24).keys()]
 const minutes = [...new Array(60).keys()]
 
@@ -55,7 +57,7 @@ export default {
     confirm () {
       const dateTime = new Date(this.date)
       dateTime.setHours(this.hour, this.minute)
-      this.$emit('input', dateTime.toISOString().substr(0, 16).replace('T', ' '))
+      this.$emit('input', dayjs(dateTime).format(REMIND_TIME_FORMAT))
     }
   }
 }

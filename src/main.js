@@ -11,6 +11,7 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import './style/common.scss'
+import dayjs from 'dayjs'
 import * as idb from 'idb'
 import { initDB, dbHelper } from './lib/indexedDB'
 
@@ -19,6 +20,7 @@ window.Vue = Vue
 window.idb = idb
 window.initDB = initDB
 window.dbHelper = dbHelper
+window.dayjs = dayjs
 
 Vue.config.productionTip = false
 Vue.config.devtools = process.env.NODE_ENV === 'development'

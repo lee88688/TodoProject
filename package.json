@@ -17,6 +17,7 @@
     "@mdi/font": "^3.6.95",
     "chai-as-promised": "^7.1.1",
     "core-js": "^2.6.5",
+    "dayjs": "^1.8.15",
     "idb": "^4.0.4",
     "lodash": "^4.17.14",
     "perfect-scrollbar": "^1.4.0",

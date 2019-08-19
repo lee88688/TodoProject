@@ -204,9 +204,9 @@ export default {
     },
     async markTodoAsDone ({ dispatch, state }, todo) {
       await dispatch('modifyTodo', { id: todo, complete: true })
-      const todoBakup = cloneDeep(state.todos[todo])
+      const todoBackup = cloneDeep(state.todos[todo])
       await dispatch('deleteTodo', todo)
-      await archiveTodo(todoBakup)
+      await archiveTodo(todoBackup)
     },
     async markTodoAsUndone ({ dispatch, state }, id) {
       const todo = await getArchiveTodo(id)

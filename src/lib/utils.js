@@ -46,3 +46,7 @@ export function getWeekDayNameFromDate (date) {
   const day = date.getDay()
   return weekDayName[day]
 }
+
+export const repeatName = ['day', 'week', 'month', 'year']
+export function nextPeriodDate (periodName, currentDate) {
+}
