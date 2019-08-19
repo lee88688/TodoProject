@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
-    "revision": "5ec95dfe2cc76bb1b796",
-    "url": "/TodoProject/css/chunk-vendors.24a910c4.css"
+    "revision": "60ffa00ac14a65cdef8e",
+    "url": "/TodoProject/css/chunk-vendors.f64ff2d5.css"
   },
   {
     "revision": "666e135393ac4ac62ae551b9fb0985ae",
@@ -68,12 +68,12 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
-    "revision": "f11aaf34ce439dcdcf8f",
-    "url": "/TodoProject/js/app.3b3838d3.js"
+    "revision": "63af36ad967e19616bb0",
+    "url": "/TodoProject/js/app.89e1f2a9.js"
   },
   {
-    "revision": "5ec95dfe2cc76bb1b796",
-    "url": "/TodoProject/js/chunk-vendors.bf269e52.js"
+    "revision": "60ffa00ac14a65cdef8e",
+    "url": "/TodoProject/js/chunk-vendors.6ebec304.js"
   },
   {
     "revision": "f5902d5ef961717ed263902fc429e6ae",
@@ -128,11 +128,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "5c4c7e294c8a14d87dbebbeef33f9ed6",
+    "revision": "a12468b93124fb920f190b72ff37322f",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "f11aaf34ce439dcdcf8f",
-    "url": "/TodoProject/css/app.5a215afc.css"
+    "revision": "63af36ad967e19616bb0",
+    "url": "/TodoProject/css/app.91979f4d.css"
   }
 ];
