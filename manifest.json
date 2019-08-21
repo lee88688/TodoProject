@@ -1,6 +1,6 @@
 {
-  "name": "todolist-web",
-  "short_name": "todolist-web",
+  "name": "TodoProject",
+  "short_name": "TodoProject",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

@@ -1,19 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "35b07eb2f8711ae08d1f58c043880930",
-    "url": "/TodoProject/fonts/Roboto-Regular.35b07eb2.woff"
+    "revision": "73f0a88bbca1bec19fb1303c689d04c6",
+    "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
   },
   {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/TodoProject/robots.txt"
   },
   {
-    "revision": "4357beb823a5f8d65c260f045d9e019a",
-    "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
+    "revision": "35b07eb2f8711ae08d1f58c043880930",
+    "url": "/TodoProject/fonts/Roboto-Regular.35b07eb2.woff"
   },
   {
-    "revision": "60ffa00ac14a65cdef8e",
-    "url": "/TodoProject/css/chunk-vendors.f64ff2d5.css"
+    "revision": "3ee7afda4459170a5829",
+    "url": "/TodoProject/css/chunk-vendors.70e32b1c.css"
+  },
+  {
+    "revision": "92ed5d3a0bd762502ba249025add6bb2",
+    "url": "/TodoProject/dda698cad3c7e02ea9eb.worker.js"
   },
   {
     "revision": "666e135393ac4ac62ae551b9fb0985ae",
@@ -64,16 +68,16 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-LightItalic.13efe6cb.woff"
   },
   {
-    "revision": "73f0a88bbca1bec19fb1303c689d04c6",
-    "url": "/TodoProject/fonts/Roboto-Regular.73f0a88b.woff2"
+    "revision": "f8e228f6514454517b1d",
+    "url": "/TodoProject/js/app.ba505bdf.js"
   },
   {
-    "revision": "63af36ad967e19616bb0",
-    "url": "/TodoProject/js/app.89e1f2a9.js"
-  },
-  {
-    "revision": "60ffa00ac14a65cdef8e",
+    "revision": "3ee7afda4459170a5829",
     "url": "/TodoProject/js/chunk-vendors.6ebec304.js"
+  },
+  {
+    "revision": "4357beb823a5f8d65c260f045d9e019a",
+    "url": "/TodoProject/fonts/Roboto-RegularItalic.4357beb8.woff2"
   },
   {
     "revision": "f5902d5ef961717ed263902fc429e6ae",
@@ -128,11 +132,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "a12468b93124fb920f190b72ff37322f",
+    "revision": "c9ed6d60fa7a9cddd801badd2c13414f",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "63af36ad967e19616bb0",
+    "revision": "f8e228f6514454517b1d",
     "url": "/TodoProject/css/app.91979f4d.css"
   }
 ];
