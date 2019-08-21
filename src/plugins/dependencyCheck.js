@@ -18,7 +18,7 @@ export function folderDependencyCheck () {
           }
         } else {
           console.log(`remove unknown todo: ${t}`)
-          removeTodos.add(todo.id)
+          removeTodos.add(t)
         }
       })
     } else {
