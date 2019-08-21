@@ -200,6 +200,7 @@ export default {
         return
       }
       // remove todos from folder
+      console.log(`delete ${todo}`) // todo: delete
       dispatch('removeTodoFromFolder', { todo, folder: state.todos[todo].folder })
       // remove todos
       commit(types.DELETE_TODO, todo)
@@ -293,6 +294,7 @@ export default {
       }
       const undos = clone(state.folders[folder].undos)
       removeArrayElement(undos, i => i === todo)
+      console.log(`remove todo from folder, todo: ${todo}, folder: ${folder}, undos: `, undos) // todo: delete
       dispatch('modifyFolder', { id: folder, undos })
     },
     // projects
