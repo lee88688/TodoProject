@@ -142,6 +142,9 @@ export default {
     ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
     async change (e) {
       // console.log(e)
+      // const undos = this.todosContent.map(t => t.id)
+      // this.modifyFolder({ id: this.id, undos })
+
       if ('moved' in e) {
         const undos = this.todosContent.map(t => t.id)
         this.modifyFolder({ id: this.id, undos })

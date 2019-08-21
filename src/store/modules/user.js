@@ -29,6 +29,10 @@ for (const k in types) {
   prefixTypes[k] = `user/${types[k]}`
 }
 
+/**
+ * be very careful to direct modify dependencies, such as folderList, projectList,
+ * folders[xx].project, todos[xx].folder. these dependencies are usually auto updated.
+ */
 export default {
   namespaced: true,
   state: {
