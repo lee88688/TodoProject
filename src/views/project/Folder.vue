@@ -137,12 +137,21 @@ export default {
     this.$bus.$off('palette-append-click', this.paletteClick)
   },
   methods: {
-    ...mapActions('user', ['modifyFolder', 'deleteFolder', 'addTodo', 'deleteTodo', 'markTodoAsDone']),
+    ...mapActions('user', ['modifyFolder', 'modifyTodo', 'deleteFolder', 'addTodo', 'deleteTodo', 'markTodoAsDone']),
     ...mapActions('detailView', ['changeDetailViewVisible', 'changeCurrentTodo']),
     ...mapActions('globalAction', ['startAddingNew', 'changePaletteShow']),
-    change () {
-      const undos = this.todosContent.map(t => t.id)
-      this.modifyFolder({ id: this.id, undos })
+    async change (e) {
+      // console.log(e)
+      if ('moved' in e) {
+        const undos = this.todosContent.map(t => t.id)
+        this.modifyFolder({ id: this.id, undos })
+      } else if ('added' in e) {
+        const undos = this.todosContent.map(t => t.id)
+        const folder = this.id
+        const id = e.added.element.id
+        await this.modifyTodo({ id, folder })
+        this.modifyFolder({ id: this.id, undos })
+      }
     },
     clickTodo (id) {
       this.changeCurrentTodo(id)

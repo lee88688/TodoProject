@@ -181,6 +181,7 @@ export default {
       if (!payload.id) {
         return
       }
+      const originalFolder = state.todos[payload.id].folder
       commit(types.MODIFY_TODO, cloneDeep(payload))
       payload = clone(payload)
       if ('folder' in payload) {
@@ -188,8 +189,7 @@ export default {
         const f = state.folders[payload.folder]
         if (f && !f.undos.find(i => i === payload.id)) {
           // remove todos original folder
-          const originalFolder = state.todos[payload.id].folder
-          originalFolder && dispatch('removeTodoFromFolder', { todo: payload.id, folder: f.id })
+          originalFolder && dispatch('removeTodoFromFolder', { todo: payload.id, folder: originalFolder })
           // add todos to new folder
           dispatch('appendTodoToFolder', { todo: payload.id, folder: payload.folder })
         }
@@ -200,7 +200,6 @@ export default {
         return
       }
       // remove todos from folder
-      console.log(`delete ${todo}`) // todo: delete
       dispatch('removeTodoFromFolder', { todo, folder: state.todos[todo].folder })
       // remove todos
       commit(types.DELETE_TODO, todo)
@@ -294,7 +293,6 @@ export default {
       }
       const undos = clone(state.folders[folder].undos)
       removeArrayElement(undos, i => i === todo)
-      console.log(`remove todo from folder, todo: ${todo}, folder: ${folder}, undos: `, undos) // todo: delete
       dispatch('modifyFolder', { id: folder, undos })
     },
     // projects
