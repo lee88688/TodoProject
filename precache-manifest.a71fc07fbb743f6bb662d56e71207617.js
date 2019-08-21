@@ -68,8 +68,8 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-LightItalic.13efe6cb.woff"
   },
   {
-    "revision": "f8e228f6514454517b1d",
-    "url": "/TodoProject/js/app.ba505bdf.js"
+    "revision": "996fb7230662fcd6ef97",
+    "url": "/TodoProject/js/app.3a798a13.js"
   },
   {
     "revision": "3ee7afda4459170a5829",
@@ -132,11 +132,11 @@ self.__precacheManifest = [
     "url": "/TodoProject/fonts/Roboto-BlackItalic.cc2fadc3.woff"
   },
   {
-    "revision": "c9ed6d60fa7a9cddd801badd2c13414f",
+    "revision": "e50bc0f98dff5908f851753bd1481c72",
     "url": "/TodoProject/index.html"
   },
   {
-    "revision": "f8e228f6514454517b1d",
-    "url": "/TodoProject/css/app.91979f4d.css"
+    "revision": "996fb7230662fcd6ef97",
+    "url": "/TodoProject/css/app.c6a1affa.css"
   }
 ];
