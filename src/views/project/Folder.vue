@@ -1,6 +1,6 @@
 <template>
   <v-layout column class="project-view-folder blue-grey lighten-4 pa-2">
-    <div class="folder-header project-handle">
+    <div class="folder-header project-handle mb-2">
       <span class="title no-select">{{ name }}</span>
       <v-btn @click="addNewTask" icon small class="mx-0"><v-icon>mdi-plus</v-icon></v-btn>
       <v-menu offset-y left>
