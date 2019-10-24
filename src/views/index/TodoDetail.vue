@@ -1,11 +1,10 @@
 <template>
   <transition>
-    <v-layout v-show="showDetailView"
-              column style="height: 100%; width: 350px;">
+    <v-layout v-show="showDetailView" column style="height: 100%; width: 350px;">
       <v-flex shrink class="todo-detail-header">
         <v-checkbox @change="refresh" hide-details v-model="todo.complete" class="ma-0" style="flex: 0 0 auto;"></v-checkbox>
         <v-text-field v-if="nameEditMode" @blur="nameChange" @keyup.enter="nameChange" v-model="nameProxy" hide-details single-line class="pa-0 ma-0"></v-text-field>
-        <div v-else @click="nameEditMode = true" class="todo-detail-header-text">{{ todo.name }}</div>
+        <div v-else @click="nameClick" class="todo-detail-header-text">{{ todo.name }}</div>
         <star-select @click="refresh" v-model="todo.star"></star-select>
       </v-flex>
       <v-flex grow class="todo-detail-middle ps" style="height: 0; position: relative;" ref="scrollContainer">
@@ -262,6 +261,10 @@ export default {
         this.changeCurrentTodo('')
         this.changeDetailViewVisible(false)
       }
+    },
+    nameClick () {
+      this.nameEditMode = true
+      this.nameProxy = this.todo.name
     }
   }
 }
