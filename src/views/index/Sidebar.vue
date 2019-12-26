@@ -107,8 +107,8 @@ export default {
   watch: {
     'add.dialog': function (val) {
       if (!val) {
-        this.addFolderForm.forEach(f => this.$refs[f].reset())
-        this.addProjectForm.forEach(f => this.$refs[f].reset())
+        this.addFolderForm.forEach(f => this.$refs[f] && this.$refs[f].reset())
+        this.addProjectForm.forEach(f => this.$refs[f] && this.$refs[f].reset())
       }
     }
   },
