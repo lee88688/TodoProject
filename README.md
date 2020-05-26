@@ -6,6 +6,8 @@
 
 TodoProject is a open source project inspired by wonderlist and jira. It is simple and easy to use, which has just todo view and project view. The all data is stored in your browser.
 [Just try it](https://lee88688.github.io/TodoProject/)
+![folders](./artworks/folders.png)
+![projects](./artworks/projects.png)
 
 ## Project setup
 ```
